@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NC Seasonal Produce Guide</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-secondary: #f5f5f3;
+    --bg-tertiary: #eeede9;
+    --text-primary: #1a1a18;
+    --text-secondary: #5f5e5a;
+    --text-tertiary: #888780;
+    --border-light: rgba(0,0,0,0.1);
+    --border-mid: rgba(0,0,0,0.18);
+    --border-strong: rgba(0,0,0,0.28);
+    --green-dark: #3B6D11;
+    --green-mid: #639922;
+    --green-light: #EAF3DE;
+    --green-text: #27500A;
+    --amber-dark: #BA7517;
+    --amber-light: #FAEEDA;
+    --amber-text: #633806;
+    --fruit-bg: #FAEEDA;
+    --fruit-text: #633806;
+    --veg-bg: #EAF3DE;
+    --veg-text: #27500A;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-pill: 99px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1e1e1c;
+      --bg-secondary: #2a2a27;
+      --bg-tertiary: #232320;
+      --text-primary: #f0ede6;
+      --text-secondary: #a8a69f;
+      --text-tertiary: #6e6c66;
+      --border-light: rgba(255,255,255,0.08);
+      --border-mid: rgba(255,255,255,0.14);
+      --border-strong: rgba(255,255,255,0.22);
+      --green-dark: #97C459;
+      --green-mid: #639922;
+      --green-light: #173404;
+      --green-text: #C0DD97;
+      --amber-dark: #EF9F27;
+      --amber-light: #412402;
+      --amber-text: #FAC775;
+      --fruit-bg: #412402;
+      --fruit-text: #FAC775;
+      --veg-bg: #173404;
+      --veg-text: #C0DD97;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  /* Header */
+  .hdr { margin-bottom: 1.75rem; }
+  .hdr h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+  .hdr p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 5px;
+  }
+  .hdr a { color: var(--green-dark); text-decoration: none; }
+  .hdr a:hover { text-decoration: underline; }
+
+  /* Controls row */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 180px;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 8px 12px 8px 34px;
+    font-size: 13px;
+    border: 0.5px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-wrap input:focus { border-color: var(--border-strong); }
+  .search-wrap input::placeholder { color: var(--text-tertiary); }
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    color: var(--text-tertiary);
+    pointer-events: none;
+  }
+
+  .cat-btns { display: flex; gap: 6px; }
+  .cat-btn {
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 0.5px solid var(--border-mid);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cat-btn:hover { border-color: var(--border-strong); color: var(--text-primary); }
+  .cat-btn.active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-light);
+  }
+
+  /* Month filter */
+  .month-section { margin-bottom: 1.25rem; }
+  .month-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+  .month-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .mo-btn {
+    padding: 5px 11px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 0.5px solid var(--border-light);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .mo-btn:hover { border-color: var(--border-mid); color: var(--text-primary); }
+  .mo-btn.active {
+    background: var(--amber-dark);
+    border-color: var(--amber-dark);
+    color: var(--amber-light);
+  }
+  .mo-btn.all-btn {
+    background: var(--bg-secondary);
+    border-color: var(--border-light);
+    color: var(--text-secondary);
+  }
+  .mo-btn.all-btn.active {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+    color: var(--bg);
+  }
+
+  /* Stats bar */
+  .stats {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    min-height: 20px;
+  }
+  .stats strong { color: var(--text-primary); font-weight: 600; }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  /* Card */
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 12px 14px 10px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    cursor: default;
+  }
+  .card:hover { border-color: var(--border-mid); }
+  .card.in-season {
+    border-color: var(--green-mid);
+    border-width: 1px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .card-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.35;
+  }
+  .badges { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+
+  .badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+  }
+  .badge-fruit { background: var(--fruit-bg); color: var(--fruit-text); }
+  .badge-veg   { background: var(--veg-bg);   color: var(--veg-text); }
+  .badge-now   { background: var(--green-mid); color: var(--green-light); }
+
+  /* Month bar */
+  .months-bar {
+    display: flex;
+    gap: 2px;
+  }
+  .mb {
+    flex: 1;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--bg-tertiary);
+  }
+  .mb.on { background: var(--green-mid); }
+  .mb.on.cur { background: var(--amber-dark); }
+
+  .month-labels {
+    display: flex;
+    margin-top: 3px;
+  }
+  .ml {
+    flex: 1;
+    font-size: 8px;
+    color: var(--text-tertiary);
+    text-align: center;
+    line-height: 1;
+  }
+
+  /* Empty state */
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .legend-swatch {
+    width: 20px;
+    height: 6px;
+    border-radius: 2px;
+  }
+  .sw-season { background: var(--green-mid); }
+  .sw-current { background: var(--amber-dark); }
+  .sw-off { background: var(--bg-tertiary); border: 0.5px solid var(--border-light); }
+
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+    .controls { flex-direction: column; align-items: stretch; }
+    .cat-btns { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <h1>NC Seasonal Produce Guide</h1>
+    <p>North Carolina fruit &amp; vegetable availability &mdash; <a href="https://www.ncagr.gov/markets" target="_blank">ncagr.gov/markets</a> &middot; NC Dept. of Agriculture &amp; Consumer Services</p>
+  </div>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="6.5" cy="6.5" r="4.5"/>
+        <line x1="10.5" y1="10.5" x2="14" y2="14"/>
+      </svg>
+      <input type="text" id="search" placeholder="Search produce..." aria-label="Search produce">
+    </div>
+    <div class="cat-btns" role="group" aria-label="Filter by category">
+      <button class="cat-btn active" data-cat="all">All</button>
+      <button class="cat-btn" data-cat="fruit">Fruits</button>
+      <button class="cat-btn" data-cat="vegetable">Vegetables</button>
+    </div>
+  </div>
+
+  <div class="month-section">
+    <div class="month-label">Filter by month</div>
+    <div class="month-row" id="month-row" role="group" aria-label="Filter by month"></div>
+  </div>
+
+  <div class="legend" aria-hidden="true">
+    <div class="legend-item"><div class="legend-swatch sw-season"></div> In season</div>
+    <div class="legend-item"><div class="legend-swatch sw-current"></div> Current month</div>
+    <div class="legend-item"><div class="legend-swatch sw-off"></div> Out of season</div>
+  </div>
+
+  <div class="stats" id="stats" aria-live="polite"></div>
+  <div class="grid" id="grid" role="list"></div>
+
+</div>
+
+<script>
+  const MONTHS_SHORT = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+  const MONTHS_FULL  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const curMonth = new Date().getMonth();
+
+  let activeCat   = 'all';
+  let activeMonth = curMonth;
+
+  const produce = [
+    {name:'Apples',               cat:'fruit',     mo:[0,0,0,0,0,0,0,0,1,1,1,0]},
+    {name:'Asparagus',            cat:'vegetable', mo:[0,0,1,1,1,0,0,0,0,0,0,0]},
+    {name:'Beets',                cat:'vegetable', mo:[0,0,0,1,1,1,0,0,1,1,1,0]},
+    {name:'Blackberries',         cat:'fruit',     mo:[0,0,0,0,0,1,1,1,0,0,0,0]},
+    {name:'Blueberries',          cat:'fruit',     mo:[0,0,0,0,1,1,1,1,0,0,0,0]},
+    {name:'Bok choy',             cat:'vegetable', mo:[0,0,1,1,1,0,0,0,1,1,1,0]},
+    {name:'Broccoli',             cat:'vegetable', mo:[0,0,1,1,1,0,0,0,1,1,1,0]},
+    {name:'Butterbeans',          cat:'vegetable', mo:[0,0,0,0,0,0,1,1,1,0,0,0]},
+    {name:'Cabbage',              cat:'vegetable', mo:[0,0,1,1,1,1,0,0,1,1,1,0]},
+    {name:'Cantaloupes',          cat:'fruit',     mo:[0,0,0,0,0,1,1,1,0,0,0,0]},
+    {name:'Carrots',              cat:'vegetable', mo:[0,0,0,1,1,1,0,0,1,1,1,0]},
+    {name:'Cherry tomatoes',      cat:'vegetable', mo:[0,0,0,0,0,1,1,1,1,0,0,0]},
+    {name:'Christmas trees',      cat:'vegetable', mo:[0,0,0,0,0,0,0,0,0,0,1,1]},
+    {name:'Collards',             cat:'vegetable', mo:[1,1,1,1,0,0,0,0,1,1,1,1]},
+    {name:'Cucumbers',            cat:'vegetable', mo:[0,0,0,0,1,1,1,1,1,0,0,0]},
+    {name:'Eggplant',             cat:'vegetable', mo:[0,0,0,0,0,1,1,1,1,0,0,0]},
+    {name:'Figs',                 cat:'fruit',     mo:[0,0,0,0,0,0,1,1,1,0,0,0]},
+    {name:'Garlic',               cat:'vegetable', mo:[0,0,0,0,0,1,1,1,0,0,0,0]},
+    {name:'Green onions',         cat:'vegetable', mo:[0,0,1,1,1,1,0,0,1,1,1,0]},
+    {name:'Green peas',           cat:'vegetable', mo:[0,0,0,1,1,1,0,0,0,0,0,0]},
+    {name:'Greens',               cat:'vegetable', mo:[1,1,1,1,1,0,0,0,1,1,1,1]},
+    {name:'Herbs',                cat:'vegetable', mo:[0,0,0,1,1,1,1,1,1,1,0,0]},
+    {name:'Honeydew melons',      cat:'fruit',     mo:[0,0,0,0,0,0,1,1,1,0,0,0]},
+    {name:'Indian corn',          cat:'vegetable', mo:[0,0,0,0,0,0,0,0,1,1,0,0]},
+    {name:'Kale',                 cat:'vegetable', mo:[1,1,1,1,1,0,0,0,1,1,1,1]},
+    {name:'Lettuce',              cat:'vegetable', mo:[0,0,1,1,1,1,0,0,1,1,1,0]},
+    {name:'Muscadine grapes',     cat:'fruit',     mo:[0,0,0,0,0,0,0,1,1,1,0,0]},
+    {name:'Mushrooms',            cat:'vegetable', mo:[1,1,1,1,1,1,1,1,1,1,1,1]},
+    {name:'Mustard greens',       cat:'vegetable', mo:[0,0,1,1,1,0,0,0,1,1,1,0]},
+    {name:'Napa',                 cat:'vegetable', mo:[0,0,1,1,1,0,0,0,1,1,1,0]},
+    {name:'Nectarines',           cat:'fruit',     mo:[0,0,0,0,0,1,1,1,0,0,0,0]},
+    {name:'Okra',                 cat:'vegetable', mo:[0,0,0,0,0,1,1,1,1,0,0,0]},
+    {name:'Onions',               cat:'vegetable', mo:[0,0,0,0,1,1,1,1,0,0,0,0]},
+    {name:'Peaches',              cat:'fruit',     mo:[0,0,0,0,0,1,1,1,0,0,0,0]},
+    {name:'Peanuts',              cat:'vegetable', mo:[0,0,0,0,0,0,0,0,1,1,1,0]},
+    {name:'Pears',                cat:'fruit',     mo:[0,0,0,0,0,0,0,1,1,1,0,0]},
+    {name:'Pecans',               cat:'fruit',     mo:[0,0,0,0,0,0,0,0,0,1,1,1]},
+    {name:'Peppers',              cat:'vegetable', mo:[0,0,0,0,0,1,1,1,1,1,0,0]},
+    {name:'Persimmons',           cat:'fruit',     mo:[0,0,0,0,0,0,0,0,0,1,1,0]},
+    {name:'Plums',                cat:'fruit',     mo:[0,0,0,0,0,1,1,1,0,0,0,0]},
+    {name:'Potatoes',             cat:'vegetable', mo:[0,0,0,0,1,1,1,1,1,0,0,0]},
+    {name:'Pumpkins',             cat:'vegetable', mo:[0,0,0,0,0,0,0,0,1,1,1,0]},
+    {name:'Radishes',             cat:'vegetable', mo:[0,0,1,1,1,1,0,0,1,1,0,0]},
+    {name:'Raspberries',          cat:'fruit',     mo:[0,0,0,0,1,1,1,0,1,1,0,0]},
+    {name:'Romaine',              cat:'vegetable', mo:[0,0,1,1,1,1,0,0,1,1,1,0]},
+    {name:'Snap beans',           cat:'vegetable', mo:[0,0,0,0,1,1,1,1,1,0,0,0]},
+    {name:'Snow peas',            cat:'vegetable', mo:[0,0,1,1,1,0,0,0,1,1,1,0]},
+    {name:'Snow pea tips',        cat:'vegetable', mo:[0,0,1,1,1,0,0,0,0,0,0,0]},
+    {name:'Spinach',              cat:'vegetable', mo:[0,0,1,1,1,0,0,0,1,1,1,0]},
+    {name:'Sprite melons',        cat:'fruit',     mo:[0,0,0,0,0,0,1,1,1,0,0,0]},
+    {name:'Squash — yellow',      cat:'vegetable', mo:[0,0,0,0,1,1,1,1,1,0,0,0]},
+    {name:'Strawberries',         cat:'fruit',     mo:[0,0,0,1,1,1,0,0,0,0,0,0]},
+    {name:'Sweet corn',           cat:'vegetable', mo:[0,0,0,0,0,1,1,1,1,0,0,0]},
+    {name:'Sweet potatoes',       cat:'vegetable', mo:[0,0,0,0,0,0,0,0,1,1,1,0]},
+    {name:'Tomatoes/tomatillos',  cat:'vegetable', mo:[0,0,0,0,0,1,1,1,1,1,0,0]},
+    {name:'Turnips',              cat:'vegetable', mo:[0,0,1,1,1,0,0,0,1,1,1,0]},
+    {name:'Watermelon',           cat:'fruit',     mo:[0,0,0,0,0,1,1,1,1,0,0,0]},
+    {name:'Zucchini',             cat:'vegetable', mo:[0,0,0,0,1,1,1,1,1,0,0,0]},
+  ];
+
+  /* Build month buttons */
+  const moRow = document.getElementById('month-row');
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'mo-btn all-btn';
+  allBtn.textContent = 'All months';
+  allBtn.dataset.month = '-1';
+  moRow.appendChild(allBtn);
+
+  MONTHS_FULL.forEach((m, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'mo-btn' + (i === curMonth ? ' active' : '');
+    btn.textContent = m;
+    btn.dataset.month = i;
+    moRow.appendChild(btn);
+  });
+
+  /* Event delegation for month buttons */
+  moRow.addEventListener('click', e => {
+    const btn = e.target.closest('.mo-btn');
+    if (!btn) return;
+    activeMonth = parseInt(btn.dataset.month, 10);
+    moRow.querySelectorAll('.mo-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+
+  /* Category buttons */
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCat = btn.dataset.cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    });
+  });
+
+  /* Search */
+  document.getElementById('search').addEventListener('input', render);
+
+  function render() {
+    const q = document.getElementById('search').value.toLowerCase().trim();
+
+    const filtered = produce.filter(d => {
+      if (activeCat !== 'all' && d.cat !== activeCat) return false;
+      if (q && !d.name.toLowerCase().includes(q)) return false;
+      if (activeMonth >= 0 && !d.mo[activeMonth]) return false;
+      return true;
+    });
+
+    /* Stats */
+    const monthLabel = activeMonth >= 0 ? ` available in ${MONTHS_FULL[activeMonth]}` : ' items total';
+    document.getElementById('stats').innerHTML =
+      `<strong>${filtered.length}</strong> ${filtered.length === 1 ? 'item' : 'items'}${monthLabel}`;
+
+    /* Grid */
+    const grid = document.getElementById('grid');
+
+    if (!filtered.length) {
+      grid.innerHTML = '<div class="empty">No produce found matching your filters.</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(d => {
+      const inSeason  = activeMonth >= 0 ? d.mo[activeMonth] : d.mo[curMonth];
+      const nowBadge  = d.mo[curMonth]
+        ? `<span class="badge badge-now" aria-label="Currently in season">In season</span>` : '';
+      const catBadge  = `<span class="badge ${d.cat === 'fruit' ? 'badge-fruit' : 'badge-veg'}">${d.cat === 'fruit' ? 'Fruit' : 'Veg'}</span>`;
+      const bars      = d.mo.map((on, i) =>
+        `<div class="mb${on ? ` on${i === curMonth ? ' cur' : ''}` : ''}" title="${MONTHS_FULL[i]}: ${on ? 'in season' : 'out of season'}"></div>`
+      ).join('');
+      const labels    = MONTHS_SHORT.map(m => `<div class="ml">${m}</div>`).join('');
+
+      return `
+        <div class="card${inSeason ? ' in-season' : ''}" role="listitem">
+          <div class="card-top">
+            <div class="card-name">${d.name}</div>
+            <div class="badges">${nowBadge}${catBadge}</div>
+          </div>
+          <div class="months-bar" aria-hidden="true">${bars}</div>
+          <div class="month-labels" aria-hidden="true">${labels}</div>
+        </div>`;
+    }).join('');
+  }
+
+  render();
+</script>
+</body>
+</html>
