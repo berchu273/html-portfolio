@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obsidian Reference Guide</title>
+<style>
+  :root {
+    --bg: #0f0f11;
+    --surface: #18181b;
+    --surface2: #202025;
+    --border: rgba(255,255,255,.07);
+    --border2: rgba(255,255,255,.12);
+    --text: #e4e4e7;
+    --muted: #71717a;
+    --subtle: #52525b;
+    --accent: #a78bfa;
+    --accent-dim: rgba(167,139,250,.12);
+    --accent-border: rgba(167,139,250,.3);
+    --gold: #f59e0b;
+    --gold-dim: rgba(245,158,11,.1);
+    --red: #f87171;
+    --tag-bg: rgba(167,139,250,.1);
+    --tag-text: #c4b5fd;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  .shell {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+  }
+  aside {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 1.75rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-icon {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 15px;
+  }
+  .logo-text { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: -.01em; }
+  .logo-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .nav-section {
+    font-size: 10px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--subtle);
+    margin: 1.1rem 0 .4rem; padding: 0 .4rem;
+  }
+  nav a {
+    display: flex; align-items: center; gap: 8px;
+    padding: .38rem .55rem; border-radius: var(--radius-sm);
+    font-size: 13px; color: var(--muted); text-decoration: none;
+    transition: background .13s, color .13s; margin-bottom: 1px;
+  }
+  nav a:hover { background: var(--surface2); color: var(--text); }
+  nav a.active { background: var(--accent-dim); color: var(--accent); }
+  .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--subtle); flex-shrink: 0; }
+  nav a.active .nav-dot { background: var(--accent); }
+  main { padding: 3rem 3.5rem 5rem; max-width: 760px; }
+  .page-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--tag-bg); color: var(--tag-text);
+    font-size: 11px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; padding: .3rem .75rem;
+    border-radius: 100px; margin-bottom: 1rem;
+    border: 1px solid var(--accent-border);
+  }
+  .page-header h1 {
+    font-size: 2.1rem; font-weight: 700; letter-spacing: -.03em;
+    line-height: 1.15; color: #fff; margin-bottom: .6rem;
+  }
+  .page-header p { color: var(--muted); font-size: 15px; max-width: 480px; }
+  section { margin-bottom: 3.5rem; scroll-margin-top: 2rem; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+  .section-num {
+    font-size: 11px; font-weight: 600; color: var(--accent);
+    background: var(--accent-dim); border: 1px solid var(--accent-border);
+    padding: .15rem .55rem; border-radius: 100px; letter-spacing: .03em;
+  }
+  h2 { font-size: 1.2rem; font-weight: 600; color: #fff; letter-spacing: -.02em; }
+  h3 { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 1.6rem 0 .65rem; }
+  p { color: var(--text); margin-bottom: .75rem; font-size: 14.5px; }
+  p:last-child { margin-bottom: 0; }
+  .callout {
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: .85rem 1rem; margin: 1.25rem 0;
+    font-size: 13.5px; color: var(--muted); line-height: 1.6;
+  }
+  .callout strong { color: var(--accent); font-weight: 600; }
+  .callout-gold { border-left-color: var(--gold); background: var(--gold-dim); }
+  .callout-gold strong { color: var(--gold); }
+  ul.card-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; margin-bottom: .75rem; }
+  ul.card-list li {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: .65rem .9rem;
+    font-size: 14px; color: var(--text);
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  ul.card-list li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 5px; }
+  ul.card-list li strong { color: #e4e4e7; font-weight: 600; }
+  ul.plain { padding-left: 1.25rem; margin-bottom: .75rem; }
+  ul.plain li { font-size: 14px; margin-bottom: .3rem; }
+  ul.plain li strong { color: #e4e4e7; font-weight: 600; }
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 1rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--surface2); border-bottom: 1px solid var(--border2); }
+  th { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; padding: .65rem 1rem; text-align: left; }
+  td { padding: .6rem 1rem; color: var(--text); border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,.02); }
+  kbd {
+    display: inline-block; background: var(--surface2); color: var(--text);
+    border: 1px solid var(--border2); border-bottom-width: 2px;
+    font-family: -apple-system, system-ui, sans-serif;
+    font-size: 11px; padding: .1em .45em; border-radius: 4px; white-space: nowrap;
+  }
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 12.5px; background: var(--surface2); color: var(--accent);
+    padding: .1em .4em; border-radius: 4px; border: 1px solid var(--border);
+  }
+  .ace-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 1rem 0; }
+  .ace-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.1rem;
+    position: relative; overflow: hidden;
+  }
+  .ace-card::before {
+    content: attr(data-letter); position: absolute;
+    top: -8px; right: 8px; font-size: 4.5rem; font-weight: 800;
+    color: rgba(167,139,250,.07); line-height: 1; letter-spacing: -.05em;
+  }
+  .ace-card .ace-title { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; margin-bottom: .25rem; }
+  .ace-card .ace-sub { font-size: 13px; color: var(--muted); margin-bottom: .75rem; }
+  .ace-card ul { list-style: none; padding: 0; }
+  .ace-card ul li { font-size: 12.5px; color: var(--muted); padding: .2rem 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px; }
+  .ace-card ul li:last-child { border-bottom: none; }
+  .ace-card ul li::before { content: '→'; color: var(--subtle); font-size: 11px; }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { display: flex; gap: 12px; padding: .85rem 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+  .checklist li:last-child { border-bottom: none; }
+  .check-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent-dim); border: 1px solid var(--accent-border);
+    color: var(--accent); font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .check-body strong { display: block; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .check-body span { font-size: 13px; color: var(--muted); }
+  .pitfall {
+    background: rgba(248,113,113,.06); border: 1px solid rgba(248,113,113,.18);
+    border-radius: var(--radius-sm); padding: .75rem 1rem; margin-bottom: 8px;
+  }
+  .pitfall strong { color: var(--red); font-weight: 600; display: block; margin-bottom: 2px; }
+  .pitfall p { color: var(--muted); margin: 0; font-size: 13px; }
+  .syntax-grid { display: flex; flex-direction: column; gap: 8px; margin: 1rem 0; }
+  .syntax-row {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: .65rem 1rem;
+    display: flex; align-items: center; gap: 1rem; font-size: 13.5px;
+  }
+  .syntax-row span { color: var(--muted); }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  @media (max-width: 720px) {
+    .shell { grid-template-columns: 1fr; }
+    aside { display: none; }
+    main { padding: 2rem 1.25rem 4rem; }
+    .ace-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+<aside>
+  <div class="logo">
+    <div class="logo-icon">⬡</div>
+    <div>
+      <div class="logo-text">Obsidian</div>
+      <div class="logo-sub">Reference Guide</div>
+    </div>
+  </div>
+  <p class="nav-section">Foundations</p>
+  <nav>
+    <a href="#philosophy" class="active"><span class="nav-dot"></span>Philosophy</a>
+    <a href="#architecture"><span class="nav-dot"></span>Architecture</a>
+    <a href="#navigation"><span class="nav-dot"></span>Navigation</a>
+  </nav>
+  <p class="nav-section">Using Obsidian</p>
+  <nav>
+    <a href="#formatting"><span class="nav-dot"></span>Markdown &amp; Shortcuts</a>
+    <a href="#linking"><span class="nav-dot"></span>Linking &amp; Graph</a>
+    <a href="#organization"><span class="nav-dot"></span>Organization</a>
+  </nav>
+  <p class="nav-section">Reference</p>
+  <nav>
+    <a href="#advanced"><span class="nav-dot"></span>Advanced Features</a>
+    <a href="#pitfalls"><span class="nav-dot"></span>Common Pitfalls</a>
+    <a href="#start"><span class="nav-dot"></span>Getting Started</a>
+  </nav>
+</aside>
+
+<main>
+  <div class="page-header">
+    <div class="tag">⬡ Personal Knowledge Management</div>
+    <h1>Mastering Obsidian</h1>
+    <p>A personal reference guide to building and growing your Ideaverse — your connected second brain.</p>
+  </div>
+
+  <section id="philosophy">
+    <div class="section-header"><span class="section-num">01</span><h2>Core Philosophy</h2></div>
+    <p>Obsidian is a specialized environment for thinking, learning, and writing. It is built on three foundational commitments:</p>
+    <ul class="card-list">
+      <li><strong>Zero-Friction Capture</strong> — Technical overhead never interrupts the flow of thought.</li>
+      <li><strong>Ideational Connectivity</strong> — Links and backlinks let thoughts connect the way the mind actually works.</li>
+      <li><strong>Data Sovereignty</strong> — Local-first plain text. You own your data forever.</li>
+    </ul>
+    <div class="callout callout-gold">
+      <strong>The 80/20 Rule</strong> — 80% of Obsidian's value comes from just two activities: writing and linking. Master these before reaching for plugins.
+    </div>
+  </section>
+
+  <section id="architecture">
+    <div class="section-header"><span class="section-num">02</span><h2>Foundational Architecture</h2></div>
+    <p>A <strong>Vault</strong> is simply a standard folder on your computer. Every note inside is saved as an individual <code>.md</code> file — plain text readable by any application.</p>
+    <h3>Why Plain Text Matters</h3>
+    <p>Even if Obsidian disappeared tomorrow, your notes remain fully readable in TextEdit, VS Code, iA Writer, Ulysses, or any text editor. Your thinking is never locked in.</p>
+    <h3>Cross-Device Sync</h3>
+    <ul class="plain">
+      <li><strong>Dropbox / iCloud</strong> — Free option; point your vault folder at a synced location.</li>
+      <li><strong>Obsidian Sync</strong> — Official service with end-to-end encryption.</li>
+    </ul>
+    <div class="callout">
+      <strong>Privacy:</strong> Obsidian functions as a local interface for your file system. The team does not track your data. Estimated user base: 5–10 million.
+    </div>
+  </section>
+
+  <section id="navigation">
+    <div class="section-header"><span class="section-num">03</span><h2>Workspace Navigation</h2></div>
+    <p>The interface supports tabs, split panes, and side panels. Notes can be dragged into side-by-side views for multitasking.</p>
+    <h3>Left Sidebar</h3>
+    <ul class="card-list">
+      <li><strong>File Explorer</strong> — Browse folder hierarchy and manage Markdown files.</li>
+      <li><strong>Search</strong> — Vault-wide text search across all notes.</li>
+      <li><strong>Bookmarks</strong> — Quick access to frequently used notes or hubs.</li>
+      <li><strong>Auto-Reveal</strong> — Highlights the active note in the sidebar when you lose your place.</li>
+      <li><strong>Expand / Collapse</strong> — Toggle to clean up or dive into the folder tree.</li>
+    </ul>
+    <div class="callout">
+      <strong>Recommended theme:</strong> Install Catppuccin and configure Soft Paper settings for a warm, inviting writing environment.
+    </div>
+  </section>
+
+  <section id="formatting">
+    <div class="section-header"><span class="section-num">04</span><h2>Markdown &amp; Shortcuts</h2></div>
+    <p>Efficiency is driven by Markdown syntax and keyboard shortcuts. For anything not listed, open the Command Palette with <kbd>⌘ P</kbd>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Element</th><th>Markdown</th><th>Shortcut</th></tr></thead>
+        <tbody>
+          <tr><td>Bold</td><td><code>**text**</code></td><td><kbd>⌘ B</kbd></td></tr>
+          <tr><td>Italic</td><td><code>*text*</code></td><td><kbd>⌘ I</kbd></td></tr>
+          <tr><td>Headings 1–6</td><td><code>#</code> to <code>######</code></td><td>Command Palette</td></tr>
+          <tr><td>Highlight</td><td><code>==text==</code></td><td>Command Palette</td></tr>
+          <tr><td>Quote Block</td><td><code>&gt; text</code></td><td>Command Palette</td></tr>
+          <tr><td>External Link</td><td><code>[Text](URL)</code></td><td>Command Palette</td></tr>
+          <tr><td>Checklist</td><td><code>- [ ] item</code></td><td>Command Palette</td></tr>
+          <tr><td>Divider</td><td><code>---</code></td><td>Command Palette</td></tr>
+          <tr><td>Navigate back / forward</td><td>—</td><td><kbd>⌘ ⌥ ←</kbd> / <kbd>→</kbd></td></tr>
+          <tr><td>New / close tab</td><td>—</td><td><kbd>⌘ T</kbd> / <kbd>⌘ W</kbd></td></tr>
+          <tr><td>Quick Switcher</td><td>—</td><td><kbd>⌘ O</kbd></td></tr>
+          <tr><td>Command Palette</td><td>—</td><td><kbd>⌘ P</kbd></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="linking">
+    <div class="section-header"><span class="section-num">05</span><h2>Linking &amp; Graph View</h2></div>
+    <p>Linking is the functional engine of Obsidian. Type <code>[[</code> to link to an existing note or create a placeholder for one not yet written.</p>
+    <h3>Link Syntax</h3>
+    <div class="syntax-grid">
+      <div class="syntax-row"><code>[[Note Name]]</code><span>Standard link to another note</span></div>
+      <div class="syntax-row"><code>![[Note Name]]</code><span>Embeds the full content of that note inline</span></div>
+      <div class="syntax-row"><code>![URL]</code><span>Displays an external image inline</span></div>
+    </div>
+    <h3>Graph View</h3>
+    <p>Placeholder notes appear as lighter nodes; notes with content appear as darker dots. Use this to track your Ideaverse's growth and spot emerging themes.</p>
+    <h3>Backlinks</h3>
+    <p>The <strong>Backlinks pane</strong> (bottom right) shows every note that references the current one, with expandable context for each mention.</p>
+    <div class="callout callout-gold">
+      <strong>Data integrity:</strong> Go to Settings → Files &amp; Links and enable <strong>Automatically update internal links</strong>. Renaming a note will instantly update every link pointing to it across the vault.
+    </div>
+  </section>
+
+  <section id="organization">
+    <div class="section-header"><span class="section-num">06</span><h2>Organization Strategy</h2></div>
+    <p>Obsidian thrives on earned structure. Avoid building complex folder hierarchies before you know what you need. Instead, use <strong>Maps of Content (MOCs)</strong> — dedicated hub notes that link related topics together.</p>
+    <h3>The ACE Framework</h3>
+    <div class="ace-grid">
+      <div class="ace-card" data-letter="A">
+        <div class="ace-title">Atlas</div>
+        <div class="ace-sub">Timeless ideas</div>
+        <ul>
+          <li>Evergreen notes</li>
+          <li>Research topics</li>
+          <li>Mental models</li>
+        </ul>
+      </div>
+      <div class="ace-card" data-letter="C">
+        <div class="ace-title">Calendar</div>
+        <div class="ace-sub">Time-based entries</div>
+        <ul>
+          <li>Daily notes</li>
+          <li>Journals</li>
+          <li>Meeting logs</li>
+        </ul>
+      </div>
+      <div class="ace-card" data-letter="E">
+        <div class="ace-title">Efforts</div>
+        <div class="ace-sub">Active work</div>
+        <ul>
+          <li>Active projects</li>
+          <li>Specific tasks</li>
+          <li>Goals</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="advanced">
+    <div class="section-header"><span class="section-num">07</span><h2>Advanced Features</h2></div>
+    <h3>Media &amp; Assets</h3>
+    <ul class="card-list">
+      <li><strong>Images</strong> — Drag and drop directly into any note.</li>
+      <li><strong>Audio Recorder</strong> — Enable via Core Plugins for in-note voice memos.</li>
+      <li><strong>YouTube / Tweets</strong> — Paste URLs to embed external media for reference.</li>
+    </ul>
+    <h3>Properties</h3>
+    <p>Use <kbd>⌘ ;</kbd> to add metadata — dates, checkboxes, tags — to the top of any note. Pair with the <strong>Bases</strong> feature to create sortable, database-style views.</p>
+    <h3>Canvas</h3>
+    <p>An infinite virtual whiteboard for spatially arranging notes, images, and cards. Ideal for brainstorming and mapping complex topic relationships.</p>
+    <h3>Templates</h3>
+    <p>Enable the <strong>Templates</strong> core plugin to standardize note formats for recurring note types — meeting logs, daily journals, project briefs.</p>
+    <div class="callout">
+      <strong>On AI integration:</strong> Obsidian has no native AI. If integrating Claude via plugins, maintain a strict separation between your original thinking and AI-generated content. Keep your vault a space for your own ideas.
+    </div>
+  </section>
+
+  <section id="pitfalls">
+    <div class="section-header"><span class="section-num">08</span><h2>Common Pitfalls</h2></div>
+    <div class="pitfall">
+      <strong>Mass Importing</strong>
+      <p>Do not dump thousands of notes from old apps. Old clutter stifles new thinking. Start fresh and bring in only what you actively need.</p>
+    </div>
+    <div class="pitfall">
+      <strong>Plugin Overload</strong>
+      <p>Avoid advanced plugins like Dataview or Kanban on day one. Let your structure earn the need for automation first.</p>
+    </div>
+    <div class="pitfall">
+      <strong>Over-Foldering</strong>
+      <p>Complex hierarchies for fuzzy categories become brittle fast. Prefer MOCs (Maps of Content) over deep folder trees.</p>
+    </div>
+  </section>
+
+  <section id="start">
+    <div class="section-header"><span class="section-num">09</span><h2>Getting Started Checklist</h2></div>
+    <ol class="checklist">
+      <li>
+        <div class="check-num">1</div>
+        <div class="check-body"><strong>Create a Vault</strong><span>Establish a local folder on your computer — your Ideaverse home base.</span></div>
+      </li>
+      <li>
+        <div class="check-num">2</div>
+        <div class="check-body"><strong>Enable Auto-Update</strong><span>Settings → Files &amp; Links → "Automatically update internal links."</span></div>
+      </li>
+      <li>
+        <div class="check-num">3</div>
+        <div class="check-body"><strong>Set Attachment Folder</strong><span>Create a dedicated folder for images and select it in Settings → Files &amp; Links.</span></div>
+      </li>
+      <li>
+        <div class="check-num">4</div>
+        <div class="check-body"><strong>Install Catppuccin Theme</strong><span>Configure Soft Paper settings for a warm, readable workspace.</span></div>
+      </li>
+      <li>
+        <div class="check-num">5</div>
+        <div class="check-body"><strong>Start Small</strong><span>Create a few notes and practice linking with <code>[[ ]]</code>.</span></div>
+      </li>
+      <li>
+        <div class="check-num">6</div>
+        <div class="check-body"><strong>Adopt the ACE Framework</strong><span>Create three top-level folders: Atlas, Calendar, and Efforts.</span></div>
+      </li>
+      <li>
+        <div class="check-num">7</div>
+        <div class="check-body"><strong>Learn Two Hotkeys First</strong><span><kbd>⌘ O</kbd> Quick Switcher and <kbd>⌘ P</kbd> Command Palette — these unlock everything else.</span></div>
+      </li>
+    </ol>
+  </section>
+</main>
+</div>
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector('nav a[href="#' + e.target.id + '"]');
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
