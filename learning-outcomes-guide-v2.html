@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing Learning Outcomes — Westminster Seminary Reference Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F7F3ED;
+  --paper-dark: #EDE7DC;
+  --ink: #1A1512;
+  --ink-soft: #3D3529;
+  --ink-muted: #7A6E62;
+  --ink-faint: #B0A496;
+  --gold: #9C7C3A;
+  --gold-light: #C4A05E;
+  --gold-dim: #6B5526;
+  --gold-bg: #FDF6E7;
+  --teal: #1A5F52;
+  --teal-bg: #E8F4F1;
+  --blue: #1C3D6E;
+  --blue-bg: #E8EFF8;
+  --rust: #7A2E18;
+  --rust-bg: #F8EDE8;
+  --purple: #3D2B6E;
+  --purple-bg: #EEEAF8;
+  --green: #2E5C1A;
+  --green-bg: #EEF6E8;
+  --border: rgba(154,124,58,0.18);
+  --border-soft: rgba(154,124,58,0.1);
+  --sidebar-w: 228px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.75;}
+
+/* SIDEBAR */
+#sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--ink);display:flex;flex-direction:column;padding:28px 0;z-index:100;overflow-y:auto;}
+#sidebar::-webkit-scrollbar{width:3px;}
+#sidebar::-webkit-scrollbar-thumb{background:rgba(154,124,58,0.2);}
+.nav-brand{padding:0 22px 22px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:16px;}
+.nav-brand .tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:7px;}
+.nav-brand h1{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:400;color:#F7F3ED;line-height:1.45;}
+.nav-version{display:inline-block;margin-top:6px;font-family:'DM Mono',monospace;font-size:9px;color:rgba(154,124,58,0.5);background:rgba(154,124,58,0.08);padding:2px 8px;border-radius:3px;}
+.nav-group{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(154,124,58,0.5);padding:10px 22px 4px;}
+.nav-link{display:block;padding:7px 22px;font-size:12px;color:rgba(247,243,237,0.45);text-decoration:none;font-weight:300;border-left:2px solid transparent;transition:all 0.18s;line-height:1.45;}
+.nav-link:hover,.nav-link.active{color:#F7F3ED;background:rgba(154,124,58,0.08);border-left-color:var(--gold);}
+.nav-footer{margin-top:auto;padding:18px 22px 0;border-top:1px solid rgba(255,255,255,0.06);font-size:9px;color:rgba(154,124,58,0.45);font-family:'DM Mono',monospace;line-height:1.8;}
+
+/* PROGRESS */
+#progress{position:fixed;top:0;left:var(--sidebar-w);right:0;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-light));transform-origin:left;transform:scaleX(0);z-index:200;transition:transform 0.08s linear;}
+
+/* MAIN */
+#main{margin-left:var(--sidebar-w);}
+
+/* HERO */
+#hero{min-height:80vh;display:flex;align-items:flex-end;padding:80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);background:var(--ink);}
+.hero-grid{position:absolute;inset:0;opacity:0.025;background-image:repeating-linear-gradient(0deg,transparent,transparent 32px,rgba(255,255,255,0.6) 32px,rgba(255,255,255,0.6) 33px),repeating-linear-gradient(90deg,transparent,transparent 32px,rgba(255,255,255,0.6) 32px,rgba(255,255,255,0.6) 33px);}
+.hero-glow{position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(154,124,58,0.1) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none;}
+.hero-content{position:relative;max-width:700px;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;display:block;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,70px);font-weight:300;line-height:1.08;color:var(--paper);margin-bottom:26px;letter-spacing:-0.02em;}
+.hero-title em{font-style:italic;color:var(--gold-light);}
+.hero-desc{font-size:15.5px;color:rgba(247,243,237,0.5);max-width:540px;line-height:1.85;margin-bottom:36px;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.hero-pill{padding:5px 14px;border-radius:999px;border:1px solid rgba(154,124,58,0.3);font-size:11px;color:var(--gold-light);font-family:'DM Mono',monospace;letter-spacing:0.07em;background:rgba(154,124,58,0.07);}
+
+/* SECTION */
+.section{padding:72px 80px;border-bottom:1px solid var(--border-soft);}
+.section:nth-child(even){background:var(--paper-dark);}
+.section-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;display:block;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.5vw,44px);font-weight:400;line-height:1.15;color:var(--ink);margin-bottom:18px;letter-spacing:-0.01em;}
+.section-intro{font-size:15.5px;color:var(--ink-soft);max-width:660px;line-height:1.85;margin-bottom:44px;padding-left:18px;border-left:2px solid var(--border);}
+
+/* PROSE */
+.prose{max-width:740px;}
+.prose p{margin-bottom:18px;color:var(--ink-soft);line-height:1.85;}
+.prose h3{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:400;color:var(--ink);margin:38px 0 13px;border-top:1px solid var(--border);padding-top:11px;}
+.prose h4{font-size:14px;font-weight:500;color:var(--ink);margin:24px 0 8px;letter-spacing:0.01em;}
+.prose blockquote{border-left:3px solid var(--gold);padding:6px 0 6px 22px;margin:26px 0;color:var(--gold-dim);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.6;}
+.pull{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,28px);font-style:italic;color:var(--gold);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 0;margin:36px 0;max-width:640px;line-height:1.4;}
+
+/* HIGHLIGHT BOX */
+.hbox{border-radius:6px;padding:20px 24px;margin:24px 0;max-width:740px;}
+.hbox-gold{background:var(--gold-bg);border:1px solid rgba(154,124,58,0.2);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;}
+.hbox-purple{background:var(--purple-bg);border:1px solid rgba(61,43,110,0.2);border-left:3px solid var(--purple);border-radius:0 6px 6px 0;}
+.hbox-teal{background:var(--teal-bg);border:1px solid rgba(26,95,82,0.2);border-left:3px solid var(--teal);border-radius:0 6px 6px 0;}
+.hbox-blue{background:var(--blue-bg);border:1px solid rgba(28,61,110,0.2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;}
+.hbox-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:9px;display:block;}
+.hbox-purple .hbox-label{color:var(--purple);}
+.hbox-teal .hbox-label{color:var(--teal);}
+.hbox-blue .hbox-label{color:var(--blue);}
+.hbox p{font-size:13.5px;color:var(--ink-soft);line-height:1.75;margin:0;}
+.hbox p+p{margin-top:10px;}
+
+/* FORMULA */
+.formula{background:var(--ink);border-radius:8px;padding:28px 32px;margin:32px 0;max-width:740px;}
+.formula-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(154,124,58,0.55);margin-bottom:14px;display:block;}
+.formula-parts{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.f-part{padding:9px 16px;border-radius:4px;font-size:13.5px;}
+.f-verb{background:rgba(61,43,110,0.5);color:#C4B8F0;border:1px solid rgba(61,43,110,0.8);}
+.f-audience{background:rgba(61,43,110,0.3);color:#C4B8F0;border:1px solid rgba(61,43,110,0.5);font-style:italic;opacity:0.75;}
+.f-content{background:rgba(26,95,82,0.4);color:#7ED4C0;border:1px solid rgba(26,95,82,0.7);}
+.f-condition{background:rgba(156,124,58,0.25);color:var(--gold-light);border:1px solid rgba(156,124,58,0.5);}
+.f-degree{background:rgba(28,61,110,0.4);color:#9ABCF0;border:1px solid rgba(28,61,110,0.7);}
+.f-plus{color:rgba(247,243,237,0.25);font-size:18px;}
+.formula-note{margin-top:14px;font-size:12px;color:rgba(247,243,237,0.3);font-family:'DM Mono',monospace;line-height:1.6;}
+
+/* EXAMPLES */
+.ex-block{margin:24px 0;max-width:740px;}
+.ex-bad,.ex-good{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;border-radius:4px;font-size:13.5px;line-height:1.65;margin-bottom:5px;}
+.ex-bad{background:var(--rust-bg);border-left:3px solid var(--rust);}
+.ex-good{background:var(--teal-bg);border-left:3px solid var(--teal);}
+.ex-icon{flex-shrink:0;font-family:'DM Mono',monospace;font-size:12px;margin-top:2px;}
+.ex-bad .ex-icon{color:var(--rust);}
+.ex-good .ex-icon{color:var(--teal);}
+.ex-why{font-size:12px;color:var(--ink-muted);padding-left:4px;margin-top:4px;line-height:1.6;}
+.ex-verb{text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;font-weight:500;}
+
+/* BLOOM PYRAMID */
+.bloom-wrap{max-width:660px;margin:32px 0;}
+.bloom-level{display:flex;align-items:stretch;cursor:pointer;transition:filter 0.15s;margin-bottom:3px;border-radius:4px;overflow:hidden;}
+.bloom-level:hover{filter:brightness(1.06);}
+.bloom-swatch{width:7px;flex-shrink:0;}
+.bloom-body{flex:1;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
+.bloom-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;min-width:100px;}
+.bloom-verbs{flex:1;font-size:11.5px;color:var(--ink-muted);font-family:'DM Mono',monospace;letter-spacing:0.03em;}
+.bloom-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.bloom-tag{font-size:10px;padding:2px 9px;border-radius:999px;font-family:'DM Mono',monospace;white-space:nowrap;}
+.bloom-assess{font-size:10px;color:var(--ink-faint);font-family:'DM Mono',monospace;white-space:nowrap;}
+.bloom-detail{padding:14px 18px;font-size:13.5px;color:var(--ink-soft);line-height:1.75;font-style:italic;border-radius:4px;background:var(--gold-bg);border-left:3px solid var(--gold);margin-bottom:6px;display:none;max-width:660px;}
+
+/* KNOWLEDGE DIMENSION */
+.kd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;max-width:740px;margin:28px 0;background:var(--border);border-radius:6px;overflow:hidden;}
+.kd-card{padding:18px;background:var(--paper);}
+.section:nth-child(even) .kd-card{background:var(--paper-dark);}
+.kd-type{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:7px;display:block;}
+.kd-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;margin-bottom:7px;}
+.kd-body{font-size:12px;line-height:1.6;color:var(--ink-muted);}
+.kd-factual .kd-type,.kd-factual .kd-title{color:#7A2E18;}
+.kd-conceptual .kd-type,.kd-conceptual .kd-title{color:#6B5526;}
+.kd-procedural .kd-type,.kd-procedural .kd-title{color:#1A5F52;}
+.kd-metacognitive .kd-type,.kd-metacognitive .kd-title{color:#3D2B6E;}
+
+/* VERB TABLE */
+.verb-table{max-width:740px;margin:28px 0;}
+.vrow{display:flex;gap:1px;margin-bottom:1px;border-radius:4px;overflow:hidden;}
+.vlabel{width:130px;flex-shrink:0;padding:11px 14px;display:flex;flex-direction:column;gap:2px;}
+.vname{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;}
+.vnum{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;}
+.vverbs{flex:1;padding:11px 14px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;}
+.vtag{font-size:11px;padding:2px 9px;border-radius:999px;font-family:'DM Mono',monospace;}
+.vassess{width:160px;flex-shrink:0;padding:11px 14px;font-size:11px;color:var(--ink-muted);line-height:1.55;font-family:'DM Mono',monospace;}
+.vr6 .vlabel{background:#EDE8F8;}.vr6 .vverbs{background:#F4F1FC;}.vr6 .vassess{background:#F7F5FD;}
+.vr6 .vname{color:#3D2B6E;}.vr6 .vnum{color:#7B6BA8;}.vr6 .vtag{background:#DDD5F5;color:#3D2B6E;}
+.vr5 .vlabel{background:#E8ECF8;}.vr5 .vverbs{background:#F1F3FC;}.vr5 .vassess{background:#F5F6FD;}
+.vr5 .vname{color:#1C3D6E;}.vr5 .vnum{color:#5B7EAA;}.vr5 .vtag{background:#D5DCF0;color:#1C3D6E;}
+.vr4 .vlabel{background:#E8F4F1;}.vr4 .vverbs{background:#F1F9F7;}.vr4 .vassess{background:#F5FAF8;}
+.vr4 .vname{color:#0F6E56;}.vr4 .vnum{color:#4A9E88;}.vr4 .vtag{background:#C0E4DC;color:#0F6E56;}
+.vr3 .vlabel{background:#EFF6E8;}.vr3 .vverbs{background:#F5FAF0;}.vr3 .vassess{background:#F8FBF4;}
+.vr3 .vname{color:#3B6D11;}.vr3 .vnum{color:#6A9D42;}.vr3 .vtag{background:#CCE4B0;color:#3B6D11;}
+.vr2 .vlabel{background:var(--gold-bg);}.vr2 .vverbs{background:#FEFAF2;}.vr2 .vassess{background:#FEFDF7;}
+.vr2 .vname{color:#633806;}.vr2 .vnum{color:#9C7C3A;}.vr2 .vtag{background:#EFD9A0;color:#633806;}
+.vr1 .vlabel{background:var(--rust-bg);}.vr1 .vverbs{background:#FDF4F0;}.vr1 .vassess{background:#FEF8F5;}
+.vr1 .vname{color:#7A2E18;}.vr1 .vnum{color:#B86848;}.vr1 .vtag{background:#EFC4B0;color:#7A2E18;}
+.verb-avoid{background:var(--ink);border-radius:6px;padding:18px 22px;margin-top:14px;}
+.verb-avoid-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(154,124,58,0.6);margin-bottom:9px;}
+.verb-avoid-pills{display:flex;gap:7px;flex-wrap:wrap;}
+.verb-avoid-pill{background:rgba(122,46,24,0.3);color:#EFC4B0;padding:3px 11px;border-radius:999px;font-family:'DM Mono',monospace;font-size:11px;text-decoration:line-through;}
+
+.vtag{font-size:11px;padding:2px 9px;border-radius:999px;font-family:'DM Mono',monospace;cursor:pointer;transition:filter 0.12s,transform 0.1s;}
+.vtag:hover{filter:brightness(1.15);}
+.vtag.active{outline:2px solid currentColor;outline-offset:2px;transform:scale(1.06);}
+
+.verb-panel{
+  display:none;
+  margin-top:12px;
+  border-radius:6px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--paper);
+}
+.section:nth-child(even) .verb-panel{background:var(--paper-dark);}
+.verb-panel.open{display:block;}
+.vp-header{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;
+  border-bottom:1px solid var(--border-soft);
+}
+.vp-verb{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:400;
+}
+.vp-level-badge{
+  font-family:'DM Mono',monospace;font-size:10px;
+  padding:3px 10px;border-radius:999px;letter-spacing:0.1em;
+}
+.vp-close{
+  margin-left:auto;background:none;border:none;
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--ink-faint);cursor:pointer;padding:4px 8px;
+  border-radius:4px;transition:background 0.12s;
+}
+.vp-close:hover{background:var(--paper-dark);}
+.vp-body{padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:900px){.vp-body{grid-template-columns:1fr;}}
+.vp-col-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  margin-bottom:7px;display:block;
+}
+.vp-definition .vp-col-label{color:var(--ink-faint);}
+.vp-clo .vp-col-label{color:var(--teal);}
+.vp-alo .vp-col-label{color:var(--blue);}
+.vp-col-text{font-size:13px;line-height:1.7;color:var(--ink-soft);}
+.vp-clo .vp-col-text,.vp-alo .vp-col-text{
+  font-style:italic;
+  padding:10px 13px;border-radius:4px;
+}
+.vp-clo .vp-col-text{background:var(--teal-bg);color:var(--teal);}
+.vp-alo .vp-col-text{background:var(--blue-bg);color:var(--blue);}
+.vp-hint{
+  padding:10px 20px;font-size:11px;
+  color:var(--ink-faint);border-top:1px solid var(--border-soft);
+  font-family:'DM Mono',monospace;letter-spacing:0.04em;
+}
+
+/* THREE LEVELS */
+.levels-cascade{max-width:700px;margin:32px 0;}
+.level-card{border-radius:6px;padding:22px 26px;margin-bottom:4px;position:relative;}
+.lc-plo{background:var(--purple-bg);border:1px solid rgba(61,43,110,0.2);}
+.lc-clo{background:var(--teal-bg);border:1px solid rgba(26,95,82,0.2);}
+.lc-alo{background:var(--gold-bg);border:1px solid rgba(154,124,58,0.2);}
+.level-card-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;display:block;}
+.lc-plo .level-card-tag{color:var(--purple);}
+.lc-clo .level-card-tag{color:var(--teal);}
+.lc-alo .level-card-tag{color:var(--gold-dim);}
+.level-card-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;margin-bottom:7px;}
+.lc-plo .level-card-title{color:var(--purple);}
+.lc-clo .level-card-title{color:var(--teal);}
+.lc-alo .level-card-title{color:var(--gold-dim);}
+.level-card-body{font-size:13px;line-height:1.65;}
+.lc-plo .level-card-body{color:rgba(61,43,110,0.8);}
+.lc-clo .level-card-body{color:rgba(26,95,82,0.8);}
+.lc-alo .level-card-body{color:rgba(107,85,38,0.8);}
+.level-card-chars{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;}
+.level-char{font-size:11px;padding:2px 9px;border-radius:999px;font-family:'DM Mono',monospace;}
+.lc-plo .level-char{background:rgba(61,43,110,0.12);color:var(--purple);}
+.lc-clo .level-char{background:rgba(26,95,82,0.12);color:var(--teal);}
+.lc-alo .level-char{background:rgba(154,124,58,0.12);color:var(--gold-dim);}
+.cascade-arrow{text-align:center;color:var(--ink-faint);font-size:20px;padding:3px 0;margin-bottom:3px;}
+
+/* VERB HIERARCHY */
+.hierarchy-rule{max-width:700px;margin:28px 0;background:var(--ink);border-radius:8px;padding:24px 28px;}
+.hr-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(154,124,58,0.55);margin-bottom:14px;}
+.hr-chain{display:flex;align-items:center;gap:0;flex-wrap:wrap;}
+.hr-box{text-align:center;padding:14px 16px;flex:1;min-width:100px;}
+.hr-level{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px;}
+.hr-verb{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--paper);}
+.hr-bloom{font-size:11px;font-family:'DM Mono',monospace;margin-top:4px;padding:2px 8px;border-radius:999px;}
+.hr-plo .hr-level{color:rgba(196,176,240,0.7);}
+.hr-plo .hr-verb{color:#C4B8F0;}
+.hr-plo .hr-bloom{background:rgba(61,43,110,0.4);color:#C4B8F0;}
+.hr-clo .hr-level{color:rgba(126,212,192,0.7);}
+.hr-clo .hr-verb{color:#7ED4C0;}
+.hr-clo .hr-bloom{background:rgba(26,95,82,0.4);color:#7ED4C0;}
+.hr-alo .hr-level{color:rgba(196,160,94,0.7);}
+.hr-alo .hr-verb{color:var(--gold-light);}
+.hr-alo .hr-bloom{background:rgba(156,124,58,0.3);color:var(--gold-light);}
+.hr-arrow{color:rgba(247,243,237,0.2);font-size:22px;padding:0 6px;}
+.hr-rule-text{margin-top:14px;font-size:12px;color:rgba(247,243,237,0.35);font-family:'DM Mono',monospace;line-height:1.6;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;}
+
+/* ALIGNMENT CHAIN */
+.align-chain{max-width:700px;margin:32px 0;}
+.align-tier{border-radius:6px;padding:18px 22px;margin-bottom:4px;}
+.align-tier-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:7px;display:block;}
+.align-tier-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:5px;}
+.align-tier-body{font-size:13px;line-height:1.65;}
+.at-p{background:var(--purple-bg);border:1px solid rgba(61,43,110,0.15);}
+.at-c{background:var(--teal-bg);border:1px solid rgba(26,95,82,0.15);}
+.at-a{background:var(--gold-bg);border:1px solid rgba(154,124,58,0.15);}
+.at-p .align-tier-tag,.at-p .align-tier-title,.at-p .align-tier-body{color:var(--purple);}
+.at-c .align-tier-tag,.at-c .align-tier-title,.at-c .align-tier-body{color:var(--teal);}
+.at-a .align-tier-tag,.at-a .align-tier-title,.at-a .align-tier-body{color:var(--gold-dim);}
+.align-arrow{text-align:center;color:var(--ink-faint);font-size:20px;padding:2px 0;margin-bottom:3px;}
+
+/* CURRICULUM MAP */
+.cmap{max-width:740px;margin:28px 0;overflow-x:auto;}
+.cmap table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.cmap th{background:var(--ink);color:rgba(247,243,237,0.7);padding:10px 14px;text-align:left;font-weight:400;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;white-space:nowrap;}
+.cmap td{padding:10px 14px;border-bottom:1px solid var(--border-soft);vertical-align:middle;}
+.cmap tr:last-child td{border-bottom:none;}
+.cmap tr:nth-child(even) td{background:rgba(154,124,58,0.03);}
+.cmap .course-name{font-weight:500;color:var(--ink);font-size:13px;}
+.cmap .course-level{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);}
+.map-I{display:inline-block;padding:2px 9px;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;background:var(--blue-bg);color:var(--blue);}
+.map-D{display:inline-block;padding:2px 9px;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;background:var(--gold-bg);color:var(--gold-dim);}
+.map-M{display:inline-block;padding:2px 9px;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;background:var(--purple-bg);color:var(--purple);}
+.map-blank{color:var(--ink-faint);font-family:'DM Mono',monospace;font-size:11px;}
+
+/* IDM */
+.idm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;max-width:740px;margin:28px 0;background:var(--border);border-radius:6px;overflow:hidden;}
+.idm-card{padding:22px;background:var(--paper);}
+.section:nth-child(even) .idm-card{background:var(--paper-dark);}
+.idm-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:9px;display:block;}
+.idm-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;margin-bottom:9px;}
+.idm-body{font-size:12.5px;color:var(--ink-muted);line-height:1.65;}
+.idm-bloom{margin-top:12px;font-size:11px;font-family:'DM Mono',monospace;padding:4px 9px;border-radius:3px;display:inline-block;}
+.idm-i .idm-tag,.idm-i .idm-title{color:#1C3D6E;}
+.idm-i .idm-bloom{background:#1C3D6E;color:#E8EFF8;}
+.idm-d .idm-tag,.idm-d .idm-title{color:#6B5526;}
+.idm-d .idm-bloom{background:#6B5526;color:#FDF6E7;}
+.idm-m .idm-tag,.idm-m .idm-title{color:#3D2B6E;}
+.idm-m .idm-bloom{background:#3D2B6E;color:#EEEAF8;}
+
+/* FINK */
+.fink-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:740px;margin:28px 0;}
+.fink-card{border-radius:6px;padding:18px 20px;border:1px solid var(--border);}
+.fink-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:7px;display:block;}
+.fink-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;margin-bottom:7px;}
+.fink-body{font-size:12.5px;color:var(--ink-muted);line-height:1.6;}
+.fink-verbs{margin-top:10px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-faint);font-style:italic;}
+.fink-1{background:var(--rust-bg);}.fink-1 .fink-label,.fink-1 .fink-title{color:var(--rust);}
+.fink-2{background:var(--gold-bg);}.fink-2 .fink-label,.fink-2 .fink-title{color:var(--gold-dim);}
+.fink-3{background:var(--teal-bg);}.fink-3 .fink-label,.fink-3 .fink-title{color:var(--teal);}
+.fink-4{background:var(--blue-bg);}.fink-4 .fink-label,.fink-4 .fink-title{color:var(--blue);}
+.fink-5{background:var(--purple-bg);}.fink-5 .fink-label,.fink-5 .fink-title{color:var(--purple);}
+.fink-6{background:var(--green-bg);}.fink-6 .fink-label,.fink-6 .fink-title{color:var(--green);}
+
+/* KNOWLES TABLE */
+.knowles-table{max-width:740px;margin:24px 0;overflow-x:auto;}
+.knowles-table table{width:100%;border-collapse:collapse;font-size:13px;}
+.knowles-table th{background:var(--ink);color:rgba(247,243,237,0.65);padding:10px 14px;text-align:left;font-weight:400;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;}
+.knowles-table td{padding:12px 14px;border-bottom:1px solid var(--border-soft);vertical-align:top;line-height:1.65;}
+.knowles-table tr:nth-child(even) td{background:rgba(154,124,58,0.03);}
+.k-principle{font-weight:500;color:var(--ink);font-size:13.5px;}
+.k-assumption{color:var(--ink-soft);}
+.k-implication{color:var(--ink-muted);}
+
+/* FAILURE */
+.failure-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:740px;margin:28px 0;}
+.fail-card{background:var(--rust-bg);border:1px solid rgba(122,46,24,0.14);border-radius:6px;padding:18px 22px;}
+.fail-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:rgba(122,46,24,0.18);line-height:1;margin-bottom:7px;}
+.fail-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--rust);margin-bottom:7px;}
+.fail-body{font-size:12.5px;color:#5A2010;line-height:1.65;}
+.fail-fix{margin-top:10px;padding:9px 12px;background:var(--teal-bg);border-radius:4px;font-size:12px;color:var(--teal);line-height:1.6;border-left:2px solid var(--teal);}
+
+/* RUBRIC LEVELS */
+.rubric-levels{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;max-width:740px;margin:24px 0;background:var(--border);border-radius:6px;overflow:hidden;}
+.rl-card{padding:18px;}
+.rl-ex{background:#E8F4F1;}.rl-pr{background:var(--blue-bg);}.rl-de{background:var(--gold-bg);}.rl-be{background:var(--rust-bg);}
+.rl-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:7px;}
+.rl-ex .rl-label{color:#085041;}.rl-pr .rl-label{color:#0C447C;}.rl-de .rl-label{color:#633806;}.rl-be .rl-label{color:var(--rust);}
+.rl-body{font-size:12.5px;line-height:1.6;}
+.rl-ex .rl-body{color:#0F6E56;}.rl-pr .rl-body{color:#185FA5;}.rl-de .rl-body{color:#854F0B;}.rl-be .rl-body{color:#7A2E18;}
+
+/* CHECKLIST */
+.checklist-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-width:740px;margin:28px 0;}
+.check-item{display:flex;gap:11px;align-items:flex-start;background:var(--paper);border:1px solid var(--border-soft);border-radius:6px;padding:13px 15px;cursor:pointer;transition:border-color 0.15s;}
+.section:nth-child(even) .check-item{background:var(--paper);}
+.check-item.done{border-color:var(--teal);background:var(--teal-bg);}
+.check-box{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--ink-faint);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;margin-top:1px;}
+.check-item.done .check-box{background:var(--teal);border-color:var(--teal);}
+.ck{color:white;font-size:10px;display:none;}
+.check-item.done .ck{display:block;}
+.check-text{font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+.check-item.done .check-text{color:var(--teal);}
+
+/* REFERENCES */
+.ref-list{max-width:740px;margin-top:28px;}
+.ref-item{border-bottom:1px solid var(--border-soft);padding:18px 0;display:flex;gap:18px;align-items:flex-start;}
+.ref-item:last-child{border-bottom:none;}
+.ref-badge{flex-shrink:0;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:3px;margin-top:3px;white-space:nowrap;}
+.rb-f{background:var(--purple-bg);color:var(--purple);}
+.rb-a{background:var(--teal-bg);color:var(--teal);}
+.rb-p{background:var(--gold-bg);color:var(--gold-dim);}
+.rb-e{background:var(--blue-bg);color:var(--blue);}
+.ref-authors{font-size:13.5px;font-weight:500;color:var(--ink);margin-bottom:3px;}
+.ref-title{font-size:13px;font-style:italic;color:var(--ink-soft);margin-bottom:5px;}
+.ref-desc{font-size:12.5px;color:var(--ink-muted);line-height:1.65;}
+.ref-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.ref-link{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:3px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-decoration:none;border:1px solid;transition:opacity 0.15s;white-space:nowrap;}
+.ref-link:hover{opacity:0.75;}
+.rl-free{background:var(--teal-bg);color:var(--teal);border-color:rgba(26,95,82,0.25);}
+.rl-pub{background:var(--purple-bg);color:var(--purple);border-color:rgba(61,43,110,0.25);}
+.rl-doi{background:var(--blue-bg);color:var(--blue);border-color:rgba(28,61,110,0.25);}
+.rl-buy{background:var(--gold-bg);color:var(--gold-dim);border-color:rgba(154,124,58,0.25);}
+
+/* SCHOLAR CHIPS */
+.scholar-row{display:flex;flex-wrap:wrap;gap:7px;margin:22px 0;}
+.scholar-chip{display:inline-block;border:1px solid var(--border);border-radius:3px;padding:4px 11px;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-muted);background:rgba(154,124,58,0.04);}
+
+/* ABCD */
+.abcd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;max-width:740px;margin:24px 0;background:var(--border);border-radius:6px;overflow:hidden;}
+.abcd-card{padding:18px;background:var(--paper);}
+.section:nth-child(even) .abcd-card{background:var(--paper-dark);}
+.abcd-letter{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;line-height:1;margin-bottom:4px;}
+.abcd-name{font-size:12px;font-weight:500;margin-bottom:6px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;}
+.abcd-body{font-size:12.5px;color:var(--ink-muted);line-height:1.6;}
+.abcd-req{font-size:11px;margin-top:7px;font-family:'DM Mono',monospace;}
+.abcd-a .abcd-letter{color:var(--purple);}.abcd-a .abcd-name{color:var(--purple);}
+.abcd-b .abcd-letter{color:var(--teal);}.abcd-b .abcd-name{color:var(--teal);}
+.abcd-c .abcd-letter{color:var(--gold-dim);}.abcd-c .abcd-name{color:var(--gold-dim);}
+.abcd-d .abcd-letter{color:var(--blue);}.abcd-d .abcd-name{color:var(--blue);}
+.abcd-a .abcd-req{color:var(--purple);background:var(--purple-bg);padding:2px 8px;border-radius:3px;display:inline-block;}
+.abcd-b .abcd-req{color:var(--teal);background:var(--teal-bg);padding:2px 8px;border-radius:3px;display:inline-block;}
+.abcd-c .abcd-req{color:var(--gold-dim);background:var(--gold-bg);padding:2px 8px;border-radius:3px;display:inline-block;}
+.abcd-d .abcd-req{color:var(--blue);background:var(--blue-bg);padding:2px 8px;border-radius:3px;display:inline-block;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #sidebar{display:none;}#main{margin-left:0;}#progress{left:0;}
+  .section{padding:48px 28px;}#hero{padding:60px 28px;}
+  .failure-grid,.idm-grid,.kd-grid,.fink-grid,.checklist-grid{grid-template-columns:1fr;}
+  .rubric-levels,.abcd-grid{grid-template-columns:1fr 1fr;}
+  .vrow{flex-direction:column;}.vlabel{width:auto;}.vassess{width:auto;}
+  .hr-chain{flex-direction:column;}.hr-arrow{transform:rotate(90deg);}
+}
+
+/* FADE IN */
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+
+/* UTILITY */
+strong.gold{color:var(--gold-dim);}
+strong.teal{color:var(--teal);}
+strong.purple{color:var(--purple);}
+strong.blue{color:var(--blue);}
+
+/* SCROLL OFFSET */
+section[id], #hero {scroll-margin-top: 0px;}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="sidebar">
+  <div class="nav-brand">
+    <span class="tag">Westminster Seminary</span>
+    <h1>Writing Learning<br>Outcomes</h1>
+    <span class="nav-version">v2.0 · 2026</span>
+  </div>
+
+  <div class="nav-group">Foundations</div>
+  <a class="nav-link" href="#hero">Introduction</a>
+  <a class="nav-link" href="#what">What is an outcome?</a>
+  <a class="nav-link" href="#literature">Foundational literature</a>
+
+  <div class="nav-group">The Three Levels</div>
+  <a class="nav-link" href="#three-levels">PLOs, CLOs, and ALOs</a>
+  <a class="nav-link" href="#cascade">The cascade principle</a>
+  <a class="nav-link" href="#verb-hierarchy">Verb hierarchy rule</a>
+
+  <div class="nav-group">Bloom's Taxonomy</div>
+  <a class="nav-link" href="#blooms">Overview &amp; levels</a>
+  <a class="nav-link" href="#knowledge-dim">Knowledge dimension</a>
+  <a class="nav-link" href="#verbs">Verb &amp; assessment reference</a>
+
+  <div class="nav-group">Writing Outcomes</div>
+  <a class="nav-link" href="#abcd">The ABCD formula</a>
+  <a class="nav-link" href="#examples">Before &amp; after examples</a>
+
+  <div class="nav-group">Alignment</div>
+  <a class="nav-link" href="#alignment">Constructive alignment</a>
+  <a class="nav-link" href="#curriculum-map">Curriculum mapping</a>
+  <a class="nav-link" href="#idm">Introduce → Develop → Master</a>
+
+  <div class="nav-group">Complementary Frameworks</div>
+  <a class="nav-link" href="#fink">Fink's significant learning</a>
+  <a class="nav-link" href="#knowles">Knowles' andragogy</a>
+
+  <div class="nav-group">Quality</div>
+  <a class="nav-link" href="#failures">Common failures</a>
+  <a class="nav-link" href="#rubric">Rubric connection</a>
+  <a class="nav-link" href="#checklist">Quick checklist</a>
+
+  <div class="nav-group">Scholarship</div>
+  <a class="nav-link" href="#references">Key references</a>
+
+  <div class="nav-footer">
+    Team reference guide<br>Westminster Seminary · 2026<br>Built with Dr. Sophia Theoria
+  </div>
+</nav>
+
+<div id="main">
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content fade-in">
+    <span class="hero-eyebrow">Westminster Seminary · Team Reference Guide v2.0</span>
+    <h1 class="hero-title">Writing Learning<br><em>Outcomes</em><br>That Work</h1>
+    <p class="hero-desc">A comprehensive, living reference for designing measurable, aligned, and pedagogically sound outcomes at the program, course, and assignment level. Grounded in the foundational scholarship of Bloom, Biggs, Tyler, Mager, Wiggins & McTighe, Fink, and Knowles.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">Bloom's Taxonomy</span>
+      <span class="hero-pill">PLO · CLO · ALO</span>
+      <span class="hero-pill">ABCD Formula</span>
+      <span class="hero-pill">Constructive Alignment</span>
+      <span class="hero-pill">Curriculum Mapping</span>
+      <span class="hero-pill">Fink's Taxonomy</span>
+      <span class="hero-pill">Andragogy</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS AN OUTCOME -->
+<section id="what" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Foundations · 01</span>
+    <h2 class="section-title">What Is a Learning Outcome?</h2>
+    <p class="section-intro">A learning outcome is a promise about observable student performance — not a description of what will be covered, and not a hope about how students will feel. It governs everything that follows: instruction, assessment, feedback, and grading.</p>
+  </div>
+  <div class="prose fade-in">
+    <p>The most important distinction in outcome writing is between a <em>coverage statement</em> and a <em>performance statement</em>. A coverage statement describes what an instructor will do: "This course will introduce students to Pauline theology." A performance statement describes what a student will be able to do: "Students will analyze the logical structure of a Pauline argument and identify its theological claims."</p>
+    <p>This distinction matters because only performance statements can be assessed. You cannot write a rubric for "introduction to." You cannot give feedback on "exposure to." But you can observe, grade, and give precise feedback on "analyze the logical structure" — because that is a cognitive act that produces something visible.</p>
+    <div class="pull">The test of any outcome: can you write a rubric for it? If not, it is not yet an outcome.</div>
+    <p>Ralph Tyler established the foundational principle in 1949: objectives must be stated in terms of student behavior, not teacher behavior. Mager (1962) specified the structure of a well-formed objective. Bloom et al. (1956) gave the principle a classificatory vocabulary, revised and refined by Anderson and Krathwohl in 2001. Biggs (1999) showed why consistency between outcomes, instruction, and assessment is the structural integrity of any course.</p>
+    <div class="hbox hbox-gold">
+      <span class="hbox-label">The three properties of a well-formed outcome</span>
+      <p><strong class="gold">Observable:</strong> another person can see the student performing it.<br>
+      <strong class="gold">Measurable:</strong> a rubric can specify what better and worse performance looks like.<br>
+      <strong class="gold">Honest:</strong> the cognitive demand stated in the verb matches what instruction and assessment actually require.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDATIONAL LITERATURE -->
+<section id="literature" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Foundations · 02</span>
+    <h2 class="section-title">Foundational Literature</h2>
+    <p class="section-intro">These are the primary intellectual sources for outcome writing, alignment, and curriculum design. Understanding the argument each scholar makes — not just their name — is what allows their work to be applied rather than merely cited.</p>
+  </div>
+  <div class="prose fade-in">
+    <h3>Tyler (1949) — The four questions</h3>
+    <p>Ralph Tyler's <em>Basic Principles of Curriculum and Instruction</em> is the foundational text of outcomes-based curriculum development. Tyler posed four questions every curriculum designer must answer: What purposes should the program attain? What experiences can be provided to attain them? How can those experiences be organized? And how do we determine whether purposes are being attained? These four questions map directly onto the modern PLO → CLO → ALO pipeline. Tyler's insistence that objectives precede and govern curriculum design — not vice versa — remains the bedrock of backward design.</p>
+
+    <h3>Bloom et al. (1956) — The original taxonomy</h3>
+    <p>Following educator conferences between 1949 and 1953, Bloom and collaborators published a hierarchical classification of cognitive educational goals: Knowledge, Comprehension, Application, Analysis, Synthesis, and Evaluation. The aim was a common language for distinguishing lower-order from higher-order thinking. Krathwohl et al. (1964) extended the framework to the affective domain (emotions, attitudes, values); Simpson (1972) addressed the psychomotor domain. The 2001 Anderson and Krathwohl revision is the version used in all contemporary instructional design and accreditation contexts.</p>
+
+    <h3>Mager (1962) — How to write objectives</h3>
+    <p>Robert Mager's <em>Preparing Instructional Objectives</em> established not how to classify objectives but how to <em>write</em> them. Mager's core principle: a well-formed objective must describe observable, measurable <em>learner performance</em> — not content coverage or teacher activity. He introduced the three-part structure (performance, conditions, criteria) that became the basis of the ABCD model. His verdict on vague verbs — "know," "understand," "appreciate" — was unambiguous: they are inadmissible because they cannot be observed or measured.</p>
+
+    <h3>Anderson &amp; Krathwohl (2001) — The revision</h3>
+    <p>Lorin Anderson and David Krathwohl revised Bloom's taxonomy forty-five years after its original publication. Two pivotal changes: nouns became verbs (the six levels were renamed as cognitive processes to emphasize active performance: Remember, Understand, Apply, Analyze, Evaluate, Create — with Synthesis and Evaluation reordered, placing Create at the apex); and a Knowledge Dimension was added, crossing cognitive process with knowledge type. See the Knowledge Dimension section for full detail.</p>
+
+    <h3>Biggs (1999, 2011) — Constructive alignment</h3>
+    <p>John Biggs introduced the principle that unifies all three levels of outcomes. The term has two components: <em>constructive</em> — learning is built by what students do, not what teachers do; the verb embedded in each outcome signals the cognitive work students must perform. And <em>alignment</em> — course outcomes, teaching and learning activities, and assessment tasks must all reinforce the same goals. Biggs's core formulation: if an outcome says <em>analyze</em>, the learning activities must require analysis, and the assessment must measure analysis.</p>
+
+    <h3>Wiggins &amp; McTighe (1998, 2005) — Backward design</h3>
+    <p>Understanding by Design operationalized Tyler's questions into a three-stage process: identify desired results (Stage 1), determine acceptable evidence (Stage 2), plan learning experiences and instruction (Stage 3). The key insight: "Our lessons, units, and courses should be logically inferred from the results sought, not derived from the methods, books, and activities with which we are most comfortable." Design begins at the end and works backward to instruction.</p>
+
+    <h3>Fink (2003) — Significant learning</h3>
+    <p>L. Dee Fink's <em>Creating Significant Learning Experiences</em> grew from dissatisfaction with purely cognitive frameworks. Fink observed that many outcomes students identify as most significant — shifts in professional identity, changed values, deepened self-awareness — do not map onto Bloom's cognitive hierarchy. His six-dimension taxonomy arranges learning not as a hierarchy but as an interactive web, where growth in any one dimension tends to stimulate growth in the others. See the Fink section for full treatment.</p>
+
+    <h3>Knowles (1968–1998) — Andragogy</h3>
+    <p>Malcolm Knowles addressed the fundamental question of how adults learn — a question with direct implications for how outcomes are framed, sequenced, and communicated in post-secondary and seminary contexts. His six principles of andragogy specify the conditions under which adult learners will most readily engage with and retain learning. See the Knowles section for the full framework.</p>
+  </div>
+  <div class="scholar-row fade-in">
+    <span class="scholar-chip">Tyler (1949)</span>
+    <span class="scholar-chip">Bloom et al. (1956)</span>
+    <span class="scholar-chip">Krathwohl et al. (1964) — Affective</span>
+    <span class="scholar-chip">Mager (1962) — ABCD</span>
+    <span class="scholar-chip">Anderson &amp; Krathwohl (2001)</span>
+    <span class="scholar-chip">Biggs (1999, 2011)</span>
+    <span class="scholar-chip">Wiggins &amp; McTighe (2005)</span>
+    <span class="scholar-chip">Fink (2003)</span>
+    <span class="scholar-chip">Knowles (1998)</span>
+  </div>
+</section>
+
+<!-- THREE LEVELS -->
+<section id="three-levels" class="section">
+  <div class="fade-in">
+    <span class="section-tag">The Three Levels · 01</span>
+    <h2 class="section-title">PLOs, CLOs, and ALOs</h2>
+    <p class="section-intro">Learning outcomes in higher education operate at three hierarchical levels. The relationship is a cascade: PLOs are realized through CLOs, which are demonstrated through ALOs. Together they form a coherent, traceable chain of intent, instruction, and evidence.</p>
+  </div>
+  <div class="levels-cascade fade-in">
+    <div class="level-card lc-plo">
+      <span class="level-card-tag">Level 1 — Program</span>
+      <div class="level-card-title">Program Learning Outcomes (PLOs)</div>
+      <div class="level-card-body">What graduates of the entire program will know, be able to do, and value by the time they complete their degree. Intentionally broad — representing integrated competencies that transcend any single course. Set the Bloom's ceiling for the program.</div>
+      <div class="level-card-chars">
+        <span class="level-char">3–7 per program</span>
+        <span class="level-char">Higher-order verbs (L4–L6)</span>
+        <span class="level-char">Flows from mission</span>
+        <span class="level-char">Degree-appropriate</span>
+      </div>
+    </div>
+    <div class="cascade-arrow">↓</div>
+    <div class="level-card lc-clo">
+      <span class="level-card-tag">Level 2 — Course</span>
+      <div class="level-card-title">Course Learning Outcomes (CLOs)</div>
+      <div class="level-card-body">What students can do by the end of a specific course. More specific and immediately measurable than PLOs. Each CLO must explicitly support one or more PLOs. Bloom's level is constrained by where the course sits in the program sequence — not by ambition alone.</div>
+      <div class="level-card-chars">
+        <span class="level-char">3–7 per course</span>
+        <span class="level-char">Maps to named PLO</span>
+        <span class="level-char">Appropriate to sequence position</span>
+        <span class="level-char">Observable within one course</span>
+      </div>
+    </div>
+    <div class="cascade-arrow">↓</div>
+    <div class="level-card lc-alo">
+      <span class="level-card-tag">Level 3 — Assignment / Lesson</span>
+      <div class="level-card-title">Assignment / Lesson-Level Outcomes (ALOs)</div>
+      <div class="level-card-body">What students can do after a specific assignment, class session, module, or lesson. The most granular level. Achieving a set of ALOs is the mechanism through which a CLO is attained. Must include the full ABCD structure where precision matters.</div>
+      <div class="level-card-chars">
+        <span class="level-char">Single skill or concept</span>
+        <span class="level-char">Single measurable verb</span>
+        <span class="level-char">At or below parent CLO level</span>
+        <span class="level-char">Directly assessable in the task</span>
+      </div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <div class="hbox hbox-blue">
+      <span class="hbox-label">ALO example — three ALOs building toward one CLO</span>
+      <p>Parent CLO (Analyze, L4): <em>Analyze the logical structure of a Pauline argument, identifying its theological claims and the evidence marshaled for each.</em><br><br>
+      ALO 1 (Remember, L1): <em>Identify the major argumentative units in Galatians 3 given a provided structural outline.</em><br>
+      ALO 2 (Understand, L2): <em>Describe in one paragraph the logical relationship between Galatians 3:1–14 and 3:15–29.</em><br>
+      ALO 3 (Analyze, L4): <em>Compare the theological claims in Galatians 3 with those in Romans 4, citing at least three formal argumentative parallels in a structured written response.</em><br><br>
+      Note: All three ALOs are at or below the parent CLO's L4 ceiling. An ALO can never demand more of students than the CLO it serves.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASCADE PRINCIPLE -->
+<section id="cascade" class="section">
+  <div class="fade-in">
+    <span class="section-tag">The Three Levels · 02</span>
+    <h2 class="section-title">The Cascade Principle</h2>
+    <p class="section-intro">The three levels do not merely coexist — they aggregate. Reading downward, each level is achieved through the one below. Reading upward, each level provides evidence of the one above.</p>
+  </div>
+  <div class="prose fade-in">
+    <p>A PLO is demonstrated when a student achieves multiple CLOs across the program. A CLO is demonstrated when a student achieves multiple ALOs within a course. An ALO is demonstrated through successful performance on a specific assignment or activity.</p>
+    <p>Reading upward: ALOs aggregate into CLO attainment. CLOs aggregate into PLO attainment. PLO attainment is the program's evidence that its educational mission was achieved.</p>
+    <div class="hbox hbox-teal">
+      <span class="hbox-label">The cascade in practice at Westminster</span>
+      <p>PLO: <em>Defend the system of doctrine in the Westminster Standards using biblical argumentation.</em><br><br>
+      Multiple CLOs serve this PLO across different courses — a Systematic Theology CLO at the Understand level, an Apologetics CLO at the Analyze level, a Capstone CLO at the Evaluate level.<br><br>
+      Within each course, multiple ALOs serve each CLO — lesson objectives on specific passages, discussion posts on particular doctrines, draft arguments on targeted objections.<br><br>
+      No single ALO proves the PLO. No single CLO proves it. The aggregate of evidence across the program is what the PLO names.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERB HIERARCHY RULE -->
+<section id="verb-hierarchy" class="section">
+  <div class="fade-in">
+    <span class="section-tag">The Three Levels · 03</span>
+    <h2 class="section-title">The Verb Hierarchy Rule</h2>
+    <p class="section-intro">The cognitive level encoded in a Bloom's verb must obey a strict rule of vertical alignment. This is not a guideline — it is the logical requirement for a coherent outcome chain.</p>
+  </div>
+  <div class="hierarchy-rule fade-in">
+    <div class="hr-label">Verb hierarchy — cognitive ceiling rule</div>
+    <div class="hr-chain">
+      <div class="hr-box hr-plo">
+        <div class="hr-level">PLO verb</div>
+        <div class="hr-verb">Evaluate</div>
+        <div class="hr-bloom">Bloom's L5</div>
+      </div>
+      <div class="hr-arrow">≥</div>
+      <div class="hr-box hr-clo">
+        <div class="hr-level">CLO verb</div>
+        <div class="hr-verb">Analyze</div>
+        <div class="hr-bloom">Bloom's L4</div>
+      </div>
+      <div class="hr-arrow">≥</div>
+      <div class="hr-box hr-alo">
+        <div class="hr-level">ALO verb</div>
+        <div class="hr-verb">Apply</div>
+        <div class="hr-bloom">Bloom's L3</div>
+      </div>
+    </div>
+    <div class="hr-rule-text">Rule: The cognitive level of an ALO must be at or below its parent CLO. The cognitive level of a CLO must be at or below its parent PLO. You cannot claim a program produces graduates who evaluate if no course ever requires evaluation, and no assignment ever demands it.</div>
+  </div>
+  <div class="prose fade-in">
+    <p>This rule ensures logical coherence in both directions. Violating it upward (an ALO higher than its CLO) means the assignment is demanding cognitive work the course outcome never promised to develop. Violating it downward (a CLO far below its PLO) means the course is not contributing meaningfully to the program goal it claims to serve.</p>
+    <div class="hbox hbox-purple">
+      <span class="hbox-label">The most common violation</span>
+      <p>A CLO written at Evaluate (L5) but assessed only with a multiple-choice exam (L1). The outcome is honest in its ambition but dishonest in its assessment. The cognitive demand must be consistent from outcome → instruction → assignment → rubric criterion. Misalignment here means students are graded on something different from what was promised.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BLOOM'S OVERVIEW -->
+<section id="blooms" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Bloom's Taxonomy · 01</span>
+    <h2 class="section-title">Bloom's Revised Taxonomy</h2>
+    <p class="section-intro">Anderson and Krathwohl's 2001 revision classifies cognitive tasks into six hierarchical levels. Each level is a cognitive process — an active performance, not a passive state. Click any level to read its implications.</p>
+  </div>
+  <div class="bloom-wrap fade-in">
+    <div class="bloom-level" onclick="bc(6,'Create sits at the apex because generating something original requires all the levels below it — you cannot create a coherent theological argument without remembering the tradition, understanding its structure, applying its principles, analyzing its components, and evaluating competing positions. Create-level outcomes are the endgame: students who can compose original sermons, formulate exegetical arguments, and design ministry responses that have not existed before. Importantly, Create is not the hardest level to reach in all contexts — a student who can recall flawlessly but never produces anything new is stuck at L1. Creation requires the full stack.')">
+      <div class="bloom-swatch" style="background:#534AB7;"></div>
+      <div class="bloom-body" style="background:#F0EEF8;">
+        <div class="bloom-name" style="color:#3D2B6E;">Create</div>
+        <div class="bloom-verbs">design · compose · construct · formulate · produce · synthesize · develop · write</div>
+        <div class="bloom-meta">
+          <span class="bloom-tag" style="background:#3D2B6E;color:#EEEAF8;">L6 · Higher order</span>
+          <span class="bloom-assess">portfolios · original compositions · design projects</span>
+        </div>
+      </div>
+    </div>
+    <div class="bloom-level" onclick="bc(5,'Evaluate is the level of principled judgment — not mere opinion, but assessment based on explicit criteria. A student who defends a doctrinal position, critiques an exegetical method, or adjudicates between competing hermeneutical approaches is working at L5. This is where the Westminster mandate to defend the faith becomes a cognitive skill, not just a disposition. Evaluation requires both the ability to apply criteria (L3) and the analytical ability to break arguments apart (L4) — it is the penultimate level because genuine judgment presupposes deep analysis.')">
+      <div class="bloom-swatch" style="background:#185FA5;"></div>
+      <div class="bloom-body" style="background:#EBF2FA;">
+        <div class="bloom-name" style="color:#1C3D6E;">Evaluate</div>
+        <div class="bloom-verbs">defend · critique · judge · justify · assess · appraise · argue · validate · recommend</div>
+        <div class="bloom-meta">
+          <span class="bloom-tag" style="background:#1C3D6E;color:#E8EFF8;">L5 · Higher order</span>
+          <span class="bloom-assess">peer review · editorial critique · evidence-based argument</span>
+        </div>
+      </div>
+    </div>
+    <div class="bloom-level" onclick="bc(4,'Analyze requires breaking material into its constituent parts and examining their relationships. Students who can examine how a Pauline argument is constructed, differentiate between grammatical options in a Greek text, or compare theological traditions across confessional boundaries are working at L4. This is where exegetical competence lives — not in what students know about a text, but in what they can see inside it. Analysis enables evaluation and creation; without it, judgments are merely asserted and products are not grounded in understanding.')">
+      <div class="bloom-swatch" style="background:#0F6E56;"></div>
+      <div class="bloom-body" style="background:#E8F5F1;">
+        <div class="bloom-name" style="color:#1A5F52;">Analyze</div>
+        <div class="bloom-verbs">examine · differentiate · compare · deconstruct · distinguish · relate · categorize · dissect</div>
+        <div class="bloom-meta">
+          <span class="bloom-tag" style="background:#1A5F52;color:#E8F4F1;">L4 · Higher order</span>
+          <span class="bloom-assess">case studies · critiques · structured analysis papers</span>
+        </div>
+      </div>
+    </div>
+    <div class="bloom-level" onclick="bc(3,'Apply is the first level where transfer begins — where what was learned in the classroom moves toward what will be done in ministry. Students take hermeneutical tools learned on one passage and apply them to an unfamiliar text. They take a doctrinal framework and use it to interpret a pastoral situation. Apply is not the most cognitively demanding level, but it is the pivotal one: without application, knowledge stays inert, and the gap between classroom and congregation never closes.')">
+      <div class="bloom-swatch" style="background:#3B6D11;"></div>
+      <div class="bloom-body" style="background:#EEF6E6;">
+        <div class="bloom-name" style="color:#3B6D11;">Apply</div>
+        <div class="bloom-verbs">demonstrate · implement · use · execute · solve · calculate · show · carry out · illustrate</div>
+        <div class="bloom-meta">
+          <span class="bloom-tag" style="background:#3B6D11;color:#EAF3DE;">L3 · Lower order</span>
+          <span class="bloom-assess">labs · simulations · problem sets · case application</span>
+        </div>
+      </div>
+    </div>
+    <div class="bloom-level" onclick="bc(2,'Understand means grasping meaning — not just recognizing something when encountered (L1), but being able to explain it in your own words, classify it correctly, predict what follows from it. Understanding is necessary but far from sufficient for proclamation. Many courses stop here and call it formation. It is not. It is the foundation from which L3–L6 must be built. The diagnostic question: can the student explain this concept to someone who has never encountered it? If yes, understanding may be present. If not, the student is still at L1.')">
+      <div class="bloom-swatch" style="background:#9C7C3A;"></div>
+      <div class="bloom-body" style="background:#FDF6E7;">
+        <div class="bloom-name" style="color:#6B5526;">Understand</div>
+        <div class="bloom-verbs">explain · summarize · paraphrase · classify · describe · interpret · predict · infer · translate</div>
+        <div class="bloom-meta">
+          <span class="bloom-tag" style="background:#6B5526;color:#FDF6E7;">L2 · Lower order</span>
+          <span class="bloom-assess">concept maps · summaries · discussion posts · short-answer</span>
+        </div>
+      </div>
+    </div>
+    <div class="bloom-level" onclick="bc(1,'Remember is the foundational level — where all learning begins and where no curriculum should end. Recall, identification, and recognition are necessary prerequisites for everything above them, but a course that peaks at L1 has systematically under-prepared its students. For Westminster, students who can only recall the Westminster Confession cannot proclaim it, defend it, or apply it. Remember is where schemas begin to form — the raw material that higher-order thinking will later process.')">
+      <div class="bloom-swatch" style="background:#7A2E18;"></div>
+      <div class="bloom-body" style="background:#F8EDE8;">
+        <div class="bloom-name" style="color:#7A2E18;">Remember</div>
+        <div class="bloom-verbs">recall · list · define · identify · name · state · match · recognize · quote · reproduce</div>
+        <div class="bloom-meta">
+          <span class="bloom-tag" style="background:#7A2E18;color:#F8EDE8;">L1 · Foundation</span>
+          <span class="bloom-assess">quizzes · matching · labeling · fill-in-the-blank</span>
+        </div>
+      </div>
+    </div>
+    <div class="bloom-detail" id="bloom-detail"></div>
+  </div>
+</section>
+
+<!-- KNOWLEDGE DIMENSION -->
+<section id="knowledge-dim" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Bloom's Taxonomy · 02</span>
+    <h2 class="section-title">The Knowledge Dimension</h2>
+    <p class="section-intro">The 2001 Anderson and Krathwohl revision added a second dimension to Bloom's taxonomy. Outcomes now sit within a two-dimensional matrix crossing cognitive process (the six levels) with knowledge type. This is one of the most underused tools in outcome writing.</p>
+  </div>
+  <div class="kd-grid fade-in">
+    <div class="kd-card kd-factual">
+      <span class="kd-type">Factual</span>
+      <div class="kd-title">Basic facts &amp; terminology</div>
+      <div class="kd-body">The discrete elements of a discipline — terms, definitions, specific details. Students must know these to engage with the subject at all.</div>
+    </div>
+    <div class="kd-card kd-conceptual">
+      <span class="kd-type">Conceptual</span>
+      <div class="kd-title">Interrelationships &amp; theories</div>
+      <div class="kd-body">Classifications, principles, generalizations, theories, models, and structures — how basic elements function together within a larger framework.</div>
+    </div>
+    <div class="kd-card kd-procedural">
+      <span class="kd-type">Procedural</span>
+      <div class="kd-title">Methods &amp; techniques</div>
+      <div class="kd-body">How to do something — subject-specific skills, algorithms, techniques, and criteria for knowing when to use which procedure.</div>
+    </div>
+    <div class="kd-card kd-metacognitive">
+      <span class="kd-type">Metacognitive</span>
+      <div class="kd-title">Self-awareness of learning</div>
+      <div class="kd-body">Knowledge about one's own cognition and learning — strategic knowledge, self-monitoring, awareness of one's strengths and gaps as a learner.</div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <p>The Knowledge Dimension matters practically because two outcomes can share the same cognitive level but require very different instruction and assessment. "Recall the definition of <em>justification</em>" (Remember × Factual) and "Recall which exegetical method to use for narrative versus epistle" (Remember × Procedural) are both L1 — but they are not the same kind of learning and should not be taught or assessed identically.</p>
+    <div class="hbox hbox-gold">
+      <span class="hbox-label">Using the two-dimensional matrix</span>
+      <p>When writing an outcome, ask two questions: what is the <strong class="gold">cognitive level</strong> (which of the six Bloom's processes)? And what is the <strong class="gold">knowledge type</strong> (factual, conceptual, procedural, or metacognitive)? A complete outcome specification names both. A systematic theology course outcome might target Conceptual × Evaluate. A preaching practicum outcome might target Procedural × Create. An outcomes mapping exercise across a program is more revealing when it tracks both dimensions rather than cognitive level alone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERB REFERENCE -->
+<section id="verbs" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Bloom's Taxonomy · 03</span>
+    <h2 class="section-title">Verb &amp; Assessment Reference</h2>
+    <p class="section-intro">Select the verb that is honest about what students will actually do. The assessment column shows what kinds of tasks naturally correspond to each cognitive level — use this to check alignment between outcome and evidence.</p>
+  </div>
+  <div class="verb-table fade-in">
+    <div class="vrow vr6">
+      <div class="vlabel"><div class="vname">Create</div><div class="vnum">L6</div></div>
+      <div class="vverbs"><span class="vtag" onclick="showVerb('Design',6)">Design</span><span class="vtag" onclick="showVerb('Compose',6)">Compose</span><span class="vtag" onclick="showVerb('Construct',6)">Construct</span><span class="vtag" onclick="showVerb('Formulate',6)">Formulate</span><span class="vtag" onclick="showVerb('Produce',6)">Produce</span><span class="vtag" onclick="showVerb('Synthesize',6)">Synthesize</span><span class="vtag" onclick="showVerb('Develop',6)">Develop</span><span class="vtag" onclick="showVerb('Devise',6)">Devise</span><span class="vtag" onclick="showVerb('Generate',6)">Generate</span><span class="vtag" onclick="showVerb('Hypothesize',6)">Hypothesize</span><span class="vtag" onclick="showVerb('Invent',6)">Invent</span><span class="vtag" onclick="showVerb('Write',6)">Write</span></div>
+      <div class="vassess">Research projects · design portfolios · original compositions · business plans · sermons</div>
+    </div>
+    <div class="vrow vr5">
+      <div class="vlabel"><div class="vname">Evaluate</div><div class="vnum">L5</div></div>
+      <div class="vverbs"><span class="vtag" onclick="showVerb('Defend',5)">Defend</span><span class="vtag" onclick="showVerb('Critique',5)">Critique</span><span class="vtag" onclick="showVerb('Judge',5)">Judge</span><span class="vtag" onclick="showVerb('Justify',5)">Justify</span><span class="vtag" onclick="showVerb('Assess',5)">Assess</span><span class="vtag" onclick="showVerb('Appraise',5)">Appraise</span><span class="vtag" onclick="showVerb('Argue',5)">Argue</span><span class="vtag" onclick="showVerb('Validate',5)">Validate</span><span class="vtag" onclick="showVerb('Recommend',5)">Recommend</span><span class="vtag" onclick="showVerb('Prioritize',5)">Prioritize</span><span class="vtag" onclick="showVerb('Rank',5)">Rank</span></div>
+      <div class="vassess">Peer review · editorial critique · evidence-based argument · defense</div>
+    </div>
+    <div class="vrow vr4">
+      <div class="vlabel"><div class="vname">Analyze</div><div class="vnum">L4</div></div>
+      <div class="vverbs"><span class="vtag" onclick="showVerb('Examine',4)">Examine</span><span class="vtag" onclick="showVerb('Differentiate',4)">Differentiate</span><span class="vtag" onclick="showVerb('Compare',4)">Compare</span><span class="vtag" onclick="showVerb('Deconstruct',4)">Deconstruct</span><span class="vtag" onclick="showVerb('Distinguish',4)">Distinguish</span><span class="vtag" onclick="showVerb('Dissect',4)">Dissect</span><span class="vtag" onclick="showVerb('Relate',4)">Relate</span><span class="vtag" onclick="showVerb('Categorize',4)">Categorize</span><span class="vtag" onclick="showVerb('Connect',4)">Connect</span><span class="vtag" onclick="showVerb('Inspect',4)">Inspect</span><span class="vtag" onclick="showVerb('Infer',4)">Infer</span></div>
+      <div class="vassess">Case studies · structured analysis papers · critiques · comparative essays</div>
+    </div>
+    <div class="vrow vr3">
+      <div class="vlabel"><div class="vname">Apply</div><div class="vnum">L3</div></div>
+      <div class="vverbs"><span class="vtag" onclick="showVerb('Demonstrate',3)">Demonstrate</span><span class="vtag" onclick="showVerb('Implement',3)">Implement</span><span class="vtag" onclick="showVerb('Use',3)">Use</span><span class="vtag" onclick="showVerb('Execute',3)">Execute</span><span class="vtag" onclick="showVerb('Solve',3)">Solve</span><span class="vtag" onclick="showVerb('Show',3)">Show</span><span class="vtag" onclick="showVerb('Calculate',3)">Calculate</span><span class="vtag" onclick="showVerb('Carry out',3)">Carry out</span><span class="vtag" onclick="showVerb('Operate',3)">Operate</span><span class="vtag" onclick="showVerb('Transfer',3)">Transfer</span><span class="vtag" onclick="showVerb('Apply',3)">Apply</span></div>
+      <div class="vassess">Labs · simulations · problem sets · case application · practice sermons</div>
+    </div>
+    <div class="vrow vr2">
+      <div class="vlabel"><div class="vname">Understand</div><div class="vnum">L2</div></div>
+      <div class="vverbs"><span class="vtag" onclick="showVerb('Explain',2)">Explain</span><span class="vtag" onclick="showVerb('Summarize',2)">Summarize</span><span class="vtag" onclick="showVerb('Paraphrase',2)">Paraphrase</span><span class="vtag" onclick="showVerb('Classify',2)">Classify</span><span class="vtag" onclick="showVerb('Describe',2)">Describe</span><span class="vtag" onclick="showVerb('Interpret',2)">Interpret</span><span class="vtag" onclick="showVerb('Predict',2)">Predict</span><span class="vtag" onclick="showVerb('Infer',2)">Infer</span><span class="vtag" onclick="showVerb('Generalize',2)">Generalize</span><span class="vtag" onclick="showVerb('Clarify',2)">Clarify</span><span class="vtag" onclick="showVerb('Translate',2)">Translate</span></div>
+      <div class="vassess">Concept maps · summaries · discussion posts · short-answer responses</div>
+    </div>
+    <div class="vrow vr1">
+      <div class="vlabel"><div class="vname">Remember</div><div class="vnum">L1</div></div>
+      <div class="vverbs"><span class="vtag" onclick="showVerb('Recall',1)">Recall</span><span class="vtag" onclick="showVerb('List',1)">List</span><span class="vtag" onclick="showVerb('Define',1)">Define</span><span class="vtag" onclick="showVerb('Identify',1)">Identify</span><span class="vtag" onclick="showVerb('Name',1)">Name</span><span class="vtag" onclick="showVerb('State',1)">State</span><span class="vtag" onclick="showVerb('Match',1)">Match</span><span class="vtag" onclick="showVerb('Recognize',1)">Recognize</span><span class="vtag" onclick="showVerb('Quote',1)">Quote</span><span class="vtag" onclick="showVerb('Reproduce',1)">Reproduce</span><span class="vtag" onclick="showVerb('Enumerate',1)">Enumerate</span></div>
+      <div class="vassess">Quizzes · matching · labeling · fill-in-the-blank · identification tasks</div>
+    </div>
+
+    <div class="verb-panel" id="verb-panel">
+      <div class="vp-header">
+        <div class="vp-verb" id="vp-verb-name">—</div>
+        <div class="vp-level-badge" id="vp-badge">—</div>
+        <button class="vp-close" onclick="closeVerbPanel()">close ✕</button>
+      </div>
+      <div class="vp-body">
+        <div class="vp-definition">
+          <span class="vp-col-label">What this verb demands</span>
+          <div class="vp-col-text" id="vp-def">—</div>
+        </div>
+        <div class="vp-clo">
+          <span class="vp-col-label">Example CLO</span>
+          <div class="vp-col-text" id="vp-clo">—</div>
+        </div>
+        <div class="vp-alo">
+          <span class="vp-col-label">Example ALO</span>
+          <div class="vp-col-text" id="vp-alo">—</div>
+        </div>
+      </div>
+      <div class="vp-hint" id="vp-hint">—</div>
+    </div>
+
+    <div class="verb-avoid">
+      <div class="verb-avoid-label">Verbs to avoid — unmeasurable and unobservable</div>
+      <div class="verb-avoid-pills">
+        <span class="verb-avoid-pill">Know</span><span class="verb-avoid-pill">Understand</span><span class="verb-avoid-pill">Appreciate</span><span class="verb-avoid-pill">Be familiar with</span><span class="verb-avoid-pill">Be aware of</span><span class="verb-avoid-pill">Learn about</span><span class="verb-avoid-pill">Realize</span><span class="verb-avoid-pill">Be exposed to</span><span class="verb-avoid-pill">Believe</span><span class="verb-avoid-pill">Feel</span><span class="verb-avoid-pill">Grasp</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABCD FORMULA -->
+<section id="abcd" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Writing Outcomes · 01</span>
+    <h2 class="section-title">The ABCD Formula</h2>
+    <p class="section-intro">Mager's (1962) three-part structure — performance, conditions, criteria — developed into the widely-used ABCD model. Every well-formed outcome contains all four components, though Audience is often implicit.</p>
+  </div>
+  <div class="abcd-grid fade-in">
+    <div class="abcd-card abcd-a">
+      <div class="abcd-letter">A</div>
+      <div class="abcd-name">Audience</div>
+      <div class="abcd-body">Who are the learners? Usually implicit ("students will be able to…") but becomes important when the audience shapes the performance standard.</div>
+      <div class="abcd-req">Always present</div>
+    </div>
+    <div class="abcd-card abcd-b">
+      <div class="abcd-letter">B</div>
+      <div class="abcd-name">Behavior</div>
+      <div class="abcd-body">What observable action will they perform? This is the Bloom's verb — the cognitive act that is visible, assessable, and honest about what is being learned.</div>
+      <div class="abcd-req">Always present</div>
+    </div>
+    <div class="abcd-card abcd-c">
+      <div class="abcd-letter">C</div>
+      <div class="abcd-name">Condition</div>
+      <div class="abcd-body">Under what circumstances? "Given a case study…" "Using provided sources…" "Without reference materials…" The condition specifies the performance context.</div>
+      <div class="abcd-req">Recommended</div>
+    </div>
+    <div class="abcd-card abcd-d">
+      <div class="abcd-letter">D</div>
+      <div class="abcd-name">Degree</div>
+      <div class="abcd-body">To what standard? "Citing at least 3 sources…" "With supporting rationale from learning theory…" "Identifying at least two design constraints…" Makes the bar explicit.</div>
+      <div class="abcd-req">Recommended</div>
+    </div>
+  </div>
+  <div class="formula fade-in">
+    <span class="formula-label">Full ABCD outcome — all four components</span>
+    <div class="formula-parts">
+      <div class="f-part f-audience">A — Audience</div>
+      <div class="f-plus">+</div>
+      <div class="f-part f-verb">B — Behavior (verb + content)</div>
+      <div class="f-plus">+</div>
+      <div class="f-part f-condition">C — Condition</div>
+      <div class="f-plus">+</div>
+      <div class="f-part f-degree">D — Degree</div>
+    </div>
+    <div class="formula-note">Example: [A: Students will] [B: ANALYZE the logical structure of a Pauline argument] [C: in an assigned epistle], [D: identifying at least three theological claims and the evidence marshaled for each].</div>
+  </div>
+</section>
+
+<!-- EXAMPLES -->
+<section id="examples" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Writing Outcomes · 02</span>
+    <h2 class="section-title">Before &amp; After Examples</h2>
+    <p class="section-intro">Each example pair shows a failing outcome and its corrected version, with a diagnosis of what failed and why the revision works. Use these as models when reviewing outcomes with faculty.</p>
+  </div>
+  <div class="fade-in">
+    <div class="ex-block">
+      <div class="ex-bad"><span class="ex-icon">✕</span><div>"Students will <span class="ex-verb" style="color:var(--rust);">understand</span> the Westminster Confession of Faith."</div></div>
+      <div class="ex-why">Fails: "understand" without specification is unmeasurable. What level of understanding? Recall a summary? Analyze its argument structure? There is no content specificity and no condition.</div>
+      <div class="ex-good"><span class="ex-icon">✓</span><div><span class="ex-verb" style="color:var(--teal);">Summarize</span> [L2] the major doctrines of the Westminster Confession of Faith [content] by identifying the biblical citations each chapter provides [condition], producing a one-paragraph précis per chapter [degree].</div></div>
+      <div class="ex-why">Works: "summarize" is observable and at a specified Bloom's level, the content domain is precise, the condition defines the performance context, and the degree makes the deliverable concrete.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ex-bad"><span class="ex-icon">✕</span><div>"Students will <span class="ex-verb" style="color:var(--rust);">appreciate</span> the richness of Pauline theology."</div></div>
+      <div class="ex-why">Fails on all four ABCD dimensions: "appreciate" is unmeasurable; "richness" is not a content domain; there is no condition; there is no degree. This is an aspiration, not an outcome.</div>
+      <div class="ex-good"><span class="ex-icon">✓</span><div><span class="ex-verb" style="color:var(--teal);">Analyze</span> [L4] the logical structure of an assigned Pauline epistle [content] by identifying its major argumentative units, the theological claim of each, and the evidence marshaled in its support [condition + degree].</div></div>
+      <div class="ex-why">Works: "analyze" is an L4 Bloom's verb producing visible work; the content is genre-specific; the condition specifies the analytical task; the degree names what the analysis must produce.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ex-bad"><span class="ex-icon">✕</span><div>"Students will <span class="ex-verb" style="color:var(--rust);">know how to preach</span>."</div></div>
+      <div class="ex-why">Fails: "know" is unmeasurable; "how to preach" is too broad to assess; there is no condition specifying what counts as evidence of knowing; there is no degree. The outcome describes an instructor's hope, not a student's performance.</div>
+      <div class="ex-good"><span class="ex-icon">✓</span><div><span class="ex-verb" style="color:var(--teal);">Construct</span> [L6] an expository sermon [content] from an assigned Old Testament narrative text, demonstrating movement from exegetical observation to theological application to congregational address [condition], presenting the sermon orally for a minimum of 20 minutes to a specified audience [degree].</div></div>
+      <div class="ex-why">Works: "construct" is a Create-level verb producing a deliverable; the content genre is specific; the condition specifies the expected movement of thought; the degree makes the performance context and duration explicit.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ex-bad"><span class="ex-icon">✕</span><div>"Students will <span class="ex-verb" style="color:var(--rust);">be exposed to</span> different models of Christian witness in church history."</div></div>
+      <div class="ex-why">Fails: "be exposed to" describes a teaching activity, not student performance. The student is entirely passive in this statement. It cannot be assessed at any level.</div>
+      <div class="ex-good"><span class="ex-icon">✓</span><div><span class="ex-verb" style="color:var(--teal);">Compare</span> [L4] two historical models of Christian witness from different cultural contexts [content], evaluating the effectiveness of each against biblical and missional criteria [condition] in a 1,500-word analytical essay [degree].</div></div>
+      <div class="ex-why">Works: "compare" at L4 produces visible analytical work; two specific historical cases is a bounded content domain; the evaluative criteria are specified; the deliverable format and length provide a degree standard.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ALIGNMENT -->
+<section id="alignment" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Alignment · 01</span>
+    <h2 class="section-title">Constructive Alignment</h2>
+    <p class="section-intro">Biggs's constructive alignment requires that what a program promises, what a course teaches, and what an assignment assesses all pull in the same direction. This chain is the structural integrity of the curriculum.</p>
+  </div>
+  <div class="align-chain fade-in">
+    <div class="align-tier at-p">
+      <span class="align-tier-tag">Level 1 — Program</span>
+      <div class="align-tier-title">Program Learning Outcome</div>
+      <div class="align-tier-body">What a graduate can do. Flows from institutional mission. Sets the Bloom's ceiling — no CLO in any course should require cognitive work the PLO does not authorize.</div>
+    </div>
+    <div class="align-arrow">↓</div>
+    <div class="align-tier at-c">
+      <span class="align-tier-tag">Level 2 — Course</span>
+      <div class="align-tier-title">Course Learning Outcome</div>
+      <div class="align-tier-body">What students can do by course end. Must trace to a named PLO explicitly. Bloom's level constrained by program sequence position and PLO ceiling.</div>
+    </div>
+    <div class="align-arrow">↓</div>
+    <div class="align-tier at-a">
+      <span class="align-tier-tag">Level 3 — Assignment / Lesson</span>
+      <div class="align-tier-title">Assignment / Lesson-Level Outcome</div>
+      <div class="align-tier-body">The performance task producing evidence of the CLO. Bloom's level must match the CLO verb. Rubric criteria must assess exactly what the CLO states — not general quality.</div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <h3>The three alignment questions</h3>
+    <div class="hbox hbox-teal">
+      <span class="hbox-label">Alignment audit — three questions before finalizing any course</span>
+      <p><strong class="teal">1. Can I trace every CLO to a named PLO?</strong> If not, the CLO is either orphaned or the PLO set has a gap.<br><br>
+      <strong class="teal">2. Can I trace every assignment to a named CLO?</strong> Students doing work no CLO covers is a misalignment — or the CLO is incomplete.<br><br>
+      <strong class="teal">3. Does the Bloom's level of the assessment match the CLO verb?</strong> A "defend" CLO assessed with a recall quiz is a broken chain at the most critical joint.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM MAP -->
+<section id="curriculum-map" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Alignment · 02</span>
+    <h2 class="section-title">Curriculum Mapping</h2>
+    <p class="section-intro">The curriculum map is the documentary evidence of PLO/CLO alignment. It is a two-dimensional matrix plotting courses against PLOs, annotated to show how each course contributes to each program goal across the full sequence.</p>
+  </div>
+  <div class="prose fade-in">
+    <p>The standard annotation system most closely aligned with Bloom's progression is the Introduce / Develop / Master (I/D/M) notation, sometimes called Introduce / Reinforce / Master. Cells are annotated to show the stage of engagement — never expecting mastery in a course that introduces, never leaving a PLO introduced but never developed. Every PLO should appear in multiple courses, and at least one course should assess it at the Master level.</p>
+  </div>
+  <div class="cmap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>PLO 1: Doctrinal Knowledge</th>
+          <th>PLO 2: Exegetical Analysis</th>
+          <th>PLO 3: Defense &amp; Witness</th>
+          <th>PLO 4: Proclamation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="course-name">Biblical Introduction</div><div class="course-level">Year 1</div></td>
+          <td><span class="map-I">I</span></td><td><span class="map-I">I</span></td><td><span class="map-blank">—</span></td><td><span class="map-blank">—</span></td>
+        </tr>
+        <tr>
+          <td><div class="course-name">Westminster Standards</div><div class="course-level">Year 1</div></td>
+          <td><span class="map-D">D</span></td><td><span class="map-blank">—</span></td><td><span class="map-I">I</span></td><td><span class="map-blank">—</span></td>
+        </tr>
+        <tr>
+          <td><div class="course-name">NT Exegesis</div><div class="course-level">Year 2</div></td>
+          <td><span class="map-D">D</span></td><td><span class="map-D">D</span></td><td><span class="map-blank">—</span></td><td><span class="map-I">I</span></td>
+        </tr>
+        <tr>
+          <td><div class="course-name">Systematic Theology</div><div class="course-level">Year 2</div></td>
+          <td><span class="map-D">D</span></td><td><span class="map-D">D</span></td><td><span class="map-D">D</span></td><td><span class="map-blank">—</span></td>
+        </tr>
+        <tr>
+          <td><div class="course-name">Preaching Practicum</div><div class="course-level">Year 3</div></td>
+          <td><span class="map-D">D</span></td><td><span class="map-D">D</span></td><td><span class="map-blank">—</span></td><td><span class="map-D">D</span></td>
+        </tr>
+        <tr>
+          <td><div class="course-name">Apologetics Seminar</div><div class="course-level">Year 3</div></td>
+          <td><span class="map-M">M</span></td><td><span class="map-M">M</span></td><td><span class="map-M">M</span></td><td><span class="map-blank">—</span></td>
+        </tr>
+        <tr>
+          <td><div class="course-name">Ministry Capstone</div><div class="course-level">Year 3</div></td>
+          <td><span class="map-M">M</span></td><td><span class="map-M">M</span></td><td><span class="map-M">M</span></td><td><span class="map-M">M</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose fade-in">
+    <div class="hbox hbox-purple">
+      <span class="hbox-label">Curriculum map diagnostic — what to look for</span>
+      <p><strong class="purple">Orphaned PLOs:</strong> A PLO column that shows only I — introduced somewhere but never developed or assessed — is a structural failure. The program promised something it never taught to mastery.<br><br>
+      <strong class="purple">Overloaded courses:</strong> A course row with M in every column is trying to do too much. Mastery-level work requires prior Introduce and Develop stages — a course cannot produce mastery of content it is also introducing.<br><br>
+      <strong class="purple">Missing pathways:</strong> A PLO with no I stage means students arrive at Develop-level courses without the prerequisite schema. This produces cognitive overload rather than learning.</p>
+    </div>
+  </div>
+</section>
+
+<!-- IDM -->
+<section id="idm" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Alignment · 03</span>
+    <h2 class="section-title">Introduce → Develop → Master</h2>
+    <p class="section-intro">No single course should attempt to take students from L1 to L5 on the same content. The IDM framework maps which course owns which stage of development toward a PLO — and at what Bloom's level.</p>
+  </div>
+  <div class="idm-grid fade-in">
+    <div class="idm-card idm-i">
+      <span class="idm-tag">Introduce</span>
+      <div class="idm-title">First exposure</div>
+      <div class="idm-body">Students encounter the concept for the first time. Scaffolding is high. The cognitive goal is schema formation — building the foundation that later courses will develop. Instructor carries most of the cognitive load.</div>
+      <div class="idm-bloom">L1–L2 · Remember / Understand</div>
+    </div>
+    <div class="idm-card idm-d">
+      <span class="idm-tag">Develop</span>
+      <div class="idm-title">Build complexity</div>
+      <div class="idm-body">Students apply and analyze with decreasing scaffolding. Moving toward independent use. Structured practice and feedback are essential. The schema formed in Introduce is tested and refined through application.</div>
+      <div class="idm-bloom">L3–L4 · Apply / Analyze</div>
+    </div>
+    <div class="idm-card idm-m">
+      <span class="idm-tag">Master</span>
+      <div class="idm-title">Independent performance</div>
+      <div class="idm-body">Students demonstrate the skill without scaffolding, in novel or high-stakes contexts. This is where CLOs converge with PLO-level expectations. The program outcome is finally, fully demonstrated.</div>
+      <div class="idm-bloom">L5–L6 · Evaluate / Create</div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <div class="hbox hbox-gold">
+      <span class="hbox-label">IDM across a program — Westminster example</span>
+      <p>PLO: <em>Defend the system of doctrine in the Westminster Standards using biblical argumentation and historical theological sources.</em> (Evaluate, L5)<br><br>
+      · Year 1 — Biblical Introduction: <em>Summarize</em> the major doctrines of the Westminster Standards — <strong class="gold">Introduce (L2)</strong><br>
+      · Year 2 — Systematic Theology: <em>Examine</em> a contemporary controversy by identifying which Standards apply — <strong class="gold">Develop (L4)</strong><br>
+      · Year 3 — Apologetics Seminar: <em>Defend</em> a doctrinal position against a specified objection — <strong class="gold">Master (L5)</strong><br><br>
+      All three CLOs serve the same PLO. None tries to do everything. The Introduce stage gives students the schema; Develop gives them practice with decreasing support; Master demands independent performance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINK -->
+<section id="fink" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Complementary Frameworks · 01</span>
+    <h2 class="section-title">Fink's Taxonomy of Significant Learning</h2>
+    <p class="section-intro">L. Dee Fink (2003) developed a complementary taxonomy for learning outcomes that Bloom's cognitive hierarchy does not fully address. Use Bloom's as the precision instrument for cognitive demand; use Fink's as the audit framework for the full scope of intended learning.</p>
+  </div>
+  <div class="fink-grid fade-in">
+    <div class="fink-card fink-1">
+      <span class="fink-label">Dimension 1</span>
+      <div class="fink-title">Foundational Knowledge</div>
+      <div class="fink-body">Remembering and understanding key information, facts, concepts, and theories — the bedrock that enables all further learning. Most closely aligns with Bloom's L1–L2.</div>
+      <div class="fink-verbs">explain · define · describe · identify</div>
+    </div>
+    <div class="fink-card fink-2">
+      <span class="fink-label">Dimension 2</span>
+      <div class="fink-title">Application</div>
+      <div class="fink-body">Using knowledge in practical ways — critical thinking, creative problem-solving, managing projects, psychomotor skills. Broader than Bloom's Apply: spans L3–L6 and includes skills Bloom's cognitive taxonomy does not address.</div>
+      <div class="fink-verbs">apply · design · solve · demonstrate</div>
+    </div>
+    <div class="fink-card fink-3">
+      <span class="fink-label">Dimension 3</span>
+      <div class="fink-title">Integration</div>
+      <div class="fink-body">Making connections across ideas, disciplines, courses, and lived experience. Aligns with Bloom's L4–L6 but adds a cross-domain relational quality that Bloom's intra-disciplinary model does not capture.</div>
+      <div class="fink-verbs">connect · synthesize · relate · compare across</div>
+    </div>
+    <div class="fink-card fink-4">
+      <span class="fink-label">Dimension 4</span>
+      <div class="fink-title">Human Dimension</div>
+      <div class="fink-body">Learning about oneself and others — how this knowledge changes self-understanding, interpersonal effectiveness, or empathy. Has no direct equivalent in Bloom's cognitive taxonomy; aligns with the affective domain.</div>
+      <div class="fink-verbs">reflect on · describe one's own · collaborate</div>
+    </div>
+    <div class="fink-card fink-5">
+      <span class="fink-label">Dimension 5</span>
+      <div class="fink-title">Caring</div>
+      <div class="fink-body">Developing new or deepened interests, values, dispositions, and emotional commitments to the subject or profession. Aligns with Bloom's affective domain. Knowles' andragogy predicts adult learners will find this dimension particularly motivating.</div>
+      <div class="fink-verbs">value · commit to · develop a stance toward</div>
+    </div>
+    <div class="fink-card fink-6">
+      <span class="fink-label">Dimension 6</span>
+      <div class="fink-title">Learning How to Learn</div>
+      <div class="fink-body">Becoming more intentional, metacognitive, and self-directed as a learner. Maps to Bloom's Metacognitive Knowledge Dimension. The dimension Knowles' "self-directedness" principle most directly addresses.</div>
+      <div class="fink-verbs">self-assess · monitor · inquire · set goals</div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <h3>How to use Bloom's and Fink's together</h3>
+    <p>Write outcomes with Bloom's verbs to ensure cognitive precision and measurability. Audit outcomes with Fink's dimensions to check whether the program only addresses Foundational Knowledge and Application — leaving Integration, Human Dimension, Caring, and Learning How to Learn underserved.</p>
+    <div class="hbox hbox-teal">
+      <span class="hbox-label">The Fink audit — a diagnostic question for programs</span>
+      <p>A PLO written purely from Bloom might read: <em>"Graduates will evaluate instructional design solutions against established principles of learning science."</em><br><br>
+      Audited through Fink: this outcome addresses Foundational Knowledge and Application, but says nothing about how graduates think about their professional identity (Human Dimension), what they value in the field (Caring), or how they continue to develop after graduation (Learning How to Learn).<br><br>
+      A program that adds PLOs targeting these dimensions produces graduates who are not just technically competent but professionally formed and committed to continued growth — which is precisely what Westminster's formational mission requires.</p>
+    </div>
+  </div>
+</section>
+
+<!-- KNOWLES -->
+<section id="knowles" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Complementary Frameworks · 02</span>
+    <h2 class="section-title">Knowles' Andragogy</h2>
+    <p class="section-intro">Malcolm Knowles addresses the fundamental question of how adults learn — with direct implications for how outcomes are framed, sequenced, and communicated at Westminster, where all students are adult learners by design.</p>
+  </div>
+  <div class="knowles-table fade-in">
+    <table>
+      <thead>
+        <tr><th>Principle</th><th>Core assumption</th><th>Implication for outcome design</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="k-principle">Need to Know</div></td>
+          <td><div class="k-assumption">Adults need to understand why they must learn something before committing effort to it.</div></td>
+          <td><div class="k-implication">Outcomes should be transparent and rationale-driven. Communicate the <em>why</em> of each outcome explicitly — how it serves their vocation.</div></td>
+        </tr>
+        <tr>
+          <td><div class="k-principle">Self-Concept</div></td>
+          <td><div class="k-assumption">Adults see themselves as autonomous, self-directed learners and resist being told what to do.</div></td>
+          <td><div class="k-implication">Outcomes should invite agency where possible — offering choice in demonstration formats or application contexts.</div></td>
+        </tr>
+        <tr>
+          <td><div class="k-principle">Role of Experience</div></td>
+          <td><div class="k-assumption">Adults bring rich prior experience that serves as both a resource and a potential filter for new learning.</div></td>
+          <td><div class="k-implication">Outcomes should build on and connect to prior knowledge. Seminary students often have pastoral, vocational, and theological experience that should be activated.</div></td>
+        </tr>
+        <tr>
+          <td><div class="k-principle">Readiness to Learn</div></td>
+          <td><div class="k-assumption">Adults' readiness is triggered by real-life tasks and role demands, not arbitrary academic sequences.</div></td>
+          <td><div class="k-implication">Outcomes should be positioned within authentic, professionally relevant contexts — ministry situations, pastoral problems, congregational realities.</div></td>
+        </tr>
+        <tr>
+          <td><div class="k-principle">Problem-Centered</div></td>
+          <td><div class="k-assumption">Adults are problem-centered rather than subject-centered; they seek immediate applicability.</div></td>
+          <td><div class="k-implication">Outcomes should emphasize practical application, not abstract content mastery. Frame outcomes around problems students will actually face.</div></td>
+        </tr>
+        <tr>
+          <td><div class="k-principle">Motivation to Learn</div></td>
+          <td><div class="k-assumption">Adults are driven more by intrinsic motivators (growth, calling, professional identity) than external rewards.</div></td>
+          <td><div class="k-implication">Outcomes should reflect meaningful, transferable competencies — not compliance with curriculum requirements. Connect to calling and vocation explicitly.</div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose fade-in">
+    <div class="hbox hbox-gold">
+      <span class="hbox-label">Andragogy applied — rewriting an outcome for adult learners</span>
+      <p>Outcome violating andragogy principles: <em>"Students will memorize the five points of Calvinism."</em> Subject-centered, no rationale, no connection to prior experience, no practical hook.<br><br>
+      Rewritten andragogically: <em>"Students will apply the doctrines of grace to a specified pastoral situation — drawing on their own prior theological formation — presenting a written response that shows how each doctrine shapes their counsel."</em><br><br>
+      This outcome satisfies Need to Know (why these doctrines matter pastorally), Role of Experience (prior theological formation), Problem-Orientation (a pastoral situation), and intrinsic Motivation (professional identity as a pastor-theologian).</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAILURES -->
+<section id="failures" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Quality · 01</span>
+    <h2 class="section-title">Six Common Failure Modes</h2>
+    <p class="section-intro">These mistakes appear most consistently in course and program reviews. Each has a recognizable signature and a specific fix. Use this section when reviewing outcomes submitted by faculty.</p>
+  </div>
+  <div class="failure-grid fade-in">
+    <div class="fail-card">
+      <div class="fail-num">01</div>
+      <div class="fail-title">Unmeasurable verb</div>
+      <div class="fail-body">"Students will appreciate / understand / know / become aware of…" These describe internal states. You cannot observe appreciation. You cannot assess awareness.</div>
+      <div class="fail-fix">Fix: Replace with a Bloom's action verb. Ask: can I write a rubric criterion for this? If not, revise the verb.</div>
+    </div>
+    <div class="fail-card">
+      <div class="fail-num">02</div>
+      <div class="fail-title">Aspirational verb, low-level assessment</div>
+      <div class="fail-body">The CLO says "analyze" or "evaluate" but the only assessment is a multiple-choice exam. The outcome is honest in ambition but dishonest in evidence.</div>
+      <div class="fail-fix">Fix: The cognitive demand of the assessment must match the verb. An Analyze CLO requires an Analyze task — not a recall quiz.</div>
+    </div>
+    <div class="fail-card">
+      <div class="fail-num">03</div>
+      <div class="fail-title">Too many outcomes</div>
+      <div class="fail-body">A course with 12 CLOs spanning recall to sermon construction is overloaded. No course can genuinely deliver on that range. The outcomes become wallpaper — present but not operative.</div>
+      <div class="fail-fix">Fix: 3–7 focused CLOs per course. If you have more, some belong to other courses in the sequence.</div>
+    </div>
+    <div class="fail-card">
+      <div class="fail-num">04</div>
+      <div class="fail-title">CLO with no PLO parent</div>
+      <div class="fail-body">The CLO covers interesting content but cannot be traced to any PLO. It may be valuable — but it is not serving the program's stated goals. This is a structural fracture point.</div>
+      <div class="fail-fix">Fix: Either trace it to an existing PLO explicitly, revise the PLO set, or remove the CLO and its associated work.</div>
+    </div>
+    <div class="fail-card">
+      <div class="fail-num">05</div>
+      <div class="fail-title">CLO ceiling exceeds PLO ceiling</div>
+      <div class="fail-body">The CLO asks students to Create (L6) but the PLO it serves only reaches Understand (L2). The CLO has outrun what the program promised and what the rest of the curriculum prepared for.</div>
+      <div class="fail-fix">Fix: Check the Bloom's ceiling of the PLO. No CLO should require cognitive work the PLO does not authorize.</div>
+    </div>
+    <div class="fail-card">
+      <div class="fail-num">06</div>
+      <div class="fail-title">Missing condition or degree</div>
+      <div class="fail-body">"Students will apply hermeneutical principles." Apply them to what? Under what constraints? To what standard? Without C and D from the ABCD model, the performance is undefined.</div>
+      <div class="fail-fix">Fix: Add condition and degree: "…to an unfamiliar Gospel narrative, in a 1,500-word exegetical brief, identifying at least three hermeneutical decisions and their rationale."</div>
+    </div>
+  </div>
+</section>
+
+<!-- RUBRIC -->
+<section id="rubric" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Quality · 02</span>
+    <h2 class="section-title">From CLO to Rubric</h2>
+    <p class="section-intro">A rubric is not a grading tool added at the end. It is the evidence that the CLO is real. If you cannot write a rubric for an outcome, the outcome is not yet written well enough to go into a syllabus.</p>
+  </div>
+  <div class="prose fade-in">
+    <p>The CLO translates directly into rubric structure. Each assessable component of a CLO becomes a criterion — a CLO with four components will typically produce four to five criteria. The Bloom's level of the CLO determines what Exemplary looks like. Exemplary must require the full cognitive demand of the CLO verb, not a lower-level approximation.</p>
+  </div>
+  <div class="rubric-levels fade-in">
+    <div class="rl-card rl-ex">
+      <div class="rl-label">Exemplary</div>
+      <div class="rl-body">Demonstrates the full cognitive demand of the CLO verb — specifically, not generically. Operates at or above the target Bloom's level. Names what mastery looks like.</div>
+    </div>
+    <div class="rl-card rl-pr">
+      <div class="rl-label">Proficient</div>
+      <div class="rl-body">Meets the CLO standard with minor gaps. Still at the target Bloom's level — just not with full depth, range, or nuance.</div>
+    </div>
+    <div class="rl-card rl-de">
+      <div class="rl-label">Developing</div>
+      <div class="rl-body">Falls to a lower Bloom's level. Names the specific failure mode — not "needs improvement" but exactly what cognitive step is missing and why.</div>
+    </div>
+    <div class="rl-card rl-be">
+      <div class="rl-label">Beginning</div>
+      <div class="rl-body">Does not meet the CLO. Names the failure clearly enough that a student knows what they produced instead of what was asked.</div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <div class="hbox hbox-gold">
+      <span class="hbox-label">The Developing column is the most pedagogically valuable</span>
+      <p>Developing descriptors that name failure modes precisely — "proof-texts without exegetical support" rather than "needs improvement" — give students actionable feedback. A rubric whose Developing column only says "partially meets expectations" functions as a grading tool, not a learning tool. The specificity of the Developing descriptor is a direct test of how well the CLO was written: a vague CLO produces a vague rubric. Revising the rubric often requires revising the outcome.</p>
+    </div>
+    <div class="hbox hbox-purple">
+      <span class="hbox-label">The alignment self-check</span>
+      <p>Read your Exemplary descriptors. Are they operating at the Bloom's level of the CLO verb? If your CLO says "defend" (L5) but your Exemplary descriptor says "lists relevant evidence" (L1), the rubric has exposed a misalignment. The criterion language must require the same cognitive work as the outcome verb. If it doesn't, either the rubric or the outcome needs to be revised — not just one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section id="checklist" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Quality · 03</span>
+    <h2 class="section-title">Pre-Submission Checklist</h2>
+    <p class="section-intro">Run every CLO through these checks before it goes into a syllabus. Use this with faculty when reviewing outcomes. Any unchecked box is a revision needed before submission.</p>
+  </div>
+  <div class="checklist-grid fade-in">
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">Contains a measurable action verb from Bloom's taxonomy — not "know," "understand," "appreciate," or any other unmeasurable state verb.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">The content domain (B) is specific enough that two instructors would independently agree on what it refers to.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">A condition (C) is specified — the text, situation, constraint, or audience within which the student performs.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">A degree (D) is specified — the quality standard, quantity, or format that defines adequate performance.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">I can write a rubric for this outcome — the performance is observable and gradable at the Bloom's level of the verb.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">This CLO can be traced to a named PLO — the connection is explicit, not assumed.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">The Bloom's level of this CLO is at or below the ceiling of the PLO it serves.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">The assignment assessing this outcome requires cognitive work at the same Bloom's level as the CLO verb.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">The Bloom's level is appropriate for where this course sits in the sequence — Introduce, Develop, or Master.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">The course has 3–7 CLOs total — not a coverage list disguised as outcomes.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">Every assignment in this course traces to at least one named CLO — no orphaned work.</div></div>
+    <div class="check-item" onclick="tc(this)"><div class="check-box"><span class="ck">✓</span></div><div class="check-text">The outcome is framed in terms students will find meaningful — it connects to their vocation, not just the course requirement (Knowles' Need to Know).</div></div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references" class="section">
+  <div class="fade-in">
+    <span class="section-tag">Scholarship</span>
+    <h2 class="section-title">Key References</h2>
+    <p class="section-intro">The foundational and most-cited scholarly sources for outcome writing, Bloom's taxonomy, constructive alignment, and adult learning. Each entry notes how to use it and why it belongs in a practitioner's library.</p>
+  </div>
+  <div class="ref-list fade-in">
+
+    <div class="ref-item">
+      <span class="ref-badge rb-f">Foundational</span>
+      <div>
+        <div class="ref-authors">Tyler, R. W. (1949)</div>
+        <div class="ref-title">Basic Principles of Curriculum and Instruction. University of Chicago Press.</div>
+        <div class="ref-desc">The original argument that educational objectives must precede and govern curriculum design — stated in terms of student behavior, not teacher behavior. Tyler's four questions remain the organizing logic of backward design seventy years later. Remarkably short (128 pages) and still indispensable.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-free" href="https://archive.org/details/basicprincipleso00tyle" target="_blank">↗ Internet Archive — free borrow</a>
+          <a class="ref-link rl-pub" href="https://press.uchicago.edu/ucp/books/book/chicago/B/bo17239506.html" target="_blank">↗ U. of Chicago Press</a>
+          <a class="ref-link rl-free" href="https://openlibrary.org/books/OL18485866M/Basic_principles_of_curriculum_and_instruction" target="_blank">↗ Open Library</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-f">Foundational</span>
+      <div>
+        <div class="ref-authors">Bloom, B. S., Engelhart, M. D., Furst, E. J., Hill, W. H., &amp; Krathwohl, D. R. (1956)</div>
+        <div class="ref-title">Taxonomy of Educational Objectives: The Classification of Educational Goals. Handbook I: Cognitive Domain. David McKay.</div>
+        <div class="ref-desc">The original taxonomy. Read alongside the 2001 revision to understand what changed and why. The foundational claim — that educational objectives can be systematically classified by cognitive demand — remains the basis of all outcome writing practice. A companion affective domain taxonomy was published by Krathwohl et al. in 1964.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-free" href="https://archive.org/search?query=bloom+taxonomy+educational+objectives+1956" target="_blank">↗ Internet Archive — search</a>
+          <a class="ref-link rl-pub" href="https://www.semanticscholar.org/paper/Taxonomy-of-educational-objectives%3B-the-classifica-Bloom/1f5c895ebe16b82ff28c81bdc4cdb90f3e8fc576" target="_blank">↗ Semantic Scholar record</a>
+          <a class="ref-link rl-doi" href="https://krathwohl.education.txstate.edu/revised-taxonomy.html" target="_blank">↗ Krathwohl overview — TX State</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-f">Foundational</span>
+      <div>
+        <div class="ref-authors">Mager, R. F. (1962)</div>
+        <div class="ref-title">Preparing Instructional Objectives. Fearon Publishers. (3rd ed. 1997, CEP Press.)</div>
+        <div class="ref-desc">Established not how to classify objectives but how to write them. Mager's three-part structure (performance, conditions, criteria) became the basis of the ABCD model. His verdict on vague verbs — inadmissible — is the practical foundation of every outcome writing workshop. A short, direct, and still essential text.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-free" href="https://csfla.org/news/mager-and-bloom-on-preparing-instructional-objectives" target="_blank">↗ Mager &amp; Bloom — practical summary</a>
+          <a class="ref-link rl-buy" href="https://www.amazon.com/Preparing-Instructional-Objectives-Robert-Mager/dp/1879618036" target="_blank">↗ Amazon — 3rd edition</a>
+          <a class="ref-link rl-free" href="https://educationaltechnology.net/using-blooms-taxonomy-to-write-effective-learning-objectives-the-abcd-approach/" target="_blank">↗ ABCD model in practice</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-f">Foundational</span>
+      <div>
+        <div class="ref-authors">Anderson, L. W., &amp; Krathwohl, D. R. (Eds.). (2001)</div>
+        <div class="ref-title">A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives. Longman.</div>
+        <div class="ref-desc">The definitive text. Changed nouns to verbs, reordered the apex to Create, and added the Knowledge Dimension (Factual, Conceptual, Procedural, Metacognitive). All CLO and PLO Bloom's work traces here. Essential reading — not just a reference but an argument about what learning is.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-pub" href="https://www.semanticscholar.org/paper/A-Taxonomy-for-Learning,-Teaching,-and-Assessing:-A-Anderson-Krathwohl/23eb5e20e7985fca5625548d2ee6d781a2861d41" target="_blank">↗ Semantic Scholar record</a>
+          <a class="ref-link rl-free" href="https://quincycollege.edu/wp-content/uploads/Anderson-and-Krathwohl_Revised-Blooms-Taxonomy.pdf" target="_blank">↗ Revised taxonomy overview — PDF</a>
+          <a class="ref-link rl-buy" href="https://www.amazon.com/Taxonomy-Learning-Teaching-Assessing-Educational/dp/080131903X" target="_blank">↗ Amazon — abridged edition</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-a">Constructive Alignment</span>
+      <div>
+        <div class="ref-authors">Biggs, J., &amp; Tang, C. (2011)</div>
+        <div class="ref-title">Teaching for Quality Learning at University (4th ed.). Open University Press / McGraw-Hill.</div>
+        <div class="ref-desc">The definitive source on constructive alignment. Biggs's core argument: students learn what the assessment system signals is important, not what instructors intend. Misalignment between outcome and assessment actively misdirects learning — it does not merely produce bad grades. Practically indispensable for program and course review.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-pub" href="https://www.semanticscholar.org/paper/Teaching-For-Quality-Learning-At-University-Biggs-Tang/1f96f4a66767293cf2902652ac9eadfa8ef51f13" target="_blank">↗ Semantic Scholar record</a>
+          <a class="ref-link rl-free" href="https://www.researchgate.net/publication/215915395_Teaching_for_Quality_Learning_at_University" target="_blank">↗ ResearchGate — preview</a>
+          <a class="ref-link rl-buy" href="https://www.amazon.com/Teaching-Learning-University-Research-Education/dp/0335242758" target="_blank">↗ Amazon — 4th edition</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-p">Practitioner Guide</span>
+      <div>
+        <div class="ref-authors">Wiggins, G., &amp; McTighe, J. (2005)</div>
+        <div class="ref-title">Understanding by Design (2nd ed.). ASCD.</div>
+        <div class="ref-desc">The source for backward design — Stage 1 (desired results), Stage 2 (assessment evidence), Stage 3 (learning plan). The key insight: courses should be inferred from results sought, not from materials and activities with which instructors are comfortable. Design begins at the end. Operationalizes Tyler's questions into a concrete design methodology.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-free" href="https://files.ascd.org/staticfiles/ascd/pdf/siteASCD/publications/UbD_WhitePaper0312.pdf" target="_blank">↗ ASCD white paper — free PDF</a>
+          <a class="ref-link rl-free" href="https://tll.mit.edu/teaching-resources/course-design/backward-design/" target="_blank">↗ MIT overview of backward design</a>
+          <a class="ref-link rl-buy" href="https://www.amazon.com/Understanding-Design-Grant-Wiggins/dp/1416600353" target="_blank">↗ Amazon — 2nd edition</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-p">Practitioner Guide</span>
+      <div>
+        <div class="ref-authors">Kennedy, D., Hyland, Á., &amp; Ryan, N. (2006, revised 2009)</div>
+        <div class="ref-title">Writing and Using Learning Outcomes: A Practical Guide. University College Cork.</div>
+        <div class="ref-desc">The most widely used practitioner guide for writing PLOs and CLOs across module, course, and program levels. Over 1,100 citations. Available freely online from the Cork Open Research Archive. Concrete worked examples across disciplines. Begin here for practical guidance after reading Biggs and Anderson &amp; Krathwohl.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-free" href="https://cora.ucc.ie/handle/10468/1613" target="_blank">↗ Cork Open Research Archive — free download</a>
+          <a class="ref-link rl-free" href="https://www.ucc.ie/en/media/projectsandcentres/centrefordigitaleducation/WritingandUsingLearningOutcomes.pdf" target="_blank">↗ Direct PDF — UCC</a>
+          <a class="ref-link rl-free" href="https://www.ucc.ie/en/cirtl/resources/learningoutcomes/" target="_blank">↗ UCC learning outcomes resource hub</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-p">Complementary Framework</span>
+      <div>
+        <div class="ref-authors">Fink, L. D. (2003)</div>
+        <div class="ref-title">Creating Significant Learning Experiences: An Integrated Approach to Designing College Courses. Jossey-Bass.</div>
+        <div class="ref-desc">Offers a six-dimension taxonomy (Foundational Knowledge, Application, Integration, Human Dimension, Caring, Learning How to Learn) arranged not as a hierarchy but as an interactive web. Most valuable as an audit framework: after writing Bloom's-based outcomes, use Fink to check whether the Human Dimension, Caring, and Learning How to Learn are being addressed — dimensions Bloom's cognitive taxonomy does not reach.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-pub" href="https://muse.jhu.edu/pub/1/article/52891/summary" target="_blank">↗ Project MUSE review</a>
+          <a class="ref-link rl-free" href="https://www.uvm.edu/ctl/backward-design-and-learning-objectives" target="_blank">↗ Bloom + Fink side-by-side — UVM</a>
+          <a class="ref-link rl-buy" href="https://www.amazon.com/Creating-Significant-Learning-Experiences-Integrated/dp/1118124251" target="_blank">↗ Amazon — revised edition</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-p">Adult Learning</span>
+      <div>
+        <div class="ref-authors">Knowles, M. S., Holton, E. F., &amp; Swanson, R. A. (1998)</div>
+        <div class="ref-title">The Adult Learner (5th ed.). Gulf Publishing. (8th ed. 2015, Routledge.)</div>
+        <div class="ref-desc">Consolidates Knowles' full andragogical framework with six core assumptions about how adults learn. Directly applicable to Westminster's student population — all adult learners with vocational callings, prior experience, and intrinsic motivation that pedagogical (child-centered) course design systematically fails to engage. Use to audit whether outcomes are framed in terms adult learners will find meaningful.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-free" href="https://scholars.fhsu.edu/cgi/viewcontent.cgi?article=1011&context=management_facpubs" target="_blank">↗ Andragogy in practice — free PDF</a>
+          <a class="ref-link rl-free" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6458658/" target="_blank">↗ Adult learning theories — PMC overview</a>
+          <a class="ref-link rl-buy" href="https://www.amazon.com/Adult-Learner-Definitive-Education-Training/dp/0750678372" target="_blank">↗ Amazon — 8th edition</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-e">Peer-Reviewed · Open Access</span>
+      <div>
+        <div class="ref-authors">Adams, N. E. (2015)</div>
+        <div class="ref-title">Bloom's taxonomy of cognitive learning objectives. Journal of the Medical Library Association, 103(3), 152–153. DOI: 10.3163/1536-5050.103.3.010</div>
+        <div class="ref-desc">Widely cited (1,800+ citations) peer-reviewed introduction to the revised taxonomy in an applied professional context. Freely available through NIH/PMC. Concise enough to assign as required pre-reading for any outcomes-writing workshop or faculty development session on outcome design.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-free" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4511057/" target="_blank">↗ PMC — full text, free</a>
+          <a class="ref-link rl-doi" href="https://pubmed.ncbi.nlm.nih.gov/26213509/" target="_blank">↗ PubMed record</a>
+          <a class="ref-link rl-doi" href="https://doi.org/10.3163/1536-5050.103.3.010" target="_blank">↗ DOI link</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-badge rb-e">Peer-Reviewed · 2025</span>
+      <div>
+        <div class="ref-authors">Frost, D. (2025)</div>
+        <div class="ref-title">The multiple dimensions of curriculum mapping. Learning and Teaching: The International Journal of Higher Education in the Social Sciences.</div>
+        <div class="ref-desc">Recent peer-reviewed work addressing "fracture points" — the specific gaps that appear when CLO and PLO alignment is assumed rather than explicitly mapped. Particularly useful for program-level curriculum review. Provides empirical grounding for the alignment chain argument and the curriculum mapping practices in this guide.</div>
+        <div class="ref-links">
+          <a class="ref-link rl-free" href="https://kpu.pressbooks.pub/curriculumguide/chapter/6-curriculum-mapping/" target="_blank">↗ Curriculum mapping — free guide</a>
+          <a class="ref-link rl-free" href="https://inside.ewu.edu/assessment-accreditation/assessment-accreditation/assessment/assessment-resources/step-2-how-to-map-the-curriculum/" target="_blank">↗ How to map curriculum — EWU</a>
+          <a class="ref-link rl-free" href="https://www.luc.edu/media/lucedu/clas/CLAS%20Workshop_1_2024%20(1).pdf" target="_blank">↗ PLOs &amp; curriculum mapping — LUC PDF</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+
+<script>
+// NAV CLICK — intercept all nav links and use scrollIntoView for reliability
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href').replace('#', '');
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// SCROLL EVENTS — progress bar + active nav highlight
+function getScrollEl() {
+  return (document.scrollingElement || document.documentElement);
+}
+
+function onScroll() {
+  const el = getScrollEl();
+  const scrolled = el.scrollTop || window.scrollY;
+  const total = el.scrollHeight - el.clientHeight;
+  const pct = total > 0 ? scrolled / total : 0;
+  const bar = document.getElementById('progress');
+  if (bar) bar.style.transform = `scaleX(${pct})`;
+  updateNav(scrolled);
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+document.addEventListener('scroll', onScroll, { passive: true });
+
+const sIds=['hero','what','literature','three-levels','cascade','verb-hierarchy','blooms','knowledge-dim','verbs','abcd','examples','alignment','curriculum-map','idm','fink','knowles','failures','rubric','checklist','references'];
+
+function updateNav(scrollTop) {
+  const sy = scrollTop !== undefined ? scrollTop : (window.scrollY || document.documentElement.scrollTop);
+  let cur = 'hero';
+  sIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top + window.scrollY <= sy + 160) cur = id;
+  });
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + cur);
+  });
+}
+
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.05});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+const bdata={
+  6:'Create sits at the apex because generating something original requires all the levels below it. You cannot create a coherent theological argument without remembering the tradition, understanding its structure, applying its principles, analyzing its components, and evaluating competing positions. Create-level outcomes are the endgame: students who can compose original sermons, formulate exegetical arguments, and design ministry responses that have not existed before.',
+  5:'Evaluate is the level of principled judgment — not mere opinion, but assessment based on explicit criteria. A student who defends a doctrinal position, critiques an exegetical method, or adjudicates between competing hermeneutical approaches is working at L5. This is where the Westminster mandate to defend the faith becomes a cognitive skill, not just a disposition.',
+  4:'Analyze requires breaking material into its constituent parts and examining their relationships. Students who can examine how a Pauline argument is constructed, differentiate between grammatical options in a Greek text, or compare theological traditions across confessional boundaries are working at L4. This is where exegetical competence lives — not in what students know about a text, but in what they can see inside it.',
+  3:'Apply is the first level where transfer begins — where what was learned in the classroom moves toward what will be done in ministry. Students take hermeneutical tools learned on one passage and apply them to an unfamiliar text. Without application, knowledge stays inert and the gap between classroom and congregation never closes.',
+  2:'Understand means grasping meaning — not just recognizing something when encountered (L1), but being able to explain it in your own words, classify it correctly, predict what follows from it. Understanding is necessary but far from sufficient for proclamation. Many courses stop here and call it formation. It is not. It is the foundation from which L3–L6 must be built.',
+  1:'Remember is the foundational level — where all learning begins and where no curriculum should end. Recall, identification, and recognition are necessary prerequisites for everything above them, but a course that peaks at L1 has systematically under-prepared its students. Remember is where schemas begin to form — the raw material that higher-order thinking will later process.'
+};
+function bc(n,t){
+  const d=document.getElementById('bloom-detail');
+  d.textContent=t||bdata[n];
+  d.style.display='block';
+}
+function tc(item){item.classList.toggle('done');}
+
+const levelColors = {
+  6:['#3D2B6E','#EEEAF8','Create — L6'],
+  5:['#1C3D6E','#E8EFF8','Evaluate — L5'],
+  4:['#0F6E56','#E8F4F1','Analyze — L4'],
+  3:['#3B6D11','#EAF3DE','Apply — L3'],
+  2:['#633806','#FDF6E7','Understand — L2'],
+  1:['#7A2E18','#F8EDE8','Remember — L1']
+};
+
+const verbData = {
+  // L6 — Create
+  'Design':      {d:'Plan and create an artifact that did not previously exist, specifying its structure, components, and rationale.',clo:'Design a 12-week discipleship curriculum for new church members in a cross-cultural context, grounded in specified biblical and theological principles.',alo:'Design a one-session Bible study outline on a given passage for a specified small-group audience, including learning goals, discussion questions, and a closing application.'},
+  'Compose':     {d:'Write or produce an original work in a specified genre that synthesizes ideas, arguments, or artistic elements into a coherent whole.',clo:'Compose a 2,500-word theological essay arguing for a specified doctrinal position using primary sources from the Westminster tradition.',alo:'Compose a 300-word opening prayer for a worship service that theologically reflects the season of the church calendar and the day\'s sermon text.'},
+  'Construct':   {d:'Build or assemble a new product, argument, or framework by combining component elements into a functioning whole.',clo:'Construct an expository sermon from an assigned Old Testament narrative text, demonstrating movement from exegesis to theological claim to congregational application.',alo:'Construct a brief sermon introduction (150 words) for a given text that establishes context, creates need, and previews the main claim.'},
+  'Formulate':   {d:'Develop a precise statement, theory, or plan by working out its logical structure and specifying its components with care.',clo:'Formulate a personal theology of preaching that integrates biblical, historical, and pastoral sources into a coherent and defensible statement of convictions.',alo:'Formulate a thesis statement for an exegetical paper on a given passage, identifying the main claim and its controlling logic in one to two sentences.'},
+  'Produce':     {d:'Generate a complete, polished output — a document, artifact, or performance — that meets a specified professional or academic standard.',clo:'Produce a full exegetical commentary entry on an assigned New Testament passage, following the genre conventions of an academic commentary.',alo:'Produce a structured reading guide for a given chapter of a theological primary source, suitable for use in a class discussion.'},
+  'Synthesize':  {d:'Combine information, ideas, or arguments from multiple sources into a new, unified statement that goes beyond what any single source contains.',clo:'Synthesize the Reformed confessional tradition\'s teaching on sanctification with current research on spiritual formation practices into a coherent framework for pastoral ministry.',alo:'Synthesize three assigned readings on covenant theology into a one-page summary that identifies their shared claims and key points of disagreement.'},
+  'Develop':     {d:'Create and refine a detailed plan, argument, or product through iterative elaboration, moving from concept to fully realized form.',clo:'Develop a pastoral counseling model for grief that integrates a biblical framework, Reformed theology, and evidence-based care practices.',alo:'Develop a structured lesson plan for a Sunday school class on the Sermon on the Mount, including objectives, activities, and assessment.'},
+  'Devise':      {d:'Invent a method, strategy, or plan for achieving a goal not covered by existing procedures.',clo:'Devise a contextualization strategy for presenting the gospel to a specified cultural group, grounding it in biblical missiology and cultural analysis.',alo:'Devise three discussion questions for a given biblical text that move students from observation to interpretation to application.'},
+  'Generate':    {d:'Produce a set of original ideas, options, or examples in response to a problem or prompt.',clo:'Generate three alternative sermon outlines for an assigned Pauline text, each reflecting a different structural approach, and argue for the superiority of one.',alo:'Generate five potential sermon illustration categories for a given doctrinal point and explain how each connects the abstract concept to congregational experience.'},
+  'Hypothesize': {d:'Propose a testable or arguable explanation for an observation or problem, specifying the reasoning behind the proposal.',clo:'Hypothesize how a Reformed understanding of common grace shapes the church\'s engagement with secular institutions, and propose a research agenda for testing this hypothesis.',alo:'Hypothesize what hermeneutical approach Paul employs in Galatians 3 and state the textual evidence that would confirm or disconfirm your hypothesis.'},
+  'Invent':      {d:'Create something genuinely novel — a concept, method, or framework — that has no direct precedent in existing sources.',clo:'Invent a framework for integrating Old Testament wisdom literature into contemporary pastoral counseling, arguing from both exegetical and practical theology.',alo:'Invent a metaphor or analogy that explains the doctrine of definite atonement to a congregation with no prior theological vocabulary.'},
+  'Write':       {d:'Produce a complete written text in a specified genre (essay, report, reflection, argument) that meets defined quality criteria.',clo:'Write a theological position paper (3,000 words) defending a specific view of the Lord\'s Supper from Scripture and the Westminster Standards, engaging two alternative positions.',alo:'Write a 500-word exegetical reflection on the central theological claim of an assigned passage, addressed to a lay reader.'},
+
+  // L5 — Evaluate
+  'Defend':      {d:'Argue for a position against stated objections using evidence and principled reasoning — not merely assert it.',clo:'Defend a doctrinal position from the Westminster Standards against a specified objection, using biblical argumentation and historical theological sources.',alo:'Defend your exegetical interpretation of a disputed verse in a written response to a peer\'s counter-reading, citing at least two grammatical and contextual reasons.'},
+  'Critique':    {d:'Identify strengths and weaknesses of an argument, method, or work using explicit, principled criteria — not mere preference.',clo:'Critique the hermeneutical method of an assigned commentary on a given biblical text, evaluating its consistency, transparency, and faithfulness to the text.',alo:'Critique one peer\'s exegetical paper draft using the course rubric, providing specific written feedback on at least three rubric criteria.'},
+  'Judge':       {d:'Reach and articulate a verdict about the quality, validity, or appropriateness of something, supported by explicit criteria.',clo:'Judge whether a specified model of contextual preaching adequately preserves the authority of Scripture, giving reasons drawn from biblical and homiletical sources.',alo:'Judge which of two assigned sermon manuscripts more faithfully handles the assigned text and explain your reasoning in two paragraphs.'},
+  'Justify':     {d:'Provide principled reasons, grounded in evidence or argument, that warrant a claim or decision.',clo:'Justify the inclusion of a specific topic in a Christian education curriculum by connecting it to biblical, confessional, and developmental grounds.',alo:'Justify your word study methodology for a given Hebrew term in a one-paragraph rationale, explaining why the method is appropriate for this text.'},
+  'Assess':      {d:'Systematically evaluate something against stated criteria to determine its quality, merit, or fitness for purpose.',clo:'Assess the effectiveness of two historical approaches to cross-cultural theological education, evaluating each against biblical missiology and learning science principles.',alo:'Assess your own sermon draft against the course rubric, completing a written self-evaluation that identifies one strength and one area for revision in each criterion.'},
+  'Appraise':    {d:'Estimate the value or quality of something through careful examination, going beyond description to reasoned judgment.',clo:'Appraise the theological adequacy of a specified contemporary worship song by examining its doctrinal content against Reformed confessional standards.',alo:'Appraise the quality of an assigned student exegetical paper draft, rating it on each rubric criterion and giving one sentence of rationale per rating.'},
+  'Argue':       {d:'Advance and support a claim through structured reasoning that anticipates and responds to counterarguments.',clo:'Argue for a specific view of the relationship between divine sovereignty and human responsibility, engaging the strongest counterarguments from within the Reformed tradition.',alo:'Argue for your preferred interpretation of a grammatically ambiguous clause in an assigned passage, citing lexical and contextual evidence.'},
+  'Validate':    {d:'Confirm or disconfirm the correctness, consistency, or adequacy of a claim, model, or method through reasoned evidence.',clo:'Validate or challenge a specified exegetical conclusion about an Old Testament passage by examining the underlying hermeneutical assumptions and textual evidence.',alo:'Validate your exegetical thesis by identifying three textual, grammatical, or contextual features of the passage that support it.'},
+  'Recommend':   {d:'Propose a course of action and justify why it is preferable to alternatives, given specified criteria and constraints.',clo:'Recommend a preaching strategy for a specific congregational context, justifying the recommendation with reference to biblical theology, cultural analysis, and homiletical principles.',alo:'Recommend one of three assigned commentaries for use in preparing a sermon on a given passage, explaining why it best serves the preacher\'s needs.'},
+  'Prioritize':  {d:'Order options, tasks, or goals according to explicit criteria, explaining the reasoning behind the ranking.',clo:'Prioritize the theological topics a new members\' class should address in its first six sessions, justifying the sequence with reference to catechetical principles and confessional standards.',alo:'Prioritize three potential sermon applications for an assigned text and briefly explain why the top choice is most appropriate for the identified congregation.'},
+  'Rank':        {d:'Order items according to specified criteria, from highest to lowest quality, priority, or suitability.',clo:'Rank three assigned interpretations of a contested Pauline passage according to their exegetical rigor, and explain the criteria and reasoning behind the ranking.',alo:'Rank four assigned commentaries on the Psalms by their usefulness for expository preaching, providing one sentence of rationale for each position.'},
+
+  // L4 — Analyze
+  'Examine':     {d:'Look closely at something\'s components, structure, or logic to understand how it works and what it assumes.',clo:'Examine the argumentative structure of Calvin\'s doctrine of predestination in the Institutes, identifying its key moves, supporting evidence, and underlying assumptions.',alo:'Examine the narrative structure of an assigned Old Testament passage by identifying its scene divisions, characters, conflict, and resolution in a structured annotation.'},
+  'Differentiate':{d:'Distinguish between things that may appear similar by identifying the specific features that set them apart.',clo:'Differentiate between Lutheran and Reformed understandings of the Lord\'s Supper, identifying the precise theological and exegetical points at which they diverge.',alo:'Differentiate between the Hebrew terms hesed and emet in Exodus 34:6, explaining their distinct semantic ranges and their combined theological significance.'},
+  'Compare':     {d:'Identify both similarities and differences between two or more things in a structured, analytical way.',clo:'Compare the homiletical methods of two assigned Reformed preachers across three dimensions: textual handling, doctrinal exposition, and application strategy.',alo:'Compare the use of the Abrahamic covenant in Genesis 15 and Galatians 3, identifying two parallels and two differences in how Paul engages the text.'},
+  'Deconstruct': {d:'Break an argument, text, or concept into its component parts to reveal the assumptions, logic, and tensions within it.',clo:'Deconstruct the theological argument of an assigned contemporary statement of faith, identifying its structural logic, unstated assumptions, and points of internal tension.',alo:'Deconstruct the opening argument of Romans 1:18–32 into its logical steps, identifying the claim, the evidence offered, and the conclusion in each unit.'},
+  'Distinguish': {d:'Draw a clear line between two concepts, categories, or claims that are often confused or conflated.',clo:'Distinguish between justification and sanctification in Reformed theology, showing how the Westminster Standards maintain their distinction while affirming their inseparability.',alo:'Distinguish between the author\'s intent and the reader\'s application in hermeneutical theory and apply the distinction to a specific interpretive decision in an assigned passage.'},
+  'Dissect':     {d:'Separate a complex whole into its parts in order to understand the function and relationship of each component.',clo:'Dissect the literary structure of an assigned prophetic oracle, identifying its form-critical genre, structural units, and the rhetorical function of each section.',alo:'Dissect the syntax of an assigned Greek sentence, labeling each clause, identifying its grammatical relationship to the main verb, and noting the interpretive implications.'},
+  'Relate':      {d:'Identify and explain meaningful connections between separate ideas, texts, events, or concepts.',clo:'Relate the biblical doctrine of union with Christ to the Reformed understanding of both justification and sanctification, showing how the former grounds the latter two.',alo:'Relate the theme of exile and restoration in Jeremiah 29 to its New Testament use, identifying one explicit quotation or allusion and explaining its hermeneutical function.'},
+  'Categorize':  {d:'Group things into classes according to shared features, using a specified or developed classification scheme.',clo:'Categorize ten assigned contemporary worship songs according to their dominant theological themes and evaluate whether the collection reflects a balanced doctrinal diet.',alo:'Categorize the commands in the Sermon on the Mount (Matthew 5–7) by the virtue they cultivate, producing an annotated classification with brief justification for each decision.'},
+  'Connect':     {d:'Draw explicit, substantiated links between ideas, texts, or events that are not immediately adjacent to each other.',clo:'Connect the covenantal structure of Deuteronomy with the Sermon on the Mount in Matthew 5–7, arguing for a specific hermeneutical relationship between the two texts.',alo:'Connect the doctrine of total depravity from the Westminster Confession to a specific pastoral situation and explain how the doctrine shapes the minister\'s approach.'},
+  'Inspect':     {d:'Carefully scrutinize a text, argument, or artifact to identify specific features, problems, or characteristics.',clo:'Inspect an assigned student sermon manuscript for alignment between the text\'s main point, the sermon\'s central claim, and the application, using a provided evaluation protocol.',alo:'Inspect the provided exegetical paper for logical consistency between the thesis, the textual evidence cited, and the conclusion, noting any gaps in a structured response.'},
+  'Infer':       {d:'Draw a conclusion from evidence that is not explicitly stated, showing the reasoning that connects evidence to conclusion. (Used at both L2 and L4 — the higher level requires more complex reasoning chains.)',clo:'Infer the theological presuppositions of an assigned preacher from the structural and argumentative patterns of three assigned sermons, without relying on the preacher\'s explicit statements.',alo:'Infer what Paul\'s argument in Galatians 2:11–21 implies about the relationship between justification and ecclesial practice, drawing only on textual evidence within the passage.'},
+
+  // L3 — Apply
+  'Demonstrate': {d:'Show, through observable performance, that a concept or skill can be put to use in a specified context.',clo:'Demonstrate expository preaching method by delivering a 20-minute sermon from an assigned New Testament epistle text to a live audience.',alo:'Demonstrate basic Greek exegetical method by parsing all verbs in an assigned passage and summarizing the grammatical significance of each choice.'},
+  'Implement':   {d:'Put a plan, method, or procedure into action in a real or simulated context.',clo:'Implement a pastoral care protocol for congregational crisis response, documenting the application of each step in a simulated case study.',alo:'Implement the assigned word-study method on a specified Hebrew term, following each step of the procedure and recording your process and findings.'},
+  'Use':         {d:'Apply a specified tool, method, or concept to accomplish a task.',clo:'Use the historical-grammatical method to interpret an assigned Psalm, producing a written exegetical brief that documents each methodological step.',alo:'Use a concordance and lexicon to identify the three most theologically significant uses of a specified Greek term in Paul\'s letters and summarize the findings.'},
+  'Execute':     {d:'Carry out a procedure with accuracy and in proper sequence.',clo:'Execute a full exegetical process on an assigned passage — including textual criticism, grammatical analysis, historical context, and theological synthesis — producing a documented written record.',alo:'Execute an inductive Bible study observation exercise on an assigned passage, completing all three stages: observation, interpretation, and application.'},
+  'Solve':       {d:'Find a workable answer to a problem by applying appropriate methods or principles.',clo:'Solve a specified pastoral dilemma involving a conflict between congregational members, applying principles from biblical ethics and the Westminster Larger Catechism.',alo:'Solve a word-order ambiguity in an assigned Greek sentence by applying the rules of Greek syntax covered in the course, stating your solution and your reasoning.'},
+  'Show':        {d:'Make something visible or evident through evidence, demonstration, or performance.',clo:'Show how the covenant of grace in the Westminster Confession provides the interpretive framework for reading both the Old and New Testaments as a unified canonical whole.',alo:'Show where in Calvin\'s Institutes the key arguments for the doctrine of election appear, citing specific loci and summarizing each argument in one sentence.'},
+  'Calculate':   {d:'Perform a computation or formal procedure to arrive at a specific result.',clo:'Calculate the amount of weekly student reading in an assigned course syllabus and assess whether the load is aligned with accreditation standards for credit hours.',alo:'Calculate the word count and reading level of an assigned sermon manuscript and note how these figures relate to the identified congregation\'s profile.'},
+  'Carry out':   {d:'Complete a specified multi-step procedure from beginning to end.',clo:'Carry out a full sermon preparation process for an assigned text — including exegesis, theological reflection, and manuscript drafting — following the course\'s documented method.',alo:'Carry out a background study on an assigned biblical passage using three required resource types: Bible dictionary, commentary, and primary text parallel.'},
+  'Operate':     {d:'Function within a system, tool, or set of procedures to produce a result.',clo:'Operate within the Westminster Standards as a confessional framework, applying its categories to interpret an assigned contemporary theological controversy.',alo:'Operate the interlinear tool to identify the underlying Hebrew or Greek term behind a disputed English translation in an assigned passage.'},
+  'Transfer':    {d:'Apply a concept or skill learned in one context to a new, different context — the hallmark of genuine understanding.',clo:'Transfer the exegetical method learned on Pauline epistles to an assigned Old Testament prophetic text, adapting the method appropriately and documenting the adjustments made.',alo:'Transfer the inductive method practiced in Acts to an assigned Gospel pericope, noting in a one-paragraph reflection how the different genre required methodological adjustment.'},
+  'Apply':       {d:'Use knowledge, a rule, or a principle in a given situation to produce a result.',clo:'Apply the ABCD outcome-writing model to revise three provided weak CLOs, producing corrected versions with a written rationale for each change.',alo:'Apply the grammatical rule for conditional sentences in Greek to three examples from an assigned passage, stating the condition type and its theological implication for each.'},
+
+  // L2 — Understand
+  'Explain':     {d:'Communicate meaning in your own words in a way that makes the concept clear to someone unfamiliar with it.',clo:'Explain the Westminster Confession\'s doctrine of Scripture (Chapter 1) to a lay audience in a 1,000-word essay, without using technical theological vocabulary.',alo:'Explain in 150 words why the interpretive principle of "Scripture interprets Scripture" matters for handling a given contested passage.'},
+  'Summarize':   {d:'Restate the main ideas of a text or concept in condensed form, capturing the key points without unnecessary detail.',clo:'Summarize the major doctrines of the Westminster Confession of Faith by identifying the key claim and its primary biblical support in each chapter.',alo:'Summarize the argument of an assigned scholarly article in two paragraphs: one on the thesis and one on the supporting evidence.'},
+  'Paraphrase':  {d:'Restate a text or idea in your own words, demonstrating that you have grasped its meaning.',clo:'Paraphrase the central argument of a specified chapter of Bavinck\'s Reformed Dogmatics in a 600-word summary that preserves its theological content without quoting directly.',alo:'Paraphrase the main claim of Romans 3:21–26 in a single paragraph, without using Paul\'s own vocabulary, showing that you have understood the logic of the argument.'},
+  'Classify':    {d:'Sort items into categories according to their shared characteristics, using a specified or self-developed scheme.',clo:'Classify ten assigned theological positions on the extent of the atonement according to whether they are consistent with, in tension with, or contrary to the Westminster Standards.',alo:'Classify each of the Ten Commandments as primarily regulating a duty to God, a duty to neighbor, or both, with a one-sentence justification for each classification.'},
+  'Describe':    {d:'Give a detailed account of something\'s features, qualities, or characteristics.',clo:'Describe the historical development of the Westminster Assembly, including its context, key participants, and the major documents it produced.',alo:'Describe the grammatical structure of an assigned verse in three to five sentences, identifying the main clause, any subordinate clauses, and their syntactical relationship.'},
+  'Interpret':   {d:'Explain the meaning of something — a text, data, or event — by drawing on context, evidence, and relevant principles.',clo:'Interpret the significance of the covenant of works in the Westminster Confession for the construction of a theology of law and gospel.',alo:'Interpret the function of the chiastic structure in an assigned passage, explaining how the structure reinforces the central theological claim.'},
+  'Predict':     {d:'Infer what will follow logically or probably from given conditions, based on understanding of principles or patterns.',clo:'Predict how the Westminster Standards\' position on the perpetuity of the moral law would address a specified contemporary ethical question, citing relevant confessional articles.',alo:'Predict what hermeneutical method an assigned commentator will likely use on the next passage in the book, based on the patterns you have observed in the assigned excerpt.'},
+  'Generalize':  {d:'Draw a broader principle or conclusion from specific examples or cases.',clo:'Generalize from three assigned case studies in missionary Bible translation to articulate principles that should govern the translation of culturally embedded biblical terms.',alo:'Generalize a principle about how Paul uses Old Testament quotations from three examples in Romans 9–11, stating the principle in one sentence.'},
+  'Clarify':     {d:'Make something clearer or less ambiguous through explanation, example, or distinction.',clo:'Clarify the distinction between general and special revelation in Reformed theology and explain why this distinction matters for apologetics and preaching.',alo:'Clarify in two paragraphs the difference between the covenant of works and the covenant of grace as presented in the Westminster Confession, using the Confession\'s own language and structure.'},
+  'Translate':   {d:'Convert something from one form or language into another while preserving its meaning.',clo:'Translate an assigned passage from the Hebrew Bible into English, producing an annotated translation that documents key lexical and grammatical decisions.',alo:'Translate an assigned New Testament verse from Greek to English and provide a one-sentence note explaining one significant exegetical decision.'},
+
+  // L1 — Remember
+  'Recall':      {d:'Retrieve specific information from memory without contextual cues.',clo:'Recall the five solas of the Reformation and state the Latin term and its English equivalent for each.',alo:'Recall the three broad categories of Bloom\'s Revised Taxonomy (lower order, higher order, and their six levels) without reference to course materials.'},
+  'List':        {d:'Enumerate items belonging to a category in an ordered or unordered sequence.',clo:'List the chapter headings of the Westminster Confession of Faith in correct canonical order.',alo:'List the five components of a well-formed learning outcome as presented in the assigned reading.'},
+  'Define':      {d:'State the precise meaning of a term as it is used in a given field or context.',clo:'Define the key theological terms used in Westminster Confession Chapter 1 — including canon, inspiration, infallibility, and perspicuity — with one sentence per term.',alo:'Define the terms "intrinsic load," "extraneous load," and "germane load" as used in Cognitive Load Theory, using only the definitions provided in the assigned reading.'},
+  'Identify':    {d:'Recognize and name a specific item, element, or feature from a larger set.',clo:'Identify the biblical citations provided by the Westminster Confession for each article of its doctrine of Scripture.',alo:'Identify the main verb, subject, and direct object in each of five assigned Greek sentences from the course vocabulary list.'},
+  'Name':        {d:'State the correct label or title for a given concept, person, or thing.',clo:'Name the six cognitive levels of Bloom\'s Revised Taxonomy in correct hierarchical order.',alo:'Name the author, date, and primary argument of each of three assigned foundational texts in outcome-based education.'},
+  'State':       {d:'Express a fact, rule, or principle in a clear, direct sentence.',clo:'State the Westminster Confession\'s definition of saving faith, quoting the relevant article.',alo:'State the three conditions Mager requires for a well-formed behavioral objective.'},
+  'Match':       {d:'Correctly pair items from two sets according to a specified relationship.',clo:'Match each of ten assigned theological terms to its correct confessional definition from the Westminster Standards.',alo:'Match each Bloom\'s level to one appropriate assessment type from the provided list.'},
+  'Recognize':   {d:'Identify something as correct or familiar when presented with it alongside alternatives.',clo:'Recognize correct and incorrect uses of Bloom\'s verbs in outcome statements when presented with a set of examples.',alo:'Recognize which of four provided outcome statements correctly follows the ABCD model.'},
+  'Quote':       {d:'Reproduce a specific passage of text exactly as it appears in the source.',clo:'Quote the three-part answer to the first question of the Shorter Catechism from memory.',alo:'Quote the definition of "learning outcome" from the assigned Kennedy et al. reading.'},
+  'Reproduce':   {d:'Recreate or replicate specific content, a process, or a structure exactly as originally presented.',clo:'Reproduce the structure of the Westminster Shorter Catechism\'s treatment of the Ten Commandments, identifying the duty required and duty forbidden sections.',alo:'Reproduce the six-step exegetical method as presented in the course guide, in correct sequence.'},
+  'Enumerate':   {d:'List items in a numbered sequence, typically to show completeness.',clo:'Enumerate the books of the Old Testament canon as recognized in the Westminster Confession, in the order listed.',alo:'Enumerate the four knowledge types in Anderson and Krathwohl\'s 2001 taxonomy revision in the order they appear in the text.'}
+};
+
+function showVerb(verb, level) {
+  const data = verbData[verb];
+  if (!data) return;
+  const panel = document.getElementById('verb-panel');
+  const [textColor, bgColor, levelLabel] = levelColors[level];
+  document.getElementById('vp-verb-name').textContent = verb;
+  const badge = document.getElementById('vp-badge');
+  badge.textContent = levelLabel;
+  badge.style.background = bgColor;
+  badge.style.color = textColor;
+  document.getElementById('vp-def').textContent = data.d;
+  document.getElementById('vp-clo').textContent = data.clo;
+  document.getElementById('vp-alo').textContent = data.alo;
+  document.getElementById('vp-hint').textContent = 'CLO = Course Learning Outcome · ALO = Assignment/Lesson-Level Outcome · Both examples are drawn from a Westminster Seminary theological context.';
+  panel.classList.add('open');
+  document.querySelectorAll('.vtag').forEach(t => {
+    t.classList.toggle('active', t.textContent.trim() === verb);
+  });
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function closeVerbPanel() {
+  document.getElementById('verb-panel').classList.remove('open');
+  document.querySelectorAll('.vtag').forEach(t => t.classList.remove('active'));
+}
+</script>
+</body>
+</html>
