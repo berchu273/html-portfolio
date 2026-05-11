@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cognitive Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #14161a;
+  --bg2: #1c1f26;
+  --bg3: #232730;
+  --surface: #2a2e3a;
+  --border: #363c4a;
+  --teal: #4ecdc4;
+  --teal-dim: rgba(78,205,196,0.12);
+  --coral: #ff6b6b;
+  --coral-dim: rgba(255,107,107,0.12);
+  --gold: #f7c948;
+  --gold-dim: rgba(247,201,72,0.12);
+  --text: #e8e5df;
+  --text-muted: #7a8196;
+  --text-dim: #9aa0b4;
+  --serif: 'Playfair Display', Georgia, serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'Outfit', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2.5rem;
+  background: rgba(20,22,26,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--teal);
+  text-transform: uppercase;
+}
+.nav-links { display: flex; gap: 1.8rem; }
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 8rem 2.5rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(78,205,196,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78,205,196,0.035) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-glow {
+  position: absolute; top: -20%; left: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(ellipse at center, rgba(78,205,196,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-content { position: relative; max-width: 900px; margin: 0 auto; }
+.hero-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s ease forwards;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s ease forwards;
+}
+.hero-title em { font-style: italic; color: var(--teal); }
+.hero-subtitle {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  max-width: 500px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s ease forwards;
+}
+.hero-badge {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s ease forwards;
+}
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em;
+  color: var(--text-muted); text-transform: uppercase;
+  opacity: 0; animation: fadeUp 0.8s 1.2s ease forwards;
+}
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--teal), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ── SECTIONS ── */
+section { padding: 6rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.section-label.red { color: var(--coral); }
+.section-label.gold { color: var(--gold); }
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.section-sub {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  max-width: 650px;
+  line-height: 1.9;
+  margin-bottom: 3rem;
+}
+.divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(to right, var(--teal), transparent);
+  margin: 0;
+  opacity: 0.3;
+}
+
+/* ── PROBLEM SECTION ── */
+.paradox-quote {
+  border-left: 3px solid var(--coral);
+  padding: 1.5rem 2rem;
+  background: var(--coral-dim);
+  border-radius: 0 4px 4px 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--text);
+  margin-top: 2rem;
+  position: relative;
+}
+.paradox-quote cite {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-style: normal;
+  color: var(--coral);
+  letter-spacing: 0.1em;
+  margin-top: 0.75rem;
+}
+
+/* ── CRITERIA GRID ── */
+.criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.criteria-card {
+  background: var(--bg2);
+  padding: 2rem 1.75rem;
+  position: relative;
+  transition: background 0.3s;
+}
+.criteria-card:hover { background: var(--bg3); }
+.criteria-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--teal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.criteria-card:hover::before { transform: scaleX(1); }
+.criteria-num {
+  font-family: var(--mono);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.criteria-card h3 {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.criteria-card p {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+/* ── TIER LIST ── */
+.tier-block {
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+}
+.tier-header {
+  padding: 1rem 1.75rem;
+  display: flex; align-items: center; gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+.tier-header:hover { background: rgba(255,255,255,0.02); }
+.tier-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tier-dot.green { background: var(--teal); }
+.tier-dot.yellow { background: var(--gold); }
+.tier-dot.red { background: var(--coral); }
+.tier-name {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  flex: 1;
+}
+.tier-name.green { color: var(--teal); }
+.tier-name.yellow { color: var(--gold); }
+.tier-name.red { color: var(--coral); }
+.tier-count {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+.tier-arrow {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+}
+.tier-block.open .tier-arrow { transform: rotate(180deg); }
+
+.tier-body {
+  display: none;
+  padding: 0 1.75rem 1.75rem;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+.tier-block.open .tier-body { display: block; }
+.technique-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+.tech-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.tech-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tech-card.green::after { background: var(--teal-dim); }
+.tech-card.yellow::after { background: var(--gold-dim); }
+.tech-card.red::after { background: var(--coral-dim); }
+.tech-card:hover::after { opacity: 1; }
+.tech-card:hover { transform: translateY(-2px); }
+.tech-card.green:hover { border-color: var(--teal); }
+.tech-card.yellow:hover { border-color: var(--gold); }
+.tech-card.red:hover { border-color: var(--coral); }
+.tech-card h4 { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; position: relative; }
+.tech-card p { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); line-height: 1.8; position: relative; }
+.tech-verdict {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+}
+.tech-verdict.green { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(78,205,196,0.3); }
+.tech-verdict.yellow { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(247,201,72,0.3); }
+.tech-verdict.red { background: var(--coral-dim); color: var(--coral); border: 1px solid rgba(255,107,107,0.3); }
+
+/* ── MATRIX ── */
+.matrix-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2.5rem;
+  margin-top: 3rem;
+  position: relative;
+}
+.matrix-title {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.matrix-chart {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  aspect-ratio: 1;
+}
+.matrix-svg { width: 100%; height: 100%; }
+.matrix-insight {
+  margin-top: 2rem;
+  padding: 1rem 1.5rem;
+  background: var(--coral-dim);
+  border: 1px solid rgba(255,107,107,0.2);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+  text-align: center;
+}
+.matrix-insight strong { color: var(--coral); }
+
+/* ── FRICTION SECTION ── */
+.friction-visual {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2rem; margin-top: 3rem;
+}
+.friction-card {
+  padding: 2rem;
+  border-radius: 4px;
+  border: 1px solid;
+  position: relative; overflow: hidden;
+}
+.friction-card.low {
+  background: rgba(255,107,107,0.05);
+  border-color: rgba(255,107,107,0.2);
+}
+.friction-card.high {
+  background: rgba(78,205,196,0.05);
+  border-color: rgba(78,205,196,0.2);
+}
+.friction-card h3 {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.friction-card.low h3 { color: var(--coral); }
+.friction-card.high h3 { color: var(--teal); }
+.friction-card ul {
+  list-style: none; display: flex; flex-direction: column; gap: 0.5rem;
+}
+.friction-card ul li {
+  font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim);
+  padding-left: 1.25rem; position: relative;
+}
+.friction-card ul li::before {
+  content: '—';
+  position: absolute; left: 0;
+  font-size: 0.65rem;
+}
+.friction-card.low ul li::before { color: var(--coral); }
+.friction-card.high ul li::before { color: var(--teal); }
+.friction-verdict {
+  margin-top: 1.25rem; padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 0.7rem;
+  line-height: 1.7;
+}
+.friction-card.low .friction-verdict { color: var(--coral); }
+.friction-card.high .friction-verdict { color: var(--teal); }
+
+/* ── SPACING CHART ── */
+.spacing-visual {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2rem; margin-top: 3rem;
+}
+.spacing-chart {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.75rem;
+}
+.spacing-chart h4 {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 1.5rem; color: var(--text-muted);
+}
+.chart-svg { width: 100%; height: 130px; display: block; }
+
+/* ── PLAYBOOKS ── */
+.playbook-tabs { display: flex; gap: 0; margin-top: 3rem; }
+.tab-btn {
+  flex: 1; padding: 0.9rem 1.5rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--mono); font-size: 0.7rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+.tab-btn:first-child { border-radius: 3px 0 0 0; border-right: none; }
+.tab-btn:last-child { border-radius: 0 3px 0 0; }
+.tab-btn.active {
+  background: var(--teal-dim);
+  border-color: var(--teal);
+  color: var(--teal);
+}
+.tab-panel {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  padding: 2rem 2rem 2rem;
+}
+.tab-panel.active { display: block; }
+.playbook-steps { display: flex; flex-direction: column; gap: 1px; }
+.playbook-step {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  padding: 1.25rem 1rem;
+  background: var(--bg3);
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+.playbook-step:hover { background: var(--surface); }
+.step-icon {
+  width: 36px; height: 36px;
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+  background: var(--teal-dim);
+}
+.step-content h4 {
+  font-family: var(--serif); font-size: 1rem; font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.step-content p {
+  font-family: var(--mono); font-size: 0.7rem;
+  color: var(--text-dim); line-height: 1.8;
+}
+/* ── QUICK REF ── */
+.qr-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 4px;
+  overflow: hidden; margin-top: 3rem;
+}
+.qr-col { background: var(--bg2); padding: 2.5rem 2rem; }
+.qr-col-label {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 500; margin-bottom: 1.5rem;
+}
+.qr-col-label.stop { background: var(--coral-dim); color: var(--coral); border: 1px solid rgba(255,107,107,0.25); }
+.qr-col-label.start { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(78,205,196,0.25); }
+.qr-col-label.law { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(247,201,72,0.25); }
+.qr-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+.qr-col ul li {
+  font-family: var(--mono); font-size: 0.75rem;
+  color: var(--text-dim); line-height: 1.7;
+  padding-left: 1rem; position: relative;
+}
+.qr-col ul li::before { content: '›'; position: absolute; left: 0; }
+.qr-col.stop ul li::before { color: var(--coral); }
+.qr-col.start ul li::before { color: var(--teal); }
+.qr-col.law { display: flex; flex-direction: column; justify-content: space-between; }
+.qr-law-text {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.05rem; line-height: 1.6; color: var(--text);
+  margin: 1rem 0;
+}
+.qr-law-cite {
+  font-family: var(--mono); font-size: 0.65rem;
+  color: var(--gold); letter-spacing: 0.1em;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 4rem 2.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 0.65rem;
+  color: var(--text-muted); letter-spacing: 0.1em;
+  line-height: 2;
+}
+footer span { color: var(--teal); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0.75rem 1.25rem; }
+  .nav-links { display: none; }
+  section { padding: 4rem 1.25rem; }
+  #hero { padding: 7rem 1.25rem 4rem; }
+  .criteria-grid { grid-template-columns: 1fr 1fr; }
+  .friction-visual, .spacing-visual { grid-template-columns: 1fr; }
+  .qr-grid { grid-template-columns: 1fr; }
+  .technique-cards { grid-template-columns: 1fr; }
+  .playbook-tabs { flex-direction: column; }
+  .tab-btn:first-child { border-radius: 3px 3px 0 0; border-right: 1px solid var(--border); border-bottom: none; }
+  .tab-btn:last-child { border-radius: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">The Cognitive Dossier</div>
+  <div class="nav-links">
+    <a href="#problem">The Problem</a>
+    <a href="#criteria">Criteria</a>
+    <a href="#tiers">Tier List</a>
+    <a href="#champions">Champions</a>
+    <a href="#synthesis">Synthesis</a>
+    <a href="#playbook">Playbook</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-label">// Classified Research Dossier</div>
+    <h1 class="hero-title">Learning<br><em>techniques</em><br>that actually work.</h1>
+    <p class="hero-subtitle">A data-driven analysis of 100+ years of cognitive psychology — distilled into the only study methods worth your time.</p>
+    <div class="hero-badge">Dunlosky et al. (2013) · Roediger & Butler (2011) · Ebbinghaus (1885)</div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="reveal">
+    <div class="section-label red">// 01 · The Core Problem</div>
+    <h2 class="section-title">The Illusion<br>of Competence</h2>
+    <p class="section-sub">We study based on intuition, not science. As calculating students, we want the most efficient path to mastery. Yet both learners and educators lack an accurate map of which strategies actually work.</p>
+    <div class="paradox-quote">
+      "If simple techniques were available… would you be surprised if teachers were not being told about these techniques and if many students were not using them?"
+      <cite>— Dunlosky et al. (2013)</cite>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CRITERIA -->
+<section id="criteria">
+  <div class="reveal">
+    <div class="section-label">// 02 · The Evaluation Framework</div>
+    <h2 class="section-title">The Science of<br>Generalizability</h2>
+    <p class="section-sub">To be ranked as High Utility, a technique must survive all four crucibles. Most popular study methods fail at least one — often silently.</p>
+  </div>
+  <div class="criteria-grid reveal">
+    <div class="criteria-card">
+      <div class="criteria-num">01</div>
+      <h3>Learner</h3>
+      <p>Does it work regardless of age, prior knowledge, or ability? A technique that only helps advanced students is of limited value.</p>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-num">02</div>
+      <h3>Material</h3>
+      <p>Does it work for simple vocabulary, complex math, and narrative text alike? Or is it limited to one narrow domain?</p>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-num">03</div>
+      <h3>Criterion Tasks</h3>
+      <p>Does it translate to free recall, problem-solving, and essay writing — not just multiple choice recognition?</p>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-num">04</div>
+      <h3>Context</h3>
+      <p>Does it hold up in solo study, group work, and different learning environments? Real-world durability matters.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIER LIST -->
+<section id="tiers">
+  <div class="reveal">
+    <div class="section-label gold">// 03 · The Efficacy Tier List</div>
+    <h2 class="section-title">10 Techniques<br>Evaluated</h2>
+    <p class="section-sub">Every common study method ranked by empirical utility. The results may surprise you — the most popular methods are empirically the weakest.</p>
+  </div>
+
+  <!-- Matrix -->
+  <div class="matrix-wrap reveal">
+    <div class="matrix-title">// Popularity vs. Actual Utility — Paradox Matrix</div>
+    <div class="matrix-chart">
+      <svg class="matrix-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background -->
+        <rect width="500" height="500" fill="none"/>
+        <!-- Grid lines -->
+        <line x1="50" y1="450" x2="470" y2="450" stroke="#363c4a" stroke-width="1"/>
+        <line x1="50" y1="50" x2="50" y2="450" stroke="#363c4a" stroke-width="1"/>
+        <line x1="260" y1="450" x2="260" y2="50" stroke="#363c4a" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.4"/>
+        <line x1="50" y1="250" x2="470" y2="250" stroke="#363c4a" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.4"/>
+        <!-- Y axis label -->
+        <text x="30" y="460" fill="#7a8196" font-size="9" font-family="IBM Plex Mono" text-anchor="middle" transform="rotate(-90 30 250)">Actual Utility (Low → High)</text>
+        <!-- X axis label -->
+        <text x="260" y="490" fill="#7a8196" font-size="9" font-family="IBM Plex Mono" text-anchor="middle">Popularity (Rare → Ubiquitous)</text>
+        <!-- Quadrant zones -->
+        <rect x="52" y="52" width="206" height="196" fill="rgba(78,205,196,0.06)" rx="2"/>
+        <rect x="260" y="52" width="208" height="196" fill="rgba(78,78,78,0.04)" rx="2"/>
+        <rect x="260" y="250" width="208" height="198" fill="rgba(255,107,107,0.07)" rx="2"/>
+        <rect x="52" y="250" width="206" height="198" fill="rgba(78,78,78,0.03)" rx="2"/>
+        <!-- Quadrant labels -->
+        <text x="155" y="80" fill="rgba(78,205,196,0.6)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">HIGH UTILITY / LOW USE</text>
+        <text x="365" y="80" fill="rgba(255,255,255,0.2)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">HIGH UTILITY / HIGH USE</text>
+        <text x="365" y="420" fill="rgba(255,107,107,0.6)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">LOW UTILITY / HIGH USE ⚠</text>
+        <text x="155" y="420" fill="rgba(255,255,255,0.15)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">LOW UTILITY / LOW USE</text>
+
+        <!-- DATA POINTS -->
+        <!-- Practice Testing: high util, low-mid popularity -->
+        <circle cx="150" cy="90" r="8" fill="rgba(78,205,196,0.25)" stroke="#4ecdc4" stroke-width="1.5"/>
+        <text x="150" y="75" fill="#4ecdc4" font-size="8.5" font-family="IBM Plex Mono" text-anchor="middle">Practice Testing</text>
+
+        <!-- Distributed Practice: high util, low popularity -->
+        <circle cx="110" cy="110" r="8" fill="rgba(78,205,196,0.25)" stroke="#4ecdc4" stroke-width="1.5"/>
+        <text x="110" y="130" fill="#4ecdc4" font-size="8.5" font-family="IBM Plex Mono" text-anchor="middle">Distributed Practice</text>
+
+        <!-- Elaborative Interrogation: mid util, low-mid pop -->
+        <circle cx="170" cy="185" r="7" fill="rgba(247,201,72,0.2)" stroke="#f7c948" stroke-width="1.5"/>
+        <text x="170" y="178" fill="#f7c948" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Elab. Interrogation</text>
+
+        <!-- Self-Explanation: mid util, mid pop -->
+        <circle cx="230" cy="200" r="7" fill="rgba(247,201,72,0.2)" stroke="#f7c948" stroke-width="1.5"/>
+        <text x="230" y="218" fill="#f7c948" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Self-Explanation</text>
+
+        <!-- Interleaved Practice: mid util, low pop -->
+        <circle cx="130" cy="195" r="7" fill="rgba(247,201,72,0.2)" stroke="#f7c948" stroke-width="1.5"/>
+        <text x="130" y="215" fill="#f7c948" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Interleaved Practice</text>
+
+        <!-- Highlighting: low util, high pop -->
+        <circle cx="400" cy="365" r="7" fill="rgba(255,107,107,0.2)" stroke="#ff6b6b" stroke-width="1.5"/>
+        <text x="400" y="355" fill="#ff6b6b" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Highlighting</text>
+
+        <!-- Rereading: low util, very high pop -->
+        <circle cx="440" cy="385" r="7" fill="rgba(255,107,107,0.2)" stroke="#ff6b6b" stroke-width="1.5"/>
+        <text x="440" y="403" fill="#ff6b6b" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Rereading</text>
+
+        <!-- Summarization: low util, high pop -->
+        <circle cx="360" cy="350" r="7" fill="rgba(255,107,107,0.2)" stroke="#ff6b6b" stroke-width="1.5"/>
+        <text x="360" y="340" fill="#ff6b6b" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Summarization</text>
+
+        <!-- Keyword Mnemonic: low util, low pop -->
+        <circle cx="100" cy="350" r="7" fill="rgba(255,107,107,0.15)" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="100" y="368" fill="rgba(255,107,107,0.6)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Keyword Mnemon.</text>
+
+        <!-- Imagery: low util, low pop -->
+        <circle cx="80" cy="320" r="7" fill="rgba(255,107,107,0.15)" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="80" y="310" fill="rgba(255,107,107,0.6)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Imagery</text>
+      </svg>
+    </div>
+    <div class="matrix-insight">
+      <strong>Key Insight:</strong> The methods students rely on most heavily are empirically the weakest. The highest-utility techniques cluster in the low-popularity quadrant.
+    </div>
+  </div>
+
+  <!-- Tier Blocks -->
+  <div style="margin-top: 3rem;">
+
+    <div class="tier-block open reveal">
+      <div class="tier-header" onclick="toggleTier(this)">
+        <div class="tier-dot green"></div>
+        <div class="tier-name green">Universally Effective</div>
+        <div class="tier-count">2 techniques</div>
+        <div class="tier-arrow">▾</div>
+      </div>
+      <div class="tier-body">
+        <div class="technique-cards">
+          <div class="tech-card green">
+            <h4>Practice Testing</h4>
+            <p>Also called retrieval practice. The act of actively recalling information from long-term memory — not reading passively, but pulling knowledge out cold. Flashcards, practice exams, blank-page recall.</p>
+            <span class="tech-verdict green">✓ High Utility · All Subjects · All Ages</span>
+          </div>
+          <div class="tech-card green">
+            <h4>Distributed Practice</h4>
+            <p>Spacing study sessions over time rather than massing them into a single block (cramming). Works by using the forgetting curve against itself — reviewing just as memories decay rebuilds them stronger.</p>
+            <span class="tech-verdict green">✓ High Utility · Resists Time Decay</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier-block reveal">
+      <div class="tier-header" onclick="toggleTier(this)">
+        <div class="tier-dot yellow"></div>
+        <div class="tier-name yellow">Context-Dependent</div>
+        <div class="tier-count">3 techniques — click to expand</div>
+        <div class="tier-arrow">▾</div>
+      </div>
+      <div class="tier-body">
+        <div class="technique-cards">
+          <div class="tech-card yellow">
+            <h4>Elaborative Interrogation</h4>
+            <p>Asking "how" and "why" facts are true. Excellent for logical, interconnected content. Less effective for isolated or disconnected facts with no inherent causal structure.</p>
+            <span class="tech-verdict yellow">~ Moderate · Logic-Rich Material Only</span>
+          </div>
+          <div class="tech-card yellow">
+            <h4>Self-Explanation</h4>
+            <p>Explaining how new information relates to things you already know. Powerful for deep comprehension, but requires sufficient prior knowledge to connect from.</p>
+            <span class="tech-verdict yellow">~ Moderate · Requires Prior Knowledge</span>
+          </div>
+          <div class="tech-card yellow">
+            <h4>Interleaved Practice</h4>
+            <p>Mixing different kinds of problems within a single study session rather than blocking by type. Strong for discrimination learning (math, science). Less studied for humanities.</p>
+            <span class="tech-verdict yellow">~ Moderate · Quantitative Subjects</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier-block reveal">
+      <div class="tier-header" onclick="toggleTier(this)">
+        <div class="tier-dot red"></div>
+        <div class="tier-name red">The Efficiency Traps</div>
+        <div class="tier-count">5 techniques — click to expand</div>
+        <div class="tier-arrow">▾</div>
+      </div>
+      <div class="tier-body">
+        <div class="technique-cards">
+          <div class="tech-card red">
+            <h4>Highlighting & Underlining</h4>
+            <p>Creates false fluency. Recognizing words on a page is mistaken for mastering the concept. Fails the context test — it does not transfer to free recall or problem-solving.</p>
+            <span class="tech-verdict red">✗ Low Utility · False Fluency Trap</span>
+          </div>
+          <div class="tech-card red">
+            <h4>Rereading</h4>
+            <p>The single most common study method. The research consensus is that a second reading produces only a minimal benefit that vanishes rapidly. Catastrophically inefficient vs. retrieval practice.</p>
+            <span class="tech-verdict red">✗ Low Utility · Time Sink</span>
+          </div>
+          <div class="tech-card red">
+            <h4>Summarization</h4>
+            <p>Requires high inherent skill to do well. Most students cannot separate signal from noise, resulting in either too-broad summaries or highlighting the wrong concepts entirely.</p>
+            <span class="tech-verdict red">✗ Low Utility · Skill-Dependent</span>
+          </div>
+          <div class="tech-card red">
+            <h4>Keyword Mnemonics</h4>
+            <p>Linking words to images or sounds. Only effective for specific rote vocabulary acquisition. Fails the material test — does not transfer to complex problem-solving or conceptual understanding.</p>
+            <span class="tech-verdict red">✗ Low Utility · Rote Vocab Only</span>
+          </div>
+          <div class="tech-card red">
+            <h4>Imagery Use</h4>
+            <p>Creating mental images of concepts. Weakly supported by evidence. Highly subject-specific (works for concrete nouns, fails for abstract ideas) and cannot pass the material generalizability test.</p>
+            <span class="tech-verdict red">✗ Low Utility · Concrete Material Only</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CHAMPIONS -->
+<section id="champions">
+  <div class="reveal">
+    <div class="section-label">// 04 · The Undisputed Champions</div>
+    <h2 class="section-title">How the Two<br>Champions Work</h2>
+    <p class="section-sub">Practice Testing and Distributed Practice are the only techniques rated High Utility. Their benefits are universal, resisting the decay of time and adapting to any subject matter.</p>
+  </div>
+
+  <!-- Spacing -->
+  <div class="spacing-visual reveal">
+    <div class="spacing-chart">
+      <h4>// Blocked Practice (Cramming)</h4>
+      <svg class="chart-svg" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="110" width="280" height="12" fill="rgba(255,107,107,0.25)" rx="2"/>
+        <text x="150" y="119" fill="rgba(255,107,107,0.7)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">4 hours of study</text>
+        <polyline points="10,20 55,20 55,95 290,95" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+        <text x="60" y="16" fill="#ff6b6b" font-size="7" font-family="IBM Plex Mono">Immediate Retention</text>
+        <text x="180" y="90" fill="rgba(255,107,107,0.5)" font-size="7" font-family="IBM Plex Mono">Long-term Mastery: Flat</text>
+        <line x1="10" y1="95" x2="290" y2="95" stroke="rgba(255,107,107,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+      </svg>
+    </div>
+    <div class="spacing-chart">
+      <h4>// Distributed Practice (Spacing)</h4>
+      <svg class="chart-svg" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="110" width="62" height="12" fill="rgba(78,205,196,0.2)" rx="2"/>
+        <rect x="84" y="110" width="62" height="12" fill="rgba(78,205,196,0.2)" rx="2"/>
+        <rect x="158" y="110" width="62" height="12" fill="rgba(78,205,196,0.2)" rx="2"/>
+        <rect x="232" y="110" width="58" height="12" fill="rgba(78,205,196,0.2)" rx="2"/>
+        <text x="41" y="119" fill="rgba(78,205,196,0.6)" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">1hr</text>
+        <text x="115" y="119" fill="rgba(78,205,196,0.6)" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">1hr</text>
+        <text x="189" y="119" fill="rgba(78,205,196,0.6)" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">1hr</text>
+        <text x="261" y="119" fill="rgba(78,205,196,0.6)" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">1hr</text>
+        <polyline points="10,80 41,60 41,80 115,55 115,70 189,45 189,60 261,30 290,28" fill="none" stroke="#4ecdc4" stroke-width="2"/>
+        <text x="220" y="24" fill="#4ecdc4" font-size="7" font-family="IBM Plex Mono">Long-term Mastery</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Forgetting curve -->
+  <div class="spacing-chart reveal" style="margin-top:2rem;">
+    <h4>// The Spacing Effect — Beating the Forgetting Curve (Ebbinghaus, 1885)</h4>
+    <svg viewBox="0 0 560 200" style="width:100%;height:auto;display:block;margin-top:1rem;" xmlns="http://www.w3.org/2000/svg">
+      <!-- Y axis -->
+      <text x="16" y="20" fill="#7a8196" font-size="8" font-family="IBM Plex Mono">100%</text>
+      <line x1="40" y1="20" x2="40" y2="175" stroke="#363c4a" stroke-width="1"/>
+      <line x1="40" y1="175" x2="550" y2="175" stroke="#363c4a" stroke-width="1"/>
+      <text x="295" y="196" fill="#7a8196" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Days</text>
+      <!-- Decay curves -->
+      <path d="M40,20 Q120,80 200,150 Q280,170 350,172 Q430,174 550,175" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+      <path d="M120,20 Q180,70 240,130 Q310,165 380,170 Q460,172 550,174" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <path d="M210,20 Q265,65 315,115 Q375,155 440,168 Q490,172 550,174" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+      <path d="M295,20 Q345,60 390,105 Q440,148 490,165 Q520,170 550,173" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
+      <path d="M380,20 Q420,55 460,95 Q500,140 530,163 Q545,170 550,172" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+      <!-- Retrieval spikes -->
+      <line x1="120" y1="80" x2="120" y2="20" stroke="#4ecdc4" stroke-width="1.5"/>
+      <polygon points="120,18 116,26 124,26" fill="#4ecdc4"/>
+      <line x1="210" y1="68" x2="210" y2="20" stroke="#4ecdc4" stroke-width="1.5"/>
+      <polygon points="210,18 206,26 214,26" fill="#4ecdc4"/>
+      <line x1="295" y1="58" x2="295" y2="20" stroke="#4ecdc4" stroke-width="1.5"/>
+      <polygon points="295,18 291,26 299,26" fill="#4ecdc4"/>
+      <line x1="380" y1="48" x2="380" y2="20" stroke="#4ecdc4" stroke-width="1.5"/>
+      <polygon points="380,18 376,26 384,26" fill="#4ecdc4"/>
+      <line x1="460" y1="40" x2="460" y2="20" stroke="#4ecdc4" stroke-width="1.5"/>
+      <polygon points="460,18 456,26 464,26" fill="#4ecdc4"/>
+      <!-- Labels -->
+      <text x="85" y="165" fill="#4ecdc4" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">Retrieval</text>
+      <text x="85" y="173" fill="#4ecdc4" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">Spikes</text>
+      <line x1="100" y1="168" x2="118" y2="55" stroke="#4ecdc4" stroke-width="0.75" stroke-dasharray="2,2" opacity="0.5"/>
+      <!-- Day markers -->
+      <text x="120" y="188" fill="#7a8196" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">1</text>
+      <text x="210" y="188" fill="#7a8196" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">2</text>
+      <text x="295" y="188" fill="#7a8196" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">3</text>
+      <text x="380" y="188" fill="#7a8196" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">4</text>
+      <text x="460" y="188" fill="#7a8196" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">5</text>
+    </svg>
+    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);margin-top:1rem;line-height:1.8;">
+      <strong style="color:var(--teal);">The Mechanism:</strong> Distributed practice doesn't prevent forgetting — it uses forgetting. By waiting until a memory begins to decay before retrieving it, the brain reinforces the neural pathway, making subsequent decay significantly slower.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SYNTHESIS -->
+<section id="synthesis">
+  <div class="reveal">
+    <div class="section-label">// 05 · The Grand Synthesis</div>
+    <h2 class="section-title">Cognitive Friction<br>is the Mechanism</h2>
+    <p class="section-sub">Every high-utility technique shares one property: they feel harder. This is not a bug — it is the feature.</p>
+  </div>
+  <div class="friction-visual reveal">
+    <div class="friction-card low">
+      <h3>Low Friction · Avoid</h3>
+      <ul>
+        <li>Highlighting text</li>
+        <li>Rereading chapters</li>
+        <li>Passively watching lectures</li>
+        <li>Copying out notes verbatim</li>
+      </ul>
+      <div class="friction-verdict">Smooth and fast. Creates a false sense of fluency. We mistake ease of reading for ease of knowing. If your study session feels entirely effortless, you are likely not learning.</div>
+    </div>
+    <div class="friction-card high">
+      <h3>High Friction · Embrace</h3>
+      <ul>
+        <li>Practice testing (retrieval)</li>
+        <li>Spaced recall sessions</li>
+        <li>Interleaved problem sets</li>
+        <li>Self-explanation from memory</li>
+      </ul>
+      <div class="friction-verdict">Rough and slow. Forces the brain to labor. High-utility methods feel difficult because they are difficult — and that difficulty is precisely what alters long-term memory.</div>
+    </div>
+  </div>
+  <div class="paradox-quote reveal" style="margin-top: 2rem; border-left-color: var(--teal);">
+    "The act of retrieving information is the very mechanism that ensures you will remember it."
+    <cite style="color: var(--teal);">— Roediger & Butler (2011)</cite>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PLAYBOOK -->
+<section id="playbook">
+  <div class="reveal">
+    <div class="section-label">// 06 · Implementation</div>
+    <h2 class="section-title">The Playbooks</h2>
+    <p class="section-sub">The science is only as good as its application. Here is how to actually implement what the research prescribes — for both educators and learners.</p>
+  </div>
+  <div class="reveal">
+    <div class="playbook-tabs">
+      <button class="tab-btn active" onclick="switchTab('educator', this)">🎓 Educator's Playbook</button>
+      <button class="tab-btn" onclick="switchTab('learner', this)">📖 Learner's Playbook</button>
+    </div>
+    <div class="tab-panel active" id="tab-educator">
+      <div class="playbook-steps">
+        <div class="playbook-step">
+          <div class="step-icon">📋</div>
+          <div class="step-content">
+            <h4>Daily Review (Start of Class)</h4>
+            <p>Open every session with a 5-minute low-stakes quiz on yesterday's material. This is not a gotcha — it is a retrieval event that strengthens the neural pathway before new material layers on top of it.</p>
+          </div>
+        </div>
+        <div class="playbook-step">
+          <div class="step-icon">📅</div>
+          <div class="step-content">
+            <h4>Weekly Review (Mondays)</h4>
+            <p>Dedicate the first Monday block to retrieval practice covering the most critical points from the previous week. This creates a regular spacing interval and builds cumulative retention over the semester.</p>
+          </div>
+        </div>
+        <div class="playbook-step">
+          <div class="step-icon">🔄</div>
+          <div class="step-content">
+            <h4>Spiral Curriculum Design</h4>
+            <p>Structure the course so old material is constantly interleaved with new material. Resist organizing units as isolated blocks — instead, revisit earlier concepts repeatedly as the course progresses.</p>
+          </div>
+        </div>
+        <div class="playbook-step">
+          <div class="step-icon">🤝</div>
+          <div class="step-content">
+            <h4>Systemic Coordination</h4>
+            <p>Coordinate with fellow educators to space out major assessments. Students cannot distribute their practice if the exam calendar forces them to cram for three courses in the same week.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-learner">
+      <div class="playbook-steps">
+        <div class="playbook-step">
+          <div class="step-icon">🗓️</div>
+          <div class="step-content">
+            <h4>The Spaced Schedule</h4>
+            <p>Instead of 4 hours the night before, break study into four 1-hour blocks across four separate days. Block your calendar backward from the exam date. The total time is the same; the retention is vastly superior.</p>
+          </div>
+        </div>
+        <div class="playbook-step">
+          <div class="step-icon">📝</div>
+          <div class="step-content">
+            <h4>The Cornell Note System</h4>
+            <p>Divide your notes into a cues column, main notes, and a summary at the bottom. After class, cover the main notes and use only the cues column to force retrieval. The act of recall is the learning.</p>
+          </div>
+        </div>
+        <div class="playbook-step">
+          <div class="step-icon">🃏</div>
+          <div class="step-content">
+            <h4>Diagnostic Flashcards</h4>
+            <p>Shift from reading textbooks to building retrieval tasks. For every concept, write a question that forces you to pull the answer from long-term memory — not recognize it from a list. Use spaced repetition apps to automate the scheduling.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUICK REFERENCE -->
+<section>
+  <div class="reveal">
+    <div class="section-label">// 07 · Quick Reference</div>
+    <h2 class="section-title">The Dossier<br>Summary Card</h2>
+  </div>
+  <div class="qr-grid reveal">
+    <div class="qr-col stop">
+      <div class="qr-col-label stop">Stop Doing This</div>
+      <ul>
+        <li>Rereading texts passively</li>
+        <li>Highlighting without extreme filtering</li>
+        <li>Cramming (massed practice) for long-term goals</li>
+        <li>Copying notes without covering and recalling</li>
+        <li>Studying the same subject in one blocked marathon session</li>
+      </ul>
+    </div>
+    <div class="qr-col start">
+      <div class="qr-col-label start">Start Doing This</div>
+      <ul>
+        <li>Practice Testing — force retrieval from memory</li>
+        <li>Distributed Practice — space it out over days</li>
+        <li>Embrace the difficulty (cognitive friction)</li>
+        <li>Use the Cornell cues column for self-testing</li>
+        <li>Schedule study backward from your exam date</li>
+      </ul>
+    </div>
+    <div class="qr-col law">
+      <div class="qr-col-label law">Core Law of Memory</div>
+      <div class="qr-law-text">"The act of retrieving information is the very mechanism that ensures you will remember it."</div>
+      <div class="qr-law-cite">— Roediger & Butler, 2011</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<footer>
+  <div>The Cognitive Dossier · Based on <span>Dunlosky et al. (2013)</span></div>
+  <div style="margin-top:0.5rem;">Psychological Science in the Public Interest · Improving Students' Learning With Effective Study Techniques</div>
+  <div style="margin-top:1.5rem; color: var(--border);">END OF DOSSIER</div>
+</footer>
+
+<script>
+// Tier toggle
+function toggleTier(header) {
+  const block = header.closest('.tier-block');
+  block.classList.toggle('open');
+}
+
+// Tab switching
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
