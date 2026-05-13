@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>On-Campus Workshop — Student Report</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy:       #1a2744;
+    --navy-mid:   #243259;
+    --gold:       #c9a84c;
+    --gold-light: #e8d18a;
+    --cream:      #faf7f2;
+    --warm-white: #ffffff;
+    --slate:      #4a5568;
+    --muted:      #718096;
+    --border:     #e2d9cc;
+    --tag-bg:     #eef1f8;
+    --tag-text:   #2d3e6b;
+    --positive:   #1e5c3a;
+    --positive-bg:#edf7f1;
+    --improve:    #7a3b10;
+    --improve-bg: #fdf3ea;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  .report-header {
+    background: var(--navy);
+    color: white;
+    padding: 56px 64px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .report-header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.18);
+  }
+  .report-header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: 80px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+  .label-tag {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 4px 12px;
+    border-radius: 3px;
+    margin-bottom: 18px;
+  }
+  .report-header h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: 46px;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    max-width: 660px;
+  }
+  .report-header .subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 300;
+    margin-top: 4px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 36px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .meta-value { font-size: 22px; font-family: 'EB Garamond', serif; color: var(--gold-light); font-weight: 600; }
+
+  /* ── LAYOUT ── */
+  .page-body { max-width: 1100px; margin: 0 auto; padding: 56px 40px 80px; }
+
+  /* ── SECTION HEADERS ── */
+  .section {
+    margin-bottom: 60px;
+  }
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .section-desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    max-width: 680px;
+  }
+
+  /* ── PROFILE TABLE ── */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(26,39,68,0.06);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--warm-white);
+    font-size: 13.5px;
+  }
+  thead th {
+    background: var(--navy);
+    color: var(--gold-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f4f0ea; }
+  tbody td {
+    padding: 13px 16px;
+    color: var(--slate);
+    vertical-align: top;
+  }
+  .student-name {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 13px;
+  }
+  .student-alias {
+    font-size: 11.5px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .chip {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin: 1px 2px 1px 0;
+    white-space: nowrap;
+  }
+  .chip-bg  { background: var(--tag-bg); color: var(--tag-text); }
+  .chip-min { background: #f0fdf4; color: #166534; }
+  .chip-life { background: #fdf4ff; color: #6b21a8; }
+  .chip-church { background: #fff7ed; color: #9a3412; }
+
+  /* ── STAT CARDS ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 20px;
+    text-align: center;
+    box-shadow: 0 1px 6px rgba(26,39,68,0.05);
+  }
+  .stat-number {
+    font-family: 'EB Garamond', serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── TWO-COL GRID ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── THEME CARDS ── */
+  .theme-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 1px 6px rgba(26,39,68,0.05);
+  }
+  .theme-card-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .theme-card-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .theme-card ul {
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .theme-card ul li {
+    display: flex;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+  .theme-card ul li::before {
+    content: '—';
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 0px;
+    font-weight: 600;
+  }
+
+  /* ── QUOTE BLOCKS ── */
+  .quotes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .quote-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 24px 24px 20px;
+    box-shadow: 0 1px 6px rgba(26,39,68,0.05);
+  }
+  .quote-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--navy-mid);
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+  .quote-source {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── IMPROVEMENT ITEMS ── */
+  .improve-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .improve-item {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    box-shadow: 0 1px 5px rgba(26,39,68,0.04);
+  }
+  .improve-badge {
+    background: var(--navy);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .improve-content { flex: 1; }
+  .improve-title {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .improve-detail {
+    font-size: 13px;
+    color: var(--slate);
+    line-height: 1.55;
+  }
+  .improve-voices {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .voice-tag {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 10.5px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0;
+  }
+
+  /* ── UNIQUE SECTION ── */
+  .unique-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .unique-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 1px 5px rgba(26,39,68,0.04);
+  }
+  .unique-name {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .unique-text {
+    font-size: 13px;
+    color: var(--slate);
+    line-height: 1.55;
+  }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    text-align: center;
+    padding: 24px 40px;
+    letter-spacing: 0.04em;
+  }
+  .report-footer span { color: var(--gold-light); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="report-header">
+  <div class="label-tag">Westminster Theological Seminary · Office of Learning Experience</div>
+  <h1>On-Campus Workshop<br>Student Report</h1>
+  <p class="subtitle">A summary of attendee profiles, shared reflections, and suggested improvements</p>
+  <div class="header-meta">
+    <div class="meta-item">
+      <span class="meta-label">Total Attendees</span>
+      <span class="meta-value">13</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Submitted Reflections</span>
+      <span class="meta-value">11</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">States &amp; Nations Represented</span>
+      <span class="meta-value">7+</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Vocations Represented</span>
+      <span class="meta-value">9+</span>
+    </div>
+  </div>
+</header>
+
+<main class="page-body">
+
+  <!-- SECTION 1 – PROFILES TABLE -->
+  <section class="section">
+    <p class="section-label">Section 1</p>
+    <h2 class="section-title">Who Attended</h2>
+    <p class="section-desc">Profiles of all thirteen students who participated in the On-Campus Workshop, drawn from submitted background information.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Background &amp; Journey</th>
+            <th>Life Context</th>
+            <th>Ministry Role</th>
+            <th>Program</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="student-name">A.K.</div>
+              <div class="student-alias">"The Ukrainian Pentecostal"</div>
+            </td>
+            <td>Immigrated from Ukraine; charismatic background (Greg Laurie, David Jeremiah); found Reformed theology through R.C. Sproul</td>
+            <td><span class="chip chip-life">Immigrant</span> <span class="chip chip-life">Age 18 at start</span></td>
+            <td><span class="chip chip-church">Bivocational Preacher</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">C.T.</div>
+              <div class="student-alias">"Pastor's Wife &amp; School Teacher"</div>
+            </td>
+            <td>Grew up in Christian home; Bob Jones University alum; drawn to WTS through Welch, Powlison &amp; Duguid</td>
+            <td><span class="chip chip-life">Married at 21</span> <span class="chip chip-life">Pastor's Wife</span></td>
+            <td><span class="chip chip-church">Women's Ministry Speaker</span> <span class="chip chip-church">Public School Teacher</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">D.C.</div>
+              <div class="student-alias">"Military Wife at West Point"</div>
+            </td>
+            <td>Military family; moved frequently; recognized her need for seminary as a mature discipler in her church</td>
+            <td><span class="chip chip-life">Married 20 yrs</span> <span class="chip chip-life">4 Children</span></td>
+            <td><span class="chip chip-church">Weekly Women's Bible Study (West Point)</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">D.J.</div>
+              <div class="student-alias">"Retired NASA Engineer"</div>
+            </td>
+            <td>Lengthy theological journey (dispensational → prosperity gospel → Reformed Presbyterian); met WTS MDiv grad</td>
+            <td><span class="chip chip-life">Married 44 yrs</span> <span class="chip chip-life">Son passed 2009</span> <span class="chip chip-life">Father of 3</span></td>
+            <td><span class="chip chip-church">PCA Elder</span> <span class="chip chip-church">Occasional Preacher</span> <span class="chip chip-church">Sunday School Teacher</span></td>
+            <td>MATS</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">H.U.</div>
+              <div class="student-alias">"Tarheel in Charlottesville"</div>
+            </td>
+            <td>Came to faith at age 8 (Midwest); discovered WTS fully online through website; met husband at UNC-CH</td>
+            <td><span class="chip chip-life">Married 27 yrs</span> <span class="chip chip-life">Charlottesville, VA</span></td>
+            <td><span class="chip chip-church">Women's Council</span> <span class="chip chip-church">Small Group Leader</span> <span class="chip chip-church">Women's Bible Study (teaching team)</span></td>
+            <td>MATS</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">J.B.</div>
+              <div class="student-alias">"A Biblical Counselor with a Journey"</div>
+            </td>
+            <td>Moved frequently; fell away from faith then returned; led to CCEF through a child's struggles</td>
+            <td><span class="chip chip-life">Married 22 yrs</span> <span class="chip chip-life">2 Children</span> <span class="chip chip-life">Maryland</span></td>
+            <td><span class="chip chip-church">Biblical Counseling Center</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">N.C.</div>
+              <div class="student-alias">"5th-Gen Chinese Christian Physician"</div>
+            </td>
+            <td>5th-generation Christian from Chinese converts; grew up in NJ; attended Chinese diaspora church (Watchman Nee influence)</td>
+            <td><span class="chip chip-life">Married</span> <span class="chip chip-life">Young Father</span> <span class="chip chip-life">Physician</span></td>
+            <td><span class="chip chip-church">Missions (alongside physicians)</span> <span class="chip chip-church">Heart for Youth</span></td>
+            <td>Certificate (Foundations of Theology)</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">P.M.</div>
+              <div class="student-alias">"A Deep Desire Fulfilled"</div>
+            </td>
+            <td>Baptist/EFC/Presbyterian background; retired from medicine; seminary was a lifelong dream; came via "Taste and See"</td>
+            <td><span class="chip chip-life">Single</span> <span class="chip chip-life">Retired (Medicine)</span></td>
+            <td><span class="chip chip-church">Women's Ministry Leader</span> <span class="chip chip-church">Bible Study Teacher</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">P.E.</div>
+              <div class="student-alias">"Loving Mom with Personality"</div>
+            </td>
+            <td>British-Australian; seminary was a "lifelong dream"; online program made it possible given family demands</td>
+            <td><span class="chip chip-life">Married 25 yrs</span> <span class="chip chip-life">4 Children</span> <span class="chip chip-life">International</span></td>
+            <td><span class="chip chip-church">Baptist Church</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">S.G.</div>
+              <div class="student-alias">"A Lady That Came a Long Way"</div>
+            </td>
+            <td>From Ghana; began at Assemblies of God church; drawn into the Reformed world; heart for grief ministry</td>
+            <td><span class="chip chip-life">Mother of 2</span> <span class="chip chip-life">NC High School Teacher</span></td>
+            <td><span class="chip chip-church">Community Leadership</span> <span class="chip chip-church">Discipleship &amp; Teaching</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">T.K.</div>
+              <div class="student-alias">"Tech Bro for the Lord"</div>
+            </td>
+            <td>Came to faith late in life after 17 years of friendship evangelism; recently completed a graduate degree; Big-Tech career</td>
+            <td><span class="chip chip-life">Married 2 yrs</span> <span class="chip chip-life">Big Tech</span></td>
+            <td><span class="chip chip-church">Youth Group Teacher (5 yrs)</span></td>
+            <td>MATS</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">T.R.</div>
+              <div class="student-alias">"A Passion to Bring Truth to Youth"</div>
+            </td>
+            <td>Grew up in a Christian home; confessed Christ at 16; knew WTS students/alum; works construction</td>
+            <td><span class="chip chip-life">Construction Worker</span></td>
+            <td><span class="chip chip-church">Romanian Church Youth Ministry</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="student-name">T.H.</div>
+              <div class="student-alias">"Unlikely Suspect for Seminary"</div>
+            </td>
+            <td>Confessed Christ May 2024; no significant church background growing up; never expected to attend seminary</td>
+            <td><span class="chip chip-life">Police Officer</span> <span class="chip chip-life">Annapolis, MD</span></td>
+            <td><span class="chip chip-church">Evangelical Presbyterian Church of Annapolis</span></td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION 2 – ATTENDEE OVERVIEW -->
+  <section class="section">
+    <p class="section-label">Section 2</p>
+    <h2 class="section-title">Who They Are — At a Glance</h2>
+    <p class="section-desc">Key aggregate observations about the group as a whole.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">13</div>
+        <div class="stat-desc">Total attendees across programs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">9+</div>
+        <div class="stat-desc">Distinct vocations represented</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">10</div>
+        <div class="stat-desc">Students serving actively in local church ministry</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5+</div>
+        <div class="stat-desc">Nations &amp; cultures of origin represented</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">~85%</div>
+        <div class="stat-desc">Came from non-Reformed backgrounds before WTS</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="theme-card">
+        <div class="theme-card-title">
+          <div class="icon" style="background:#eef1f8;">🔗</div>
+          Commonalities Among Attendees
+        </div>
+        <ul>
+          <li>Almost every student came to Reformed theology from a different tradition (Pentecostal, Baptist, charismatic, dispensational, Assemblies of God), making their WTS enrollment intentional and convictional — not incidental.</li>
+          <li>The majority are actively serving in local church contexts — women's ministries, youth, counseling, preaching, and eldership — making their studies immediately applicable.</li>
+          <li>Most students are balancing significant life demands: families, full-time careers, and ministry, which is a core reason the online program was their only viable path.</li>
+          <li>The workshop served as the first in-person WTS experience for most attendees, making its impact disproportionately significant.</li>
+          <li>A strong theme of WTS being a "lifelong dream" or deeply sought opportunity emerged across multiple profiles, indicating high personal investment in their studies.</li>
+          <li>Several students noted that hearing about WTS came through personal relationship — a friend, a pastor, or an alumnus — rather than advertising alone.</li>
+        </ul>
+      </div>
+      <div class="theme-card">
+        <div class="theme-card-title">
+          <div class="icon" style="background:#fdf4ff;">✦</div>
+          Distinctive and Unique Voices
+        </div>
+        <ul>
+          <li><strong>A.K.</strong> arrived as a Ukrainian immigrant whose theological transformation was catalyzed by R.C. Sproul — a story that illustrates the global reach of WTS's heritage.</li>
+          <li><strong>D.J.</strong> is a retired NASA engineer whose path through nearly every major Protestant tradition over decades is one of the most distinctive in the group.</li>
+          <li><strong>N.C.</strong> brings 5th-generation Christian heritage from Chinese converts in Shandong and Fujian provinces — a family faith story spanning over a century.</li>
+          <li><strong>T.H.</strong> confessed faith in May 2024 — just months before the workshop — making him the most recent convert in attendance, yet he described the experience as "life-altering."</li>
+          <li><strong>P.E.</strong> is an international student (British-Australian) attending across multiple homes, representing a genuinely global reach of the online program.</li>
+          <li><strong>D.C.</strong> ministers specifically to military families at West Point — a highly specialized and underserved ministry context shaped by her own military family life.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION 3 – REFLECTION THEMES -->
+  <section class="section">
+    <p class="section-label">Section 3</p>
+    <h2 class="section-title">What They Said — Common Themes</h2>
+    <p class="section-desc">Across eleven submitted reflections, four themes emerged clearly and consistently. These are not isolated comments — they were named, in different words, by the large majority of attendees.</p>
+
+    <div class="two-col" style="margin-bottom:20px;">
+      <div class="theme-card">
+        <div class="theme-card-title">
+          <div class="icon" style="background:#edf7f1; font-size:18px;">🎓</div>
+          1. Faculty Who Are Genuinely Present
+        </div>
+        <ul>
+          <li>Students were moved by professors who prayed, shared personal faith journeys, and gave generous time to students they may never meet again.</li>
+          <li>The informal moments — meals, off-the-cuff theological conversations, Q&amp;A — were often named as more meaningful than formal sessions.</li>
+          <li>Multiple students reflected on seeing their professors as people, not merely instructors on a screen.</li>
+        </ul>
+      </div>
+      <div class="theme-card">
+        <div class="theme-card-title">
+          <div class="icon" style="background:#fff7ed; font-size:18px;">🤝</div>
+          2. Community That Surprised Them
+        </div>
+        <ul>
+          <li>Nearly every attendee was struck by the depth of connection formed with fellow students in a short amount of time.</li>
+          <li>D.J. noted that friendships formed in hours felt months old. T.H. observed that a subsequent virtual small group meeting was noticeably deeper because of the campus time.</li>
+          <li>Shared meals, prayer, and testimonies were consistently named as formative community moments.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="theme-card">
+        <div class="theme-card-title">
+          <div class="icon" style="background:#eef1f8; font-size:18px;">🏛️</div>
+          3. The Physical Place Matters
+        </div>
+        <ul>
+          <li>For online students, being physically present on campus created a sense of belonging and institutional identity that is difficult to replicate online.</li>
+          <li>The campus tour, new building, history of WTS's founding, and chapel participation were all noted as meaningful anchors.</li>
+          <li>H.U. said it simply: the campus experience made her feel "like a real Westminster student."</li>
+        </ul>
+      </div>
+      <div class="theme-card">
+        <div class="theme-card-title">
+          <div class="icon" style="background:#fdf4ff; font-size:18px;">📖</div>
+          4. Theory Into Practice
+        </div>
+        <ul>
+          <li>The workshop assignment was praised for bridging academic study and actual ministry context — several students described their real-world ministry tasks being directly improved by the workshop process.</li>
+          <li>D.C. shared that the devotional talk she gave the following week was meaningfully stronger as a direct result of her participation.</li>
+          <li>S.G. highlighted the shift from theory to application as the defining value of the experience for her.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION 4 – NOTABLE QUOTES -->
+  <section class="section">
+    <p class="section-label">Section 4</p>
+    <h2 class="section-title">In Their Own Words</h2>
+    <p class="section-desc">Personally noted quotes from the reflections — voices worth hearing directly.</p>
+
+    <div class="quotes-grid">
+      <div class="quote-card">
+        <p class="quote-text">"I understood that I am not viewed merely as a widget or simply as a student, but as a colleague and coworker. I understood that we are participating together in something important for God's kingdom."</p>
+        <p class="quote-source">A.K. — The Ukrainian Pentecostal</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"The devotional talk that I ended up giving the week after the workshop was far stronger and clearer than it would have been had I not attended the workshop."</p>
+        <p class="quote-source">D.C. — Military Wife at West Point</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"When I arrived, I had an almost instant connection with those I met. I left with friendships that felt like they were months, not hours, old."</p>
+        <p class="quote-source">D.J. — Retired NASA Engineer</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"The time on campus made me feel like a real Westminster student."</p>
+        <p class="quote-source">H.U. — Tarheel in Charlottesville</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"I truly feel that this campus experience served for me personally as a life-altering experience."</p>
+        <p class="quote-source">T.H. — The Unlikely Seminary Student</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"I saw a tangible love in them for the Lord and for us, to instill in us a similar heart and desire to minister to others."</p>
+        <p class="quote-source">N.C. — 5th-Gen Chinese Christian Physician</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION 5 – IMPROVEMENTS -->
+  <section class="section">
+    <p class="section-label">Section 5</p>
+    <h2 class="section-title">What They'd Change</h2>
+    <p class="section-desc">Improvement themes surfaced from submitted feedback, ranked roughly by frequency of mention. Where multiple students raised the same concern, their initials are noted.</p>
+
+    <div class="improve-grid">
+
+      <div class="improve-item">
+        <div class="improve-badge">1</div>
+        <div class="improve-content">
+          <div class="improve-title">Clarify the Presentation Assignment</div>
+          <div class="improve-detail">The single most frequently mentioned improvement. Students were unclear about what was expected for the presentation — both in scope and format. Several noted that the ambiguity created unnecessary anxiety, though one student (P.M.) ultimately appreciated the flexibility it produced. Concrete examples, clearer written instructions, or a live orientation with the professor would address this directly.</div>
+          <div class="improve-voices">
+            <span class="voice-tag">A.K.</span><span class="voice-tag">D.J.</span><span class="voice-tag">H.U.</span><span class="voice-tag">J.B.</span><span class="voice-tag">N.C.</span><span class="voice-tag">T.K.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="improve-item">
+        <div class="improve-badge">2</div>
+        <div class="improve-content">
+          <div class="improve-title">More Time for Presentation Feedback</div>
+          <div class="improve-detail">The feedback session felt rushed — professors and fellow students didn't have sufficient time to offer meaningful critique to each presenter. Suggestions included splitting presentations across multiple time slots, or adding a second professor to the feedback team to share the load and extend the window.</div>
+          <div class="improve-voices">
+            <span class="voice-tag">C.T.</span><span class="voice-tag">P.M.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="improve-item">
+        <div class="improve-badge">3</div>
+        <div class="improve-content">
+          <div class="improve-title">Earlier Registration and Communication</div>
+          <div class="improve-detail">Students needed more lead time to plan travel, request time off, and prepare for the workshop. Ideally, the workshop should be listed in Course Offerings before the course begins, and registration should open earlier to allow for small group placement and logistical planning.</div>
+          <div class="improve-voices">
+            <span class="voice-tag">H.U.</span><span class="voice-tag">N.C.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="improve-item">
+        <div class="improve-badge">4</div>
+        <div class="improve-content">
+          <div class="improve-title">Offer the Workshop More Frequently</div>
+          <div class="improve-detail">Several students would like to see the workshop offered a second time each year (e.g., in the fall) and extended to additional courses. The experience was described as too valuable to remain limited to its current frequency and scope.</div>
+          <div class="improve-voices">
+            <span class="voice-tag">D.C.</span><span class="voice-tag">N.C.</span><span class="voice-tag">S.G.</span><span class="voice-tag">T.H.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="improve-item">
+        <div class="improve-badge">5</div>
+        <div class="improve-content">
+          <div class="improve-title">More Structured Q&amp;A / Discussion Time with Faculty</div>
+          <div class="improve-detail">The panel discussion and informal faculty interactions were among the highest-rated experiences. Students want more of it — structured time for questions and extended conversation with faculty, which is difficult to replicate in online settings.</div>
+          <div class="improve-voices">
+            <span class="voice-tag">D.C.</span><span class="voice-tag">D.J.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="improve-item">
+        <div class="improve-badge">6</div>
+        <div class="improve-content">
+          <div class="improve-title">Advertise the Workshop More Widely to Online Students</div>
+          <div class="improve-detail">At least one student noted that the workshop deserves more vigorous promotion — the value is clear, and online students may not be aware of it or understand what it offers before enrolling.</div>
+          <div class="improve-voices">
+            <span class="voice-tag">A.K.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="improve-item">
+        <div class="improve-badge">7</div>
+        <div class="improve-content">
+          <div class="improve-title">Logistical Small Wins</div>
+          <div class="improve-detail">A handful of practical suggestions that would improve the onboarding experience: name tags on the first day (H.U.), a separate Canvas space for the on-campus cohort (J.B.), and a few in-classroom lecture moments once the new building is live (D.J.).</div>
+          <div class="improve-voices">
+            <span class="voice-tag">H.U.</span><span class="voice-tag">J.B.</span><span class="voice-tag">D.J.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION 6 – SUMMARY NOTE -->
+  <section class="section" style="margin-bottom:0;">
+    <p class="section-label">Closing Note</p>
+    <h2 class="section-title">Overall Assessment</h2>
+    <div class="theme-card" style="max-width:760px;">
+      <ul>
+        <li>The On-Campus Workshop produced unusually strong student satisfaction across a remarkably diverse cohort — in age, vocation, culture, theological background, and life stage. This diversity is itself a distinctive feature worth naming.</li>
+        <li>The most consistent finding is that in-person presence with faculty and peers generates a depth of connection and institutional identity that online delivery simply cannot replicate — and students know it.</li>
+        <li>Improvement feedback was constructive and actionable: the single biggest lever is clarity around the assignment. Most other suggestions are operational and addressable in near-term planning.</li>
+        <li>The demand signal is clear — multiple students independently asked for more frequent offerings, more courses with this format, and more time on campus. The workshop is not a nice-to-have; for this cohort, it was transformative.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="report-footer">
+  Westminster Theological Seminary &nbsp;·&nbsp; <span>On-Campus Workshop Report</span> &nbsp;·&nbsp; Prepared by the Office of Learning Experience
+</footer>
+
+</body>
+</html>
