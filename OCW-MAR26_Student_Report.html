@@ -408,6 +408,106 @@
     letter-spacing: 0.04em;
   }
   .report-footer span { color: var(--gold-light); }
+
+  /* ── PASSWORD GATE ── */
+  #pw-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 32px;
+  }
+  #pw-gate .gate-inner {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 14px;
+    padding: 48px 44px 40px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+  }
+  #pw-gate .gate-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  #pw-gate h2 {
+    font-family: 'EB Garamond', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  #pw-gate .gate-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+  #pw-gate input[type="password"] {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.25em;
+    padding: 14px 18px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    margin-bottom: 14px;
+  }
+  #pw-gate input[type="password"]::placeholder {
+    letter-spacing: 0.08em;
+    font-size: 14px;
+    color: rgba(255,255,255,0.25);
+  }
+  #pw-gate input[type="password"]:focus {
+    border-color: var(--gold);
+  }
+  #pw-gate button {
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  #pw-gate button:hover { background: var(--gold-light); }
+  #pw-gate button:active { transform: scale(0.98); }
+  #pw-gate .gate-error {
+    font-size: 12px;
+    color: #f87171;
+    margin-top: 12px;
+    min-height: 18px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  #pw-gate .gate-footer {
+    margin-top: 28px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.06em;
+  }
+  body.locked { overflow: hidden; }
 </style>
 </head>
 <body>
@@ -445,6 +545,139 @@
     <h2 class="section-title">Who Attended</h2>
     <p class="section-desc">Profiles of all thirteen students who participated in the On-Campus Workshop, drawn from submitted background information.</p>
 
+    <!-- OVERVIEW SNAPSHOT -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:28px;">
+
+      <!-- Programs breakdown -->
+      <div style="background:var(--warm-white); border:1px solid var(--border); border-radius:10px; padding:20px 20px 16px; box-shadow:0 1px 6px rgba(26,39,68,0.05);">
+        <div style="font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">By Program</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="font-family:'EB Garamond',serif; font-size:32px; font-weight:600; color:var(--navy); line-height:1; min-width:36px;">9</div>
+            <div style="font-size:12px; color:var(--muted); line-height:1.3;">MATS<br><span style="color:var(--border);">─────────────────</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="font-family:'EB Garamond',serif; font-size:32px; font-weight:600; color:var(--navy); line-height:1; min-width:36px;">3</div>
+            <div style="font-size:12px; color:var(--muted); line-height:1.3;">MAC</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="font-family:'EB Garamond',serif; font-size:32px; font-weight:600; color:var(--navy); line-height:1; min-width:36px;">1</div>
+            <div style="font-size:12px; color:var(--muted); line-height:1.3;">Certificate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program bar chart visual -->
+      <div style="background:var(--warm-white); border:1px solid var(--border); border-radius:10px; padding:20px 20px 16px; box-shadow:0 1px 6px rgba(26,39,68,0.05);">
+        <div style="font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:14px;">Program Breakdown</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span style="font-size:12px; font-weight:600; color:var(--navy);">MATS</span>
+              <span style="font-size:12px; color:var(--muted);">9 of 13</span>
+            </div>
+            <div style="background:var(--border); border-radius:4px; height:8px; overflow:hidden;">
+              <div style="background:var(--navy); height:100%; width:69%; border-radius:4px;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span style="font-size:12px; font-weight:600; color:var(--navy);">MAC</span>
+              <span style="font-size:12px; color:var(--muted);">3 of 13</span>
+            </div>
+            <div style="background:var(--border); border-radius:4px; height:8px; overflow:hidden;">
+              <div style="background:var(--gold); height:100%; width:23%; border-radius:4px;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span style="font-size:12px; font-weight:600; color:var(--navy);">Certificate</span>
+              <span style="font-size:12px; color:var(--muted);">1 of 13</span>
+            </div>
+            <div style="background:var(--border); border-radius:4px; height:8px; overflow:hidden;">
+              <div style="background:var(--gold-light); height:100%; width:8%; border-radius:4px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gender split -->
+      <div style="background:var(--warm-white); border:1px solid var(--border); border-radius:10px; padding:20px 20px 16px; box-shadow:0 1px 6px rgba(26,39,68,0.05);">
+        <div style="font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">Gender</div>
+        <div style="display:flex; gap:20px; align-items:flex-end;">
+          <div style="text-align:center;">
+            <div style="font-family:'EB Garamond',serif; font-size:42px; font-weight:600; color:var(--navy); line-height:1;">7</div>
+            <div style="font-size:11px; color:var(--muted); margin-top:4px;">Men</div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; gap:4px; padding-bottom:6px;">
+            <div style="background:var(--navy); height:10px; border-radius:3px; width:100%;"></div>
+            <div style="background:var(--gold); height:10px; border-radius:3px; width:85%;"></div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'EB Garamond',serif; font-size:42px; font-weight:600; color:var(--gold); line-height:1;">6</div>
+            <div style="font-size:11px; color:var(--muted); margin-top:4px;">Women</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ministry active -->
+      <div style="background:var(--warm-white); border:1px solid var(--border); border-radius:10px; padding:20px 20px 16px; box-shadow:0 1px 6px rgba(26,39,68,0.05);">
+        <div style="font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">Quick Facts</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:8px; border-bottom:1px solid var(--border);">
+            <span style="font-size:12px; color:var(--slate);">Actively serving in ministry</span>
+            <span style="font-family:'EB Garamond',serif; font-size:22px; font-weight:600; color:var(--navy);">10 / 13</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:8px; border-bottom:1px solid var(--border);">
+            <span style="font-size:12px; color:var(--slate);">Confirmed married</span>
+            <span style="font-family:'EB Garamond',serif; font-size:22px; font-weight:600; color:var(--navy);">9 / 13</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:8px; border-bottom:1px solid var(--border);">
+            <span style="font-size:12px; color:var(--slate);">Parents</span>
+            <span style="font-family:'EB Garamond',serif; font-size:22px; font-weight:600; color:var(--navy);">7 / 13</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:12px; color:var(--slate);">Came from non-Reformed backgrounds</span>
+            <span style="font-family:'EB Garamond',serif; font-size:22px; font-weight:600; color:var(--navy);">10 / 13</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vocations -->
+      <div style="background:var(--warm-white); border:1px solid var(--border); border-radius:10px; padding:20px 20px 16px; box-shadow:0 1px 6px rgba(26,39,68,0.05);">
+        <div style="font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">Vocations Represented</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Engineer (retired)</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Physician</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">School Teacher ×2</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Biblical Counselor</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Police Officer</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Construction Worker</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Tech (Big-Tech)</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Pastor's Wife</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Bivocational Preacher</span>
+          <span style="background:var(--tag-bg); color:var(--tag-text); font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Full-time Ministry</span>
+        </div>
+      </div>
+
+      <!-- Traditions of origin -->
+      <div style="background:var(--warm-white); border:1px solid var(--border); border-radius:10px; padding:20px 20px 16px; box-shadow:0 1px 6px rgba(26,39,68,0.05);">
+        <div style="font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">Traditions of Origin</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <span style="background:#fff7ed; color:#9a3412; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Pentecostal / Charismatic</span>
+          <span style="background:#fff7ed; color:#9a3412; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Baptist</span>
+          <span style="background:#fff7ed; color:#9a3412; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Assemblies of God</span>
+          <span style="background:#fff7ed; color:#9a3412; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Dispensational</span>
+          <span style="background:#fff7ed; color:#9a3412; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Non-denominational</span>
+          <span style="background:#fff7ed; color:#9a3412; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Evangelical Free</span>
+          <span style="background:#fff7ed; color:#9a3412; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Chinese Diaspora Church</span>
+          <span style="background:#eef1f8; color:#2d3e6b; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px;">Reformed (already) ×3</span>
+        </div>
+      </div>
+
+    </div>
+    <!-- END OVERVIEW SNAPSHOT -->
+
     <div class="table-wrap">
       <table>
         <thead>
@@ -459,7 +692,7 @@
         <tbody>
           <tr>
             <td>
-              <div class="student-name">A.K.</div>
+              <div class="student-name">Mr. A</div>
               <div class="student-alias">"The Ukrainian Pentecostal"</div>
             </td>
             <td>Immigrated from Ukraine; charismatic background (Greg Laurie, David Jeremiah); found Reformed theology through R.C. Sproul</td>
@@ -469,7 +702,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">C.T.</div>
+              <div class="student-name">Mrs. C</div>
               <div class="student-alias">"Pastor's Wife &amp; School Teacher"</div>
             </td>
             <td>Grew up in Christian home; Bob Jones University alum; drawn to WTS through Welch, Powlison &amp; Duguid</td>
@@ -479,7 +712,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">D.C.</div>
+              <div class="student-name">Mrs. D</div>
               <div class="student-alias">"Military Wife at West Point"</div>
             </td>
             <td>Military family; moved frequently; recognized her need for seminary as a mature discipler in her church</td>
@@ -489,7 +722,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">D.J.</div>
+              <div class="student-name">Mr. D</div>
               <div class="student-alias">"Retired NASA Engineer"</div>
             </td>
             <td>Lengthy theological journey (dispensational → prosperity gospel → Reformed Presbyterian); met WTS MDiv grad</td>
@@ -499,7 +732,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">H.U.</div>
+              <div class="student-name">Mrs. H</div>
               <div class="student-alias">"Tarheel in Charlottesville"</div>
             </td>
             <td>Came to faith at age 8 (Midwest); discovered WTS fully online through website; met husband at UNC-CH</td>
@@ -509,7 +742,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">J.B.</div>
+              <div class="student-name">Mr. J</div>
               <div class="student-alias">"A Biblical Counselor with a Journey"</div>
             </td>
             <td>Moved frequently; fell away from faith then returned; led to CCEF through a child's struggles</td>
@@ -519,7 +752,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">N.C.</div>
+              <div class="student-name">Mr. N</div>
               <div class="student-alias">"5th-Gen Chinese Christian Physician"</div>
             </td>
             <td>5th-generation Christian from Chinese converts; grew up in NJ; attended Chinese diaspora church (Watchman Nee influence)</td>
@@ -529,7 +762,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">P.L.</div>
+              <div class="student-name">Mrs. P</div>
               <div class="student-alias">"A Deep Desire Fulfilled"</div>
             </td>
             <td>Baptist/EFC/Presbyterian background; retired from medicine; seminary was a lifelong dream; came via "Taste and See"</td>
@@ -539,7 +772,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">P.E.</div>
+              <div class="student-name">Mrs. P</div>
               <div class="student-alias">"Loving Mom with Personality"</div>
             </td>
             <td>British-Australian; seminary was a "lifelong dream"; online program made it possible given family demands</td>
@@ -549,7 +782,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">S.G.</div>
+              <div class="student-name">Mrs. S</div>
               <div class="student-alias">"A Lady That Came a Long Way"</div>
             </td>
             <td>From Ghana; began at Assemblies of God church; drawn into the Reformed world; heart for grief ministry</td>
@@ -559,7 +792,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">T.K.</div>
+              <div class="student-name">Mr. T</div>
               <div class="student-alias">"Tech Bro for the Lord"</div>
             </td>
             <td>Came to faith late in life after 17 years of friendship evangelism; recently completed a graduate degree; Big-Tech career</td>
@@ -569,7 +802,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">T.R.</div>
+              <div class="student-name">Mr. T</div>
               <div class="student-alias">"A Passion to Bring Truth to Youth"</div>
             </td>
             <td>Grew up in a Christian home; confessed Christ at 16; knew WTS students/alum; works construction</td>
@@ -579,7 +812,7 @@
           </tr>
           <tr>
             <td>
-              <div class="student-name">T.H.</div>
+              <div class="student-name">Mr. T</div>
               <div class="student-alias">"Unlikely Suspect for Seminary"</div>
             </td>
             <td>Confessed Christ May 2024; no significant church background growing up; never expected to attend seminary</td>
@@ -644,12 +877,12 @@
           Distinctive and Unique Voices
         </div>
         <ul>
-          <li><strong>A.K.</strong> arrived as a Ukrainian immigrant whose theological transformation was catalyzed by R.C. Sproul — a story that illustrates the global reach of WTS's heritage.</li>
-          <li><strong>D.J.</strong> is a retired NASA engineer whose path through nearly every major Protestant tradition over decades is one of the most distinctive in the group.</li>
-          <li><strong>N.C.</strong> brings 5th-generation Christian heritage from Chinese converts in Shandong and Fujian provinces — a family faith story spanning over a century.</li>
-          <li><strong>T.H.</strong> confessed faith in May 2024 — just months before the workshop — making him the most recent convert in attendance, yet he described the experience as "life-altering."</li>
-          <li><strong>P.E.</strong> is an international student (British-Australian) attending across multiple homes, representing a genuinely global reach of the online program.</li>
-          <li><strong>D.C.</strong> ministers specifically to military families at West Point — a highly specialized and underserved ministry context shaped by her own military family life.</li>
+          <li><strong>Mr. A</strong> arrived as a Ukrainian immigrant whose theological transformation was catalyzed by R.C. Sproul — a story that illustrates the global reach of WTS's heritage.</li>
+          <li><strong>Mr. D</strong> is a retired NASA engineer whose path through nearly every major Protestant tradition over decades is one of the most distinctive in the group.</li>
+          <li><strong>Mr. N</strong> brings 5th-generation Christian heritage from Chinese converts in Shandong and Fujian provinces — a family faith story spanning over a century.</li>
+          <li><strong>Mr. T</strong> confessed faith in May 2024 — just months before the workshop — making him the most recent convert in attendance, yet he described the experience as "life-altering."</li>
+          <li><strong>Mrs. P</strong> is an international student (British-Australian) attending across multiple homes, representing a genuinely global reach of the online program.</li>
+          <li><strong>Mrs. D</strong> ministers specifically to military families at West Point — a highly specialized and underserved ministry context shaped by her own military family life.</li>
         </ul>
       </div>
     </div>
@@ -682,7 +915,7 @@
         </div>
         <ul>
           <li>Nearly every attendee was struck by the depth of connection formed with fellow students in a short amount of time.</li>
-          <li>D.J. noted that friendships formed in hours felt months old. T.H. observed that a subsequent virtual small group meeting was noticeably deeper because of the campus time.</li>
+          <li>Mr. D noted that friendships formed in hours felt months old. Mr. T observed that a subsequent virtual small group meeting was noticeably deeper because of the campus time.</li>
           <li>Shared meals, prayer, and testimonies were consistently named as formative community moments.</li>
         </ul>
       </div>
@@ -696,7 +929,7 @@
         <ul>
           <li>For online students, being physically present on campus created a sense of belonging and institutional identity that is difficult to replicate online.</li>
           <li>The campus tour, new building, history of WTS's founding, and chapel participation were all noted as meaningful anchors.</li>
-          <li>H.U. said it simply: the campus experience made her feel "like a real Westminster student."</li>
+          <li>Mrs. H said it simply: the campus experience made her feel "like a real Westminster student."</li>
         </ul>
       </div>
       <div class="theme-card">
@@ -706,8 +939,8 @@
         </div>
         <ul>
           <li>The workshop assignment was praised for bridging academic study and actual ministry context — several students described their real-world ministry tasks being directly improved by the workshop process.</li>
-          <li>D.C. shared that the devotional talk she gave the following week was meaningfully stronger as a direct result of her participation.</li>
-          <li>S.G. highlighted the shift from theory to application as the defining value of the experience for her.</li>
+          <li>Mrs. D shared that the devotional talk she gave the following week was meaningfully stronger as a direct result of her participation.</li>
+          <li>Mrs. S highlighted the shift from theory to application as the defining value of the experience for her.</li>
         </ul>
       </div>
     </div>
@@ -724,27 +957,27 @@
     <div class="quotes-grid">
       <div class="quote-card">
         <p class="quote-text">"I understood that I am not viewed merely as a widget or simply as a student, but as a colleague and coworker. I understood that we are participating together in something important for God's kingdom."</p>
-        <p class="quote-source">A.K. — The Ukrainian Pentecostal</p>
+        <p class="quote-source">Mr. A — The Ukrainian Pentecostal</p>
       </div>
       <div class="quote-card">
         <p class="quote-text">"The devotional talk that I ended up giving the week after the workshop was far stronger and clearer than it would have been had I not attended the workshop."</p>
-        <p class="quote-source">D.C. — Military Wife at West Point</p>
+        <p class="quote-source">Mrs. D — Military Wife at West Point</p>
       </div>
       <div class="quote-card">
         <p class="quote-text">"When I arrived, I had an almost instant connection with those I met. I left with friendships that felt like they were months, not hours, old."</p>
-        <p class="quote-source">D.J. — Retired NASA Engineer</p>
+        <p class="quote-source">Mr. D — Retired NASA Engineer</p>
       </div>
       <div class="quote-card">
         <p class="quote-text">"The time on campus made me feel like a real Westminster student."</p>
-        <p class="quote-source">H.U. — Tarheel in Charlottesville</p>
+        <p class="quote-source">Mrs. H — Tarheel in Charlottesville</p>
       </div>
       <div class="quote-card">
         <p class="quote-text">"I truly feel that this campus experience served for me personally as a life-altering experience."</p>
-        <p class="quote-source">T.H. — The Unlikely Seminary Student</p>
+        <p class="quote-source">Mr. T — The Unlikely Seminary Student</p>
       </div>
       <div class="quote-card">
         <p class="quote-text">"I saw a tangible love in them for the Lord and for us, to instill in us a similar heart and desire to minister to others."</p>
-        <p class="quote-source">N.C. — 5th-Gen Chinese Christian Physician</p>
+        <p class="quote-source">Mr. N — 5th-Gen Chinese Christian Physician</p>
       </div>
     </div>
   </section>
@@ -763,9 +996,9 @@
         <div class="improve-badge">1</div>
         <div class="improve-content">
           <div class="improve-title">Clarify the Presentation Assignment</div>
-          <div class="improve-detail">The single most frequently mentioned improvement. Students were unclear about what was expected for the presentation — both in scope and format. Several noted that the ambiguity created unnecessary anxiety, though one student (P.M.) ultimately appreciated the flexibility it produced. Concrete examples, clearer written instructions, or a live orientation with the professor would address this directly.</div>
+          <div class="improve-detail">The single most frequently mentioned improvement. Students were unclear about what was expected for the presentation — both in scope and format. Several noted that the ambiguity created unnecessary anxiety, though one student (Mrs. P) ultimately appreciated the flexibility it produced. Concrete examples, clearer written instructions, or a live orientation with the professor would address this directly.</div>
           <div class="improve-voices">
-            <span class="voice-tag">A.K.</span><span class="voice-tag">D.J.</span><span class="voice-tag">H.U.</span><span class="voice-tag">J.B.</span><span class="voice-tag">N.C.</span><span class="voice-tag">T.K.</span>
+            <span class="voice-tag">Mr. A</span><span class="voice-tag">Mr. D</span><span class="voice-tag">Mrs. H</span><span class="voice-tag">Mr. J</span><span class="voice-tag">Mr. N</span><span class="voice-tag">Mr. T</span>
           </div>
         </div>
       </div>
@@ -776,7 +1009,7 @@
           <div class="improve-title">More Time for Presentation Feedback</div>
           <div class="improve-detail">The feedback session felt rushed — professors and fellow students didn't have sufficient time to offer meaningful critique to each presenter. Suggestions included splitting presentations across multiple time slots, or adding a second professor to the feedback team to share the load and extend the window.</div>
           <div class="improve-voices">
-            <span class="voice-tag">C.T.</span><span class="voice-tag">P.M.</span>
+            <span class="voice-tag">Mrs. C</span><span class="voice-tag">Mrs. P</span>
           </div>
         </div>
       </div>
@@ -787,7 +1020,7 @@
           <div class="improve-title">Earlier Registration and Communication</div>
           <div class="improve-detail">Students needed more lead time to plan travel, request time off, and prepare for the workshop. Ideally, the workshop should be listed in Course Offerings before the course begins, and registration should open earlier to allow for small group placement and logistical planning.</div>
           <div class="improve-voices">
-            <span class="voice-tag">H.U.</span><span class="voice-tag">N.C.</span>
+            <span class="voice-tag">Mrs. H</span><span class="voice-tag">Mr. N</span>
           </div>
         </div>
       </div>
@@ -798,7 +1031,7 @@
           <div class="improve-title">Offer the Workshop More Frequently</div>
           <div class="improve-detail">Several students would like to see the workshop offered a second time each year (e.g., in the fall) and extended to additional courses. The experience was described as too valuable to remain limited to its current frequency and scope.</div>
           <div class="improve-voices">
-            <span class="voice-tag">D.C.</span><span class="voice-tag">N.C.</span><span class="voice-tag">S.G.</span><span class="voice-tag">T.H.</span>
+            <span class="voice-tag">Mrs. D</span><span class="voice-tag">Mr. N</span><span class="voice-tag">Mrs. S</span><span class="voice-tag">Mr. T</span>
           </div>
         </div>
       </div>
@@ -809,7 +1042,7 @@
           <div class="improve-title">More Structured Q&amp;A / Discussion Time with Faculty</div>
           <div class="improve-detail">The panel discussion and informal faculty interactions were among the highest-rated experiences. Students want more of it — structured time for questions and extended conversation with faculty, which is difficult to replicate in online settings.</div>
           <div class="improve-voices">
-            <span class="voice-tag">D.C.</span><span class="voice-tag">D.J.</span>
+            <span class="voice-tag">Mrs. D</span><span class="voice-tag">Mr. D</span>
           </div>
         </div>
       </div>
@@ -820,7 +1053,7 @@
           <div class="improve-title">Advertise the Workshop More Widely to Online Students</div>
           <div class="improve-detail">At least one student noted that the workshop deserves more vigorous promotion — the value is clear, and online students may not be aware of it or understand what it offers before enrolling.</div>
           <div class="improve-voices">
-            <span class="voice-tag">A.K.</span>
+            <span class="voice-tag">Mr. A</span>
           </div>
         </div>
       </div>
@@ -829,9 +1062,9 @@
         <div class="improve-badge">7</div>
         <div class="improve-content">
           <div class="improve-title">Logistical Small Wins</div>
-          <div class="improve-detail">A handful of practical suggestions that would improve the onboarding experience: name tags on the first day (H.U.), a separate Canvas space for the on-campus cohort (J.B.), and a few in-classroom lecture moments once the new building is live (D.J.).</div>
+          <div class="improve-detail">A handful of practical suggestions that would improve the onboarding experience: name tags on the first day (Mrs. H), a separate Canvas space for the on-campus cohort (Mr. J), and a few in-classroom lecture moments once the new building is live (Mr. D).</div>
           <div class="improve-voices">
-            <span class="voice-tag">H.U.</span><span class="voice-tag">J.B.</span><span class="voice-tag">D.J.</span>
+            <span class="voice-tag">Mrs. H</span><span class="voice-tag">Mr. J</span><span class="voice-tag">Mr. D</span>
           </div>
         </div>
       </div>
@@ -860,6 +1093,72 @@
 <footer class="report-footer">
   Westminster Theological Seminary &nbsp;·&nbsp; <span>On-Campus Workshop Report</span> &nbsp;·&nbsp; Prepared by the Office of Learning Experience
 </footer>
+
+
+<!-- PASSWORD GATE OVERLAY -->
+<div id="pw-gate">
+  <div class="gate-inner">
+    <div class="gate-label">Westminster Theological Seminary</div>
+    <h2>On-Campus Workshop<br>Student Report</h2>
+    <p class="gate-sub">This document is intended for internal use.<br>Please enter the access password to continue.</p>
+    <input type="password" id="pw-input" placeholder="Enter password" autocomplete="off" />
+    <button onclick="checkPassword()">Access Report</button>
+    <div class="gate-error" id="pw-error"></div>
+    <div class="gate-footer">Westminster Theological Seminary &nbsp;&middot;&nbsp; Office of Learning Experience</div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var CORRECT = '1929';
+    var SESSION_KEY = 'ocw_report_auth';
+
+    function unlock() {
+      var gate = document.getElementById('pw-gate');
+      gate.style.display = 'none';
+      document.body.classList.remove('locked');
+    }
+
+    // If already authenticated this session, skip the gate immediately
+    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+      unlock();
+    } else {
+      document.body.classList.add('locked');
+      window.addEventListener('load', function () {
+        var input = document.getElementById('pw-input');
+        if (input) input.focus();
+      });
+    }
+
+    window.checkPassword = function () {
+      var input = document.getElementById('pw-input');
+      var error = document.getElementById('pw-error');
+      if (input.value === CORRECT) {
+        sessionStorage.setItem(SESSION_KEY, 'true');
+        unlock();
+      } else {
+        error.textContent = 'Incorrect password. Please try again.';
+        input.value = '';
+        input.focus();
+        input.style.borderColor = '#f87171';
+        setTimeout(function () {
+          input.style.borderColor = 'rgba(255,255,255,0.15)';
+          error.textContent = '';
+        }, 2500);
+      }
+    };
+
+    // Allow submitting with Enter key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        var gate = document.getElementById('pw-gate');
+        if (gate && gate.style.display !== 'none') {
+          window.checkPassword();
+        }
+      }
+    });
+  })();
+</script>
 
 </body>
 </html>
