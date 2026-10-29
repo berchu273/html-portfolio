@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Managing AI-Assisted Development: The Graphic Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --scale:1; --lh:1.6; --pad:1.3rem; --gap:1.1rem;
+  --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --letter:"Comic Neue","Trebuchet MS",system-ui,sans-serif;
+  --paper:#f3f0e9; --panel:#faf8f3; --ink:#30323a; --muted:#5d606a; --line:#5b5e6a;
+  --dot:rgba(48,50,58,.045);
+  --cap:#efe2b6; --cap-ink:#30323a;
+  --acc:#9a4653; --acc-fill:#e3b9bd; --t-acc:#f5eaea;
+  --doc:#755a24; --doc-fill:#e6d3a3; --t-doc:#f5efe0;
+  --fri:#2f6669; --fri-fill:#b2d4d5; --t-fri:#e8f0ef;
+  --base:#4b4f73; --base-fill:#c3c5e0; --t-base:#ecebf2;
+  --eng:#8576c4; --rep:#5f9779; --act:#bf7b5f;
+  --focus:#6a61b8; --shadow:3px 3px 0 rgba(91,94,106,.32);
+  --on-acc:#30323a; --on-doc:#30323a; --on-fri:#30323a; --on-base:#30323a;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  font-size:calc(100% * var(--scale));
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme]){
+    color-scheme: dark;
+    --paper:#1b1e25; --panel:#23272f; --ink:#e2e4e9; --muted:#a5aab4; --line:#59606e;
+    --dot:rgba(226,228,233,.03);
+    --cap:#4a4535; --cap-ink:#ece3c6;
+    --acc:#ddaab1; --acc-fill:#b98c93; --t-acc:#30272b;
+    --doc:#dcc896; --doc-fill:#bfab7c; --t-doc:#302c23;
+    --fri:#a6cfd1; --fri-fill:#86b2b4; --t-fri:#232f31;
+    --base:#b7badb; --base-fill:#9a9ec8; --t-base:#282b39;
+    --eng:#a79bd8; --rep:#8bbfa2; --act:#d39d84;
+    --focus:#dcc896; --shadow:3px 3px 0 rgba(0,0,0,.3);
+    --on-acc:#1b1e25; --on-doc:#1b1e25; --on-fri:#1b1e25; --on-base:#1b1e25;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#1b1e25; --panel:#23272f; --ink:#e2e4e9; --muted:#a5aab4; --line:#59606e;
+    --dot:rgba(226,228,233,.03);
+    --cap:#4a4535; --cap-ink:#ece3c6;
+    --acc:#ddaab1; --acc-fill:#b98c93; --t-acc:#30272b;
+    --doc:#dcc896; --doc-fill:#bfab7c; --t-doc:#302c23;
+    --fri:#a6cfd1; --fri-fill:#86b2b4; --t-fri:#232f31;
+    --base:#b7badb; --base-fill:#9a9ec8; --t-base:#282b39;
+    --eng:#a79bd8; --rep:#8bbfa2; --act:#d39d84;
+    --focus:#dcc896; --shadow:3px 3px 0 rgba(0,0,0,.3);
+    --on-acc:#1b1e25; --on-doc:#1b1e25; --on-fri:#1b1e25; --on-base:#1b1e25;
+}
+:root[data-theme="contrast"]{
+  color-scheme: light;
+  --paper:#ffffff; --panel:#ffffff; --ink:#000000; --muted:#111111; --line:#000000; --dot:transparent;
+  --cap:#ffe600;
+  --acc:#a3001b; --acc-fill:#a3001b; --t-acc:#ffe3e7;
+  --doc:#5c3d00; --doc-fill:#ffcc00; --t-doc:#fff2b3;
+  --fri:#004f59; --fri-fill:#004f59; --t-fri:#d9f2f5;
+  --base:#000000; --base-fill:#000000; --t-base:#ececec;
+  --eng:#4a2bd6; --rep:#0a5c36; --act:#9c2a00;
+  --focus:#000000; --shadow:4px 4px 0 #000;
+  --on-acc:#ffffff; --on-doc:#000000; --on-fri:#ffffff; --on-base:#ffffff;
+}
+:root[data-font="comic"]{--body:"Comic Neue","Trebuchet MS",sans-serif}
+:root[data-font="serif"]{--body:Georgia,"Times New Roman",serif}
+:root[data-headline="plain"]{--display:"Atkinson Hyperlegible",Verdana,sans-serif}
+:root[data-density="compact"]{--pad:.85rem; --gap:.7rem}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px)}
+html.motion{scroll-behavior:smooth}
+html.nomotion *,html.nomotion *::before,html.nomotion *::after{animation:none!important;transition:none!important}
+body{margin:0;color:var(--ink);font-weight:400;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background-color:var(--paper);background-image:radial-gradient(var(--dot) 1.3px,transparent 1.6px);background-size:14px 14px;font-family:var(--body);font-size:1.06rem;line-height:var(--lh)}
+:root[data-font="comic"] body{font-size:1.12rem}
+:root[data-font="serif"] body{font-size:1.12rem}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--panel)}
+a{color:inherit;text-decoration-color:var(--focus);text-decoration-thickness:2px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:3px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:3px}
+button,input,textarea,select{font:inherit;color:inherit}
+.skip{position:absolute;left:1rem;top:-5rem;z-index:60;background:var(--cap);color:var(--cap-ink);border:3px solid var(--line);padding:.6rem 1rem;font-family:var(--letter);font-weight:700}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + .5rem)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- comic primitives ---------- */
+.panel{background:var(--panel);border:2.5px solid var(--line);box-shadow:var(--shadow);padding:var(--pad);position:relative;min-width:0}
+.caption{display:inline-block;background:var(--cap);color:var(--cap-ink);border:2px solid var(--line);box-shadow:2px 2px 0 var(--line);font-family:var(--letter);font-weight:700;font-style:italic;font-size:.92rem;line-height:1.35;padding:.35rem .7rem;margin:0 0 1.1rem}
+.caption.block{display:block}
+.bubble{position:relative;background:var(--panel);color:var(--ink);border:3px solid var(--line);border-radius:26px;padding:1.1rem 1.3rem;font-family:var(--letter);font-weight:400;font-size:1.22rem;line-height:1.45;margin:0 0 2.2rem}
+.bubble::after{content:"";position:absolute;left:2.2rem;bottom:-17px;width:26px;height:26px;background:var(--panel);border-right:3px solid var(--line);border-bottom:3px solid var(--line);transform:skewX(35deg) rotate(45deg)}
+.bubble .who{display:block;font-weight:700;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.display{font-family:var(--display);font-weight:400;letter-spacing:.02em;line-height:1.02}
+:root[data-headline="plain"] .display{font-weight:700;letter-spacing:-.01em}
+.btn{font-family:var(--letter);font-weight:700;font-size:.9rem;background:var(--panel);color:var(--ink);border:2.5px solid var(--line);box-shadow:3px 3px 0 var(--line);padding:.38rem .8rem;cursor:pointer;line-height:1.25;border-radius:4px}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--line)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+.btn[aria-pressed="true"],.btn[aria-expanded="true"],.btn.on{background:var(--cap);color:var(--cap-ink);border-color:var(--line);box-shadow:2px 2px 0 var(--line)}
+.btn.big{font-size:1rem;padding:.55rem 1rem}
+
+/* ---------- HUD ---------- */
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--panel);border-bottom:3px solid var(--line)}
+.hud-in{max-width:1320px;margin:0 auto;padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem .8rem;align-items:center}
+.hud-title{font-family:var(--display);font-size:1.45rem;margin-right:auto;line-height:1}
+:root[data-headline="plain"] .hud-title{font-size:1.05rem;font-weight:700}
+.xp{display:flex;align-items:center;gap:.5rem;font-family:var(--letter);font-weight:700;font-size:.82rem}
+.xpbar{width:8rem;height:.9rem;border:2.5px solid var(--line);background:var(--paper);overflow:hidden}
+.xpfill{height:100%;width:0;background:var(--fri-fill);transition:width .5s}
+.filters{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center;font-family:var(--letter);font-weight:700;font-size:.8rem}
+.fbtn{font-family:var(--letter);font-weight:700;font-size:.8rem;border:2.5px solid var(--c);color:var(--c);background:var(--panel);border-radius:999px;padding:.2rem .65rem;cursor:pointer}
+.fbtn[aria-pressed="true"]{background:var(--cfill);color:var(--con);border-color:var(--line)}
+.fbtn.acc,.chip.acc{--c:var(--acc);--cfill:var(--acc-fill);--con:var(--on-acc)}
+.fbtn.doc,.chip.doc{--c:var(--doc);--cfill:var(--doc-fill);--con:var(--on-doc)}
+.fbtn.fri,.chip.fri{--c:var(--fri);--cfill:var(--fri-fill);--con:var(--on-fri)}
+.status{width:100%;text-align:right;font-family:var(--letter);font-weight:700;font-size:.8rem;color:var(--muted)}
+.status:empty{display:none}
+
+/* ---------- settings HUD ---------- */
+.settings{position:fixed;z-index:50;top:calc(env(safe-area-inset-top,0px) + 4.2rem);right:1rem;width:min(25rem,calc(100vw - 2rem));max-height:calc(100vh - 6rem - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:auto}
+.settings[hidden]{display:none}
+.settings h2{font-family:var(--display);font-size:1.6rem;margin:0 0 .2rem}
+:root[data-headline="plain"] .settings h2{font-size:1.2rem}
+.settings .hint{font-size:.85rem;color:var(--muted);margin:0 0 1rem}
+.settings fieldset{border:0;padding:0;margin:0 0 .9rem}
+.settings legend{font-family:var(--letter);font-weight:700;margin-bottom:.35rem;padding:0}
+.seg{display:flex;flex-wrap:wrap;gap:.35rem}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg span{display:inline-block;border:2px solid var(--line);padding:.28rem .6rem;cursor:pointer;background:var(--paper);font-size:.85rem}
+.seg input:checked + span{background:var(--cap);color:var(--cap-ink);border-color:var(--line);font-weight:700}
+.seg input:focus-visible + span{outline:3px solid var(--focus);outline-offset:2px}
+.settings-foot{display:flex;justify-content:space-between;gap:.5rem;border-top:2px dashed var(--line);padding-top:.9rem}
+
+/* ---------- layout ---------- */
+.layout{max-width:1320px;margin:0 auto;padding:1.5rem 1rem 3rem;display:grid;grid-template-columns:minmax(0,1fr);gap:2rem}
+@media (min-width:1180px){.layout{grid-template-columns:minmax(0,1fr) 300px}}
+main{min-width:0}
+.grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--gap);margin:0 0 var(--gap)}
+.w6{grid-column:span 6}.w4{grid-column:span 4}.w3{grid-column:span 3}.w2{grid-column:span 2}
+@media (max-width:820px){.w4,.w3,.w2{grid-column:span 6}}
+p{margin:0 0 .9rem}
+p:last-child{margin-bottom:0}
+ul,ol{padding-left:1.25rem;margin:0 0 .9rem}
+li{margin-bottom:.4rem}
+h3.ptitle{font-family:var(--display);font-weight:400;font-size:1.7rem;letter-spacing:.025em;line-height:1.12;margin:.15rem 0 1.1rem;padding-bottom:.6rem;border-bottom:2.5px solid var(--line)}
+:root[data-headline="plain"] h3.ptitle{font-family:var(--body);font-weight:700;font-size:1.3rem;letter-spacing:0}
+h3.ptitle .chips{font-size:1rem;letter-spacing:0}
+.prac{border-left:5px solid var(--cap);padding:.1rem 0 .1rem .8rem;margin-top:.8rem}
+.prac strong{font-family:var(--letter)}
+
+/* ---------- cover ---------- */
+.cover{padding:0;overflow:hidden;min-height:22rem;display:flex;flex-direction:column;justify-content:flex-end;background:
+  repeating-conic-gradient(from 0deg at 72% 40%, var(--t-base) 0deg 6deg, var(--panel) 6deg 12deg)}
+.cover-in{padding:var(--pad);position:relative}
+.cover h1{font-size:clamp(2.6rem,7vw,5rem);margin:0 0 .6rem;color:var(--ink);-webkit-text-stroke:0}
+:root:not([data-headline="plain"]) .cover h1{text-shadow:2px 2px 0 var(--cap)}
+:root[data-headline="plain"] .cover h1{font-size:clamp(2rem,5vw,3.2rem)}
+.cover .lede{font-size:1.15rem;max-width:36rem;background:var(--panel);border:2.5px solid var(--line);padding:.6rem .8rem;margin:0}
+.cover .tag{position:absolute;top:1rem;right:1rem;margin:0}
+.byline{font-family:var(--letter);font-weight:700;font-size:.85rem;color:var(--muted);margin:.8rem 0 0}
+.quests{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:.7rem}
+.quest{text-align:left;background:var(--paper);border:3px solid var(--line);box-shadow:3px 3px 0 var(--line);padding:.8rem .9rem;cursor:pointer;display:grid;grid-template-columns:2.4rem 1fr;gap:.7rem;align-items:start}
+.quest:hover{transform:translate(-1px,-1px)}
+.quest[aria-pressed="true"]{background:var(--cap);color:var(--cap-ink);border-color:var(--line);box-shadow:3px 3px 0 var(--line)}
+.quest .qi{width:2.4rem;height:2.4rem;border:2.5px solid currentColor;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:1.3rem;background:var(--panel);color:var(--ink)}
+.quest strong{display:block;font-family:var(--letter);font-size:1.02rem}
+.quest span.d{font-size:.85rem;line-height:1.4;display:block}
+
+/* ---------- structure diagram ---------- */
+.temple{--tg:8px;display:grid;gap:var(--tg);font-family:var(--letter);font-weight:700}
+.t-part{border:2.5px solid var(--line);text-align:center;color:var(--ink);background:var(--panel);transition:opacity .35s,transform .35s}
+button.t-part{cursor:pointer}
+.t-roof:focus-visible{outline:none}
+.t-roof:focus-visible > span.inner{background:var(--ink);color:var(--paper)}
+button.t-part:hover{transform:translate(-2px,-2px)}
+.t-roof{clip-path:polygon(3% 100%,50% 0,97% 100%);border:0;background:var(--line);padding:3px 3px 3px}
+.t-roof > span.inner{display:block;clip-path:polygon(3.4% 100%,50% 2.5%,96.6% 100%);background:var(--cap);color:var(--cap-ink);padding:2.6rem 1rem .8rem}
+.t-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--tg);padding:0 5%}
+.t-pillar{min-height:9rem;display:flex;flex-direction:column;justify-content:center;gap:.25rem;padding:.8rem .4rem;background-image:radial-gradient(rgba(0,0,0,.05) 1.2px,transparent 1.5px);background-size:9px 9px}
+.t-pillar.acc{background-color:var(--acc-fill);color:var(--on-acc)}
+.t-pillar.doc{background-color:var(--doc-fill);color:var(--on-doc)}
+.t-pillar.fri{background-color:var(--fri-fill);color:var(--on-fri)}
+.t-base{background:var(--base-fill);color:var(--on-base);padding:.9rem}
+.t-num{font-size:.75rem;display:block}
+.t-name{font-size:.95rem;line-height:1.2;display:block}
+.hero-temple .t-pillar{min-height:10rem}
+html.motion .hero-temple .t-base{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+html.motion .hero-temple .t-pillar{transform-origin:bottom;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+html.motion .hero-temple .t-pillar.acc{animation-delay:.3s}
+html.motion .hero-temple .t-pillar.doc{animation-delay:.45s}
+html.motion .hero-temple .t-pillar.fri{animation-delay:.6s}
+html.motion .hero-temple .t-roof{animation:drop .6s cubic-bezier(.3,1.4,.5,1) 1s both}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes grow{from{opacity:0;transform:scaleY(.05)}to{opacity:1;transform:none}}
+@keyframes drop{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:none}}
+.temple.mini{--tg:3px;width:150px;flex:none}
+.temple.mini .t-part{border-width:2px}
+.temple.mini .t-roof > span.inner{padding:1.1rem .2rem .3rem}
+.temple.mini .t-pillar{min-height:3.6rem;padding:.2rem .1rem}
+.temple.mini .t-base{padding:.25rem}
+.temple.mini .t-name{font-size:.55rem}
+.temple.mini .t-num{font-size:.55rem}
+.temple.mini .t-part:not(.on){opacity:.22}
+.temple.mini .t-part.feeds{opacity:.6}
+.temple.mini .t-part.on{outline:3px solid var(--ink);outline-offset:2px}
+details.alt{margin-top:.7rem;font-size:.9rem}
+details.alt summary{cursor:pointer;font-family:var(--letter);font-weight:700}
+details.alt p{margin:.5rem 0 0}
+
+/* ---------- chapter splash ---------- */
+.chapter{margin-top:5rem}
+.splash{display:flex;gap:1.2rem;align-items:flex-start;overflow:hidden;background:
+  repeating-conic-gradient(from 0deg at 92% 50%, var(--tint) 0deg 5deg, var(--panel) 5deg 10deg)}
+@media (max-width:640px){.splash{flex-direction:column}}
+.splash-main{min-width:0;flex:1}
+.splash h2{font-size:clamp(2rem,5vw,3.1rem);margin:.3rem 0 1.3rem;color:var(--ink)}
+:root:not([data-headline="plain"]) .splash h2{text-shadow:2px 2px 0 var(--pc-fill)}
+:root[data-headline="plain"] .splash h2{font-size:clamp(1.5rem,3.5vw,2.1rem)}
+.where{background:var(--panel);border:2.5px solid var(--line);padding:.7rem .9rem;font-size:1rem;margin:0 0 1rem;max-width:38rem}
+.flow{display:grid;grid-template-columns:auto 1fr;gap:.2rem .7rem;font-size:.85rem;margin:0 0 .8rem;background:var(--panel);border:2px solid var(--line);padding:.5rem .7rem;max-width:38rem}
+.flow dt{font-family:var(--letter);font-weight:700}
+.flow dd{margin:0}
+.tools{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.readtime{font-family:var(--letter);font-weight:700;font-size:.82rem;background:var(--panel);border:2px solid var(--line);padding:.25rem .55rem}
+.mission{display:grid;grid-template-columns:auto 1fr;gap:.8rem;align-items:start;margin:2rem 0 0}
+.mission .badge{font-family:var(--display);font-size:1.15rem;background:var(--pc-fill);color:var(--pc-on);border:2.5px solid var(--line);padding:.25rem .55rem;transform:rotate(-3deg);white-space:nowrap}
+:root[data-headline="plain"] .mission .badge{font-size:.85rem;font-weight:700}
+.mission p{margin:0;font-size:1rem}
+.chapter .bubble{max-width:42rem}
+
+/* ---------- picture-it panels ---------- */
+.pic-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.025em;line-height:1.12;margin:.15rem 0 1.1rem;padding-bottom:.6rem;border-bottom:2.5px solid var(--line)}
+:root[data-headline="plain"] .pic-title{font-size:1.05rem;font-weight:700}
+.ladder{display:grid;gap:6px;font-family:var(--letter);font-weight:700;font-size:.9rem}
+.ladder div{border:2.5px solid var(--line);padding:.45rem .7rem;display:flex;justify-content:space-between;gap:.6rem;background:var(--panel)}
+.ladder div span:last-child{font-weight:400;font-family:var(--body);font-size:.82rem;text-align:right}
+.ladder .l1{margin:0 0;background:var(--t-base)}
+.ladder .l2{margin:0 4%;background:var(--t-acc)}
+.ladder .l3{margin:0 8%;background:var(--t-fri)}
+.ladder .l4{margin:0 12%;background:var(--t-doc)}
+.ladder .l5{margin:0 0;background:var(--cap);color:var(--cap-ink)}
+.ladder-scale{display:flex;justify-content:space-between;font-family:var(--letter);font-weight:700;font-size:.78rem;margin-top:.5rem}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.6rem}
+.tile{border:2.5px solid var(--line);background:var(--t-acc);padding:.6rem .7rem}
+.tile b{display:block;font-family:var(--letter);font-size:.95rem}
+.tile span{font-size:.85rem;font-style:italic}
+.quad{display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:6px;font-size:.88rem}
+.quad .ax{font-family:var(--letter);font-weight:700;font-size:.78rem;display:grid;place-items:center;text-align:center;color:var(--muted)}
+.quad .cell{border:2.5px solid var(--line);background:var(--t-doc);padding:.55rem .6rem;min-height:5.5rem}
+.quad .cell b{display:block;font-family:var(--letter);font-size:1rem}
+.feltbars{display:grid;gap:.7rem;font-family:var(--letter);font-weight:700}
+.fb{display:grid;grid-template-columns:7.5rem 1fr;gap:.6rem;align-items:center;font-size:.88rem}
+.fb .track{height:2.1rem;border:2.5px solid var(--line);background:var(--paper);position:relative;overflow:hidden}
+.fb .track i{position:absolute;top:0;bottom:0;display:flex;align-items:center;padding:0 .5rem;font-style:normal;font-size:.8rem;white-space:nowrap}
+.fb .felt i{left:0;width:62%;background:var(--t-fri);border-right:2.5px solid var(--line)}
+.fb .meas i{left:0;width:100%;background:var(--fri-fill);color:var(--on-fri)}
+.fb .note{grid-column:2;font-family:var(--body);font-weight:400;font-size:.78rem;color:var(--muted)}
+
+/* ---------- vocabulary terms ---------- */
+.term{background:none;border:0;padding:0;font:inherit;color:inherit;border-bottom:2.5px dotted currentColor;cursor:help;text-align:left}
+.term::after{content:"i";display:inline-grid;place-items:center;width:1.05em;height:1.05em;margin-left:.2em;border:1.5px solid currentColor;border-radius:50%;font-family:var(--letter);font-weight:700;font-size:.62em;vertical-align:.3em;font-style:normal}
+dialog.vocab{border:0;padding:0;background:transparent;max-width:min(32rem,calc(100vw - 2rem));width:100%}
+dialog.vocab::backdrop{background:rgba(27,30,37,.45)}
+dialog.vocab .panel{padding:1.2rem 1.3rem}
+dialog.vocab h2{font-family:var(--display);font-size:1.8rem;margin:0 0 .5rem}
+:root[data-headline="plain"] dialog.vocab h2{font-size:1.25rem;font-weight:700}
+dialog.vocab .src{font-size:.85rem;color:var(--muted)}
+dialog.vocab .row{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;flex-wrap:wrap}
+
+/* ---------- chips + batch highlighting ---------- */
+.chips{display:inline-flex;gap:.3rem;flex-wrap:wrap;vertical-align:middle;margin-left:.25rem}
+.chip{font-family:var(--letter);font-weight:700;font-size:.7rem;color:var(--c);border:2px solid var(--c);background:var(--panel);border-radius:999px;padding:0 .45rem;cursor:pointer;line-height:1.55}
+[data-threads]{transition:opacity .35s,transform .35s,box-shadow .35s}
+body.filtering [data-threads]:not(.hit){opacity:.22}
+body.filtering .panel.hit,body.filtering .stage.hit{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--hc)}
+body.filtering tr.hit td,body.filtering tr.hit th{background:var(--tint)}
+body.filtering li.hit{background:var(--tint);box-shadow:-6px 0 0 var(--hc)}
+body[data-thread="acc"]{--hc:var(--acc-fill);--tint:var(--t-acc)}
+body[data-thread="doc"]{--hc:var(--doc-fill);--tint:var(--t-doc)}
+body[data-thread="fri"]{--hc:var(--fri-fill);--tint:var(--t-fri)}
+body.filtering .hero-temple .t-pillar:not(.match){opacity:.25}
+body.filtering .hero-temple .t-base,body.filtering .hero-temple .t-roof{opacity:.45}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;border:2.5px solid var(--line);background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;line-height:1.45;min-width:560px}
+caption{text-align:left;padding:.6rem .8rem;font-family:var(--letter);font-weight:700;caption-side:top;font-size:1rem}
+th,td{text-align:left;vertical-align:top;padding:.6rem .75rem;border-top:2px solid var(--line)}
+thead th{background:var(--cap);color:var(--cap-ink);font-family:var(--letter)}
+tbody th{font-family:var(--letter)}
+
+/* ---------- evidence + gates ---------- */
+.stat{text-align:left}
+.stat .num{font-family:var(--display);font-size:3.4rem;line-height:1;color:var(--fri);margin:0 0 .4rem;display:block}
+:root[data-headline="plain"] .stat .num{font-size:2.4rem;font-weight:700}
+.stat p{font-size:.95rem}
+.gates{counter-reset:g;list-style:none;padding:0;margin:0}
+.gates li{counter-increment:g;position:relative;padding:.55rem .5rem .55rem 3.3rem;margin:0 0 .45rem}
+.gates li::before{content:counter(g);position:absolute;left:.3rem;top:.45rem;width:2.3rem;height:2.3rem;display:grid;place-items:center;font-family:var(--display);font-size:1.3rem;background:var(--fri-fill);color:var(--on-fri);border:2.5px solid var(--line);clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%)}
+.gates strong{font-family:var(--letter)}
+
+/* ---------- workflow ---------- */
+.phase{position:relative;padding-top:1.1rem;margin:0 0 1.6rem}
+.phase::before{content:"";position:absolute;top:0;left:0;height:8px;width:100%;background:var(--pf);border:2px solid var(--line);transform-origin:left}
+.phase-head{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;margin:.6rem 0 1.2rem}
+.phase-head h3{font-family:var(--display);font-size:1.8rem;margin:0}
+:root[data-headline="plain"] .phase-head h3{font-size:1.2rem;font-weight:700}
+.phase-head p{margin:0;font-family:var(--letter);font-weight:700}
+.stages{display:grid;gap:var(--gap);grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.stage{background:var(--panel);border:3px solid var(--line);box-shadow:3px 3px 0 var(--line);padding:.85rem .95rem}
+.stage .sn{font-family:var(--letter);font-weight:700;font-size:.75rem;background:var(--pf);color:var(--pon);border:2px solid var(--line);padding:0 .4rem;display:inline-block}
+.stage h4{font-family:var(--display);font-weight:400;font-size:1.5rem;letter-spacing:.02em;line-height:1.1;margin:.6rem 0 .7rem}
+:root[data-headline="plain"] .stage h4{font-family:var(--body);font-weight:700;font-size:1.15rem;letter-spacing:0}
+.stage dl{margin:0;font-size:.84rem;line-height:1.45}
+.stage dt{font-family:var(--letter);font-weight:700;margin-top:.35rem}
+.stage dd{margin:0}
+.stage .chips{margin:.55rem 0 0}
+html.motion.js .phase::before{transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+html.motion.js .phase .stage{opacity:0;transform:translateY(14px) rotate(-1deg);transition:opacity .45s,transform .45s}
+html.motion.js .phase.in::before{transform:scaleX(1)}
+html.motion.js .phase.in .stage{opacity:1;transform:none}
+html.motion.js .phase.in .stage:nth-child(2){transition-delay:.12s}
+html.motion.js .phase.in .stage:nth-child(3){transition-delay:.24s}
+html.motion.js .phase.in .stage:nth-child(4){transition-delay:.36s}
+html.js body.filtering .phase .stage[data-threads]:not(.hit){opacity:.22}
+html.js body.filtering .phase .stage{transition-delay:0s}
+
+/* ---------- connect + log ---------- */
+.connect{background:var(--t-base)}
+.connect .caption{margin-bottom:.5rem}
+.log{background-color:var(--panel);background-image:repeating-linear-gradient(transparent 0 1.9rem,var(--dot) 1.9rem calc(1.9rem + 1px))}
+.log .prompt{font-family:var(--letter);font-weight:400;font-size:1.12rem;margin:0 0 1rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 .7rem}
+.tab{font-family:var(--letter);font-weight:700;font-size:.85rem;border:2.5px solid var(--line);background:var(--paper);padding:.3rem .7rem;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--cap);color:var(--cap-ink);border-color:var(--line)}
+.tabpanel textarea,.tabpanel input[type="text"]{width:100%;border:2.5px solid var(--line);background:var(--paper);color:var(--ink);padding:.6rem .7rem;font-family:var(--body);font-size:1rem;line-height:1.5}
+.tabpanel textarea{min-height:6rem;resize:vertical}
+.tabpanel .row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.5rem 0}
+.tabpanel audio{width:100%;max-width:26rem;margin-top:.4rem}
+.tabpanel img.preview{max-width:100%;max-height:16rem;border:2.5px solid var(--line);display:block;margin:.5rem 0}
+.tabpanel canvas{width:100%;height:auto;aspect-ratio:2/1;border:2.5px solid var(--line);background:#faf8f3;touch-action:none;cursor:crosshair;display:block}
+.tabpanel .file{font-size:.9rem}
+.logmsg{font-family:var(--letter);font-weight:700;font-size:.85rem;margin:.5rem 0 0;min-height:1.2em}
+.complete{display:flex;justify-content:flex-end;margin-top:.4rem}
+.donebox{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--letter);font-weight:700;background:var(--panel);border:3px solid var(--line);box-shadow:3px 3px 0 var(--line);padding:.45rem .8rem;cursor:pointer}
+.donebox input{width:1.1rem;height:1.1rem;accent-color:#2f9e5a;margin:0}
+.donebox:has(input:checked){background:var(--cap);color:var(--cap-ink);border-color:var(--line)}
+
+/* key frames mode */
+html.keyonly .detail{display:none!important}
+
+/* ---------- tracker sidebar ---------- */
+.tracker{display:grid;gap:1rem;align-content:start}
+@media (min-width:1180px){.tracker{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px);max-height:calc(100vh - 100px);overflow:auto;padding:0 6px 8px 0}}
+@media (max-width:1179px){
+  .tracker{position:fixed;z-index:45;right:.8rem;left:.8rem;bottom:calc(env(safe-area-inset-bottom,0px) + .8rem);max-height:70vh;overflow:auto}
+  .tracker[data-open="false"]{display:none}
+}
+.trk-btn{display:none}
+@media (max-width:1179px){.trk-btn{display:inline-block}}
+.tracker h2{font-family:var(--display);font-size:1.5rem;margin:0 0 .5rem}
+:root[data-headline="plain"] .tracker h2{font-size:1.05rem;font-weight:700}
+.goal{font-family:var(--letter);font-weight:700;font-size:.85rem;margin:0 0 .4rem}
+.waypoints{list-style:none;display:flex;justify-content:space-between;padding:0;margin:.8rem 0 .4rem;position:relative}
+.waypoints::before{content:"";position:absolute;left:1rem;right:1rem;top:1.1rem;height:3px;background:var(--line)}
+.waypoints li{margin:0;position:relative;z-index:1}
+.wp{width:2.25rem;height:2.25rem;border-radius:50%;border:2.5px solid var(--line);background:var(--panel);display:grid;place-items:center;cursor:pointer;padding:0;color:var(--ink)}
+.wp svg{width:1.1rem;height:1.1rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.wp.done{background:var(--cap);color:var(--cap-ink);border-color:var(--line)}
+.wp.current{outline:3px solid var(--focus);outline-offset:2px}
+.objectives{list-style:none;padding:0;margin:.6rem 0 0;font-size:.88rem}
+.objectives li{margin:0 0 .3rem}
+.objectives label{display:flex;gap:.45rem;align-items:flex-start;cursor:pointer}
+.objectives input{margin-top:.25rem;accent-color:#2f9e5a}
+.sidekick .face{display:flex;gap:.6rem;align-items:center;margin:0 0 .6rem}
+.sidekick .bot{width:2.6rem;height:2.6rem;flex:none;border:2.5px solid var(--line);border-radius:12px;background:var(--fri-fill);position:relative}
+.sidekick .bot::before,.sidekick .bot::after{content:"";position:absolute;top:.85rem;width:.45rem;height:.45rem;border-radius:50%;background:#14151c}
+.sidekick .bot::before{left:.55rem}.sidekick .bot::after{right:.55rem}
+.sidekick .bot i{position:absolute;left:.75rem;right:.75rem;bottom:.5rem;height:.3rem;border-bottom:2px solid var(--line);border-radius:0 0 8px 8px}
+.sidekick h2{margin:0}
+.sk-msg{background:var(--paper);border:2.5px solid var(--line);border-radius:18px;padding:.75rem .9rem;font-family:var(--letter);font-weight:400;font-size:.95rem;line-height:1.45;margin:0 0 .8rem}
+.sk-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .7rem}
+.sk-actions .btn{font-size:.8rem;padding:.25rem .6rem}
+.sk-ask{display:flex;gap:.4rem}
+.sk-ask input{flex:1;min-width:0;border:2.5px solid var(--line);background:var(--paper);padding:.4rem .55rem;font-size:.9rem}
+.sk-results{list-style:none;padding:0;margin:.5rem 0 0;font-size:.88rem}
+.sk-results li{margin:0 0 .3rem}
+.sk-results button{background:none;border:0;padding:0;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:var(--focus);text-decoration-thickness:2px}
+.toast{position:fixed;z-index:44;right:.8rem;bottom:calc(env(safe-area-inset-bottom,0px) + .8rem);max-width:min(22rem,calc(100vw - 1.6rem))}
+.toast[hidden]{display:none}
+@media (min-width:1180px){.toast{display:none!important}}
+
+/* ---------- back matter ---------- */
+.shield{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 1rem}
+.shield div{border:2px solid var(--line);padding:.8rem .7rem;font-family:var(--letter);font-weight:700;text-align:center;color:var(--ink);line-height:1.3}
+.shield div small{display:block;font-weight:400;font-size:.78rem;margin-top:.25rem;font-family:var(--body)}
+.shield .se{background:color-mix(in srgb,var(--eng) 28%,var(--panel))} .shield .sr2{background:color-mix(in srgb,var(--rep) 28%,var(--panel))} .shield .sa{background:color-mix(in srgb,var(--act) 28%,var(--panel))}
+.glossary{margin:0}
+.glossary div{padding:.6rem 0;border-top:2px dashed var(--line)}
+.glossary dt{font-family:var(--letter);font-weight:700}
+.glossary dd{margin:.2rem 0 0;font-size:.95rem}
+.glossary .gsrc{font-size:.8rem;color:var(--muted)}
+.logbook{display:grid;gap:.7rem}
+.logbook .entry{border:2.5px solid var(--line);background:var(--paper);padding:.7rem .8rem}
+.logbook .entry h3{font-family:var(--letter);font-size:1rem;margin:0 0 .3rem}
+.logbook .entry p{white-space:pre-wrap;margin:0 0 .3rem;font-size:.95rem}
+.logbook .meta{font-family:var(--letter);font-weight:700;font-size:.78rem;color:var(--muted)}
+.refs p{font-size:.92rem;padding-left:2rem;text-indent:-2rem;margin:0 0 .65rem;overflow-wrap:anywhere}
+.section-head{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 1.3rem}
+:root[data-headline="plain"] .section-head{font-size:1.5rem;font-weight:700}
+.backmatter{margin-top:3rem}
+footer{font-family:var(--letter);font-weight:700;font-size:.82rem;color:var(--muted);padding:1rem 0 0}
+.totop{font-family:var(--letter);font-weight:700;font-size:.85rem}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="hud">
+  <div class="hud-in">
+    <span class="hud-title display">The Graphic Brief</span>
+    <div class="xp" aria-live="polite"><span id="xpText">0 of 5 chapters</span><div class="xpbar" aria-hidden="true"><div class="xpfill" id="xpFill"></div></div></div>
+    <div class="filters" role="group" aria-labelledby="flabel">
+      <span id="flabel">Highlight:</span>
+      <button class="fbtn acc" data-filter="acc" aria-pressed="false">Transparency</button>
+      <button class="fbtn doc" data-filter="doc" aria-pressed="false">Documentation</button>
+      <button class="fbtn fri" data-filter="fri" aria-pressed="false">Friction</button>
+    </div>
+    <button class="btn trk-btn" id="trkBtn" aria-expanded="false" aria-controls="tracker">Tracker</button>
+    <button class="btn" id="setBtn" aria-expanded="false" aria-controls="settings">Settings</button>
+    <div class="status" id="status" aria-live="polite"></div>
+  </div>
+</header>
+
+<aside class="panel settings" id="settings" hidden aria-labelledby="setTitle" tabindex="-1">
+  <h2 id="setTitle" class="display">Settings</h2>
+  <p class="hint">Tune the page to the way you read. Your choices stay on this device.</p>
+  <fieldset><legend>Text size</legend><div class="seg">
+    <label><input type="radio" name="size" value="0"><span>Standard</span></label>
+    <label><input type="radio" name="size" value="1"><span>Larger</span></label>
+    <label><input type="radio" name="size" value="2"><span>Large</span></label>
+    <label><input type="radio" name="size" value="3"><span>Largest</span></label>
+  </div></fieldset>
+  <fieldset><legend>Theme</legend><div class="seg">
+    <label><input type="radio" name="theme" value="auto"><span>Match device</span></label>
+    <label><input type="radio" name="theme" value="light"><span>Daylight</span></label>
+    <label><input type="radio" name="theme" value="dark"><span>Night city</span></label>
+    <label><input type="radio" name="theme" value="contrast"><span>High contrast</span></label>
+  </div></fieldset>
+  <fieldset><legend>Layout density</legend><div class="seg">
+    <label><input type="radio" name="density" value="roomy"><span>Roomy panels</span></label>
+    <label><input type="radio" name="density" value="compact"><span>Compact panels</span></label>
+  </div></fieldset>
+  <fieldset><legend>Reading typeface</legend><div class="seg">
+    <label><input type="radio" name="font" value="legible"><span style="font-family:'Atkinson Hyperlegible',sans-serif">Hyperlegible</span></label>
+    <label><input type="radio" name="font" value="comic"><span style="font-family:'Comic Neue',sans-serif">Comic lettering</span></label>
+    <label><input type="radio" name="font" value="serif"><span style="font-family:Georgia,serif">Book serif</span></label>
+  </div></fieldset>
+  <fieldset><legend>Headlines</legend><div class="seg">
+    <label><input type="radio" name="headline" value="comic"><span>Comic</span></label>
+    <label><input type="radio" name="headline" value="plain"><span>Plain</span></label>
+  </div></fieldset>
+  <fieldset><legend>Line spacing</legend><div class="seg">
+    <label><input type="radio" name="spacing" value="normal"><span>Normal</span></label>
+    <label><input type="radio" name="spacing" value="relaxed"><span>Relaxed</span></label>
+    <label><input type="radio" name="spacing" value="loose"><span>Loose</span></label>
+  </div></fieldset>
+  <fieldset><legend>Depth</legend><div class="seg">
+    <label><input type="radio" name="depth" value="key"><span>Key frames only</span></label>
+    <label><input type="radio" name="depth" value="full"><span>Full story</span></label>
+  </div></fieldset>
+  <fieldset><legend>Motion</legend><div class="seg">
+    <label><input type="radio" name="motion" value="on"><span>Animations on</span></label>
+    <label><input type="radio" name="motion" value="off"><span>Animations off</span></label>
+  </div></fieldset>
+  <fieldset><legend>Sidekick tips</legend><div class="seg">
+    <label><input type="radio" name="sidekick" value="on"><span>On</span></label>
+    <label><input type="radio" name="sidekick" value="off"><span>Quiet</span></label>
+  </div></fieldset>
+  <fieldset id="rateSet"><legend>Narration speed</legend><div class="seg">
+    <label><input type="radio" name="rate" value="0.85"><span>Slower</span></label>
+    <label><input type="radio" name="rate" value="1"><span>Normal</span></label>
+    <label><input type="radio" name="rate" value="1.2"><span>Faster</span></label>
+  </div></fieldset>
+  <div class="settings-foot">
+    <button class="btn" id="resetSet" type="button">Reset</button>
+    <button class="btn" id="closeSet" type="button">Done</button>
+  </div>
+</aside>
+
+<div class="layout">
+<main id="main" tabindex="-1">
+
+  <!-- COVER -->
+  <div class="grid">
+    <div class="panel cover w6">
+      <p class="caption tag">Issue 1 · October 29, 2026</p>
+      <div class="cover-in">
+        <p class="caption">A brief for Westminster Theological Seminary, Learning Experience</p>
+        <h1 class="display">Managing AI-Assisted Development</h1>
+        <p class="lede">Borrow software engineering’s practices, not its bureaucracy. AI amplifies whatever system it enters, so the method matters more than the tool.</p>
+        <p class="byline">Written by Bern</p>
+      </div>
+    </div>
+
+    <div class="panel w6" role="group" aria-labelledby="questTitle">
+      <div class="bubble"><span class="who">The brief</span><span id="questTitle">You are the hero of this story. Where do you want to start?</span></div>
+      <div class="quests">
+        <button class="quest" data-path="quick" aria-pressed="false"><span class="qi" aria-hidden="true">1</span><span><strong>Quick recon</strong><span class="d">Two minutes. Key frames only, starting with the summary.</span></span></button>
+        <button class="quest" data-path="present" aria-pressed="false"><span class="qi" aria-hidden="true">2</span><span><strong>Zoom briefing</strong><span class="d">Key frames in large type, one headline at a time.</span></span></button>
+        <button class="quest" data-path="full" aria-pressed="false"><span class="qi" aria-hidden="true">3</span><span><strong>Full mission</strong><span class="d">Every panel, with evidence, pictures, and your log.</span></span></button>
+      </div>
+    </div>
+
+    <div class="panel w6">
+      <p class="caption">The map: five chapters, built like a building with a foundation, three pillars, and a roof. Select any part to jump there.</p>
+      <div class="temple hero-temple" role="group" aria-label="Diagram of how the five chapters fit together">
+        <button class="t-part t-roof" data-go="workflow"><span class="inner"><span class="t-num">Chapter 5</span><span class="t-name">One working cycle that uses all three pillars</span></span></button>
+        <div class="t-pillars">
+          <button class="t-part t-pillar acc" data-go="transparency" data-pillar="acc"><span class="t-num">Chapter 2</span><span class="t-name">Transparency and accountability</span></button>
+          <button class="t-part t-pillar doc" data-go="documentation" data-pillar="doc"><span class="t-num">Chapter 3</span><span class="t-name">Documentation at AI speed</span></button>
+          <button class="t-part t-pillar fri" data-go="friction" data-pillar="fri"><span class="t-num">Chapter 4</span><span class="t-name">Productive friction</span></button>
+        </div>
+        <button class="t-part t-base" data-go="frameworks"><span class="t-num">Chapter 1</span><span class="t-name">Frameworks borrowed from software engineering</span></button>
+      </div>
+      <details class="alt"><summary>Read a description of this picture</summary><p>The picture is drawn as a building with a foundation, three pillars, and a roof. Each part is one chapter, and each rests on the one below it.</p><p><strong>Foundation, Chapter 1: Frameworks.</strong> Published standards from software engineering supply the principles everything else rests on. NIST’s AI Risk Management Framework governs the work, Google’s DORA research guides daily practice, and Agile’s values set the culture.</p><p><strong>Red pillar, Chapter 2: Transparency and accountability.</strong> Five methods make AI-assisted work visible and owned: a written AI stance, short decision records, a time budget set before building, a spec stakeholders approve, and blameless reviews when things go wrong.</p><p><strong>Gold pillar, Chapter 3: Documentation.</strong> At AI speed, documentation becomes part of each change rather than a chore after it. AI drafts the changelog or status note; a person curates it and chooses the right kind of document for the reader.</p><p><strong>Teal pillar, Chapter 4: Productive friction.</strong> Research shows AI can feel faster than it is and can weaken learning. Six deliberate gates slow down only the moments that need human judgment, such as framing the problem, approving the plan, and explaining the output back before accepting it.</p><p><strong>Roof, Chapter 5: Workflow.</strong> One eight-stage cycle draws on all three pillars at once: think before the build, work in small documented steps during it, and show and review the work after it.</p><p>The pillar colors, red, gold, and teal, mark which batch each item belongs to across the whole page.</p></details>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <section class="chapter" id="summary" aria-labelledby="h-summary" style="--tint:var(--t-base);--pc-fill:var(--cap)">
+    <div class="grid">
+      <div class="panel splash w6">
+        <div class="splash-main">
+          <p class="caption">Previously, in four questions</p>
+          <h2 id="h-summary" class="display">Executive summary</h2>
+          <p class="where">Yes, borrow from software engineering, but borrow its practices: small batches, written decisions, gated plans, and blameless reviews (<a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA 2025</a>).</p>
+        </div>
+      </div>
+      <div class="panel w3" style="border-top:10px solid var(--base-fill)">
+        <h3 class="ptitle">1. What frameworks can guide AI-assisted development?</h3>
+        <p>Use NIST’s AI RMF as the governance frame and DORA’s AI Capabilities Model as the working frame; keep Agile’s values as the culture.</p>
+        <p style="font-size:.85rem"><a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST 2023</a>; <a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA 2025</a>; <a href="https://agilemanifesto.org/">Beck et al. 2001</a>. <a href="#frameworks">Chapter 1</a></p>
+      </div>
+      <div class="panel w3" style="border-top:10px solid var(--acc-fill)">
+        <h3 class="ptitle">2. How do we build transparency and accountability?</h3>
+        <p>Publish an AI-use stance, write short decision records, pitch work with a stated time budget, and review failures without blame.</p>
+        <p style="font-size:.85rem"><a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Nygard 2011</a>; <a href="https://basecamp.com/shapeup">Singer 2019</a>; <a href="https://sre.google/sre-book/postmortem-culture/">Lunney and Lueder 2016</a>. <a href="#transparency">Chapter 2</a></p>
+      </div>
+      <div class="panel w3" style="border-top:10px solid var(--doc-fill)">
+        <h3 class="ptitle">3. How do we keep up with documentation at AI speed?</h3>
+        <p>Let AI draft, but a human curates; sort documents by reader need; update documents in the same step as the change.</p>
+        <p style="font-size:.85rem"><a href="https://keepachangelog.com/">Lacan n.d.</a>; <a href="https://canonical.com/blog/diataxis-a-new-foundation-for-canonical-documentation">Procida n.d.</a>. <a href="#documentation">Chapter 3</a></p>
+      </div>
+      <div class="panel w3" style="border-top:10px solid var(--fri-fill)">
+        <h3 class="ptitle">4. Where should we add friction?</h3>
+        <p>At six gates: problem framing, pre-mortem, plan approval, small batches, explain-back before acceptance, and post-launch review.</p>
+        <p style="font-size:.85rem"><a href="https://hbr.org/2007/09/performing-a-project-premortem">Klein 2007</a>; <a href="https://code.claude.com/docs/en/best-practices">Anthropic n.d.</a>; <a href="https://arxiv.org/html/2601.20245v1">Shen and Tamkin 2026</a>. <a href="#friction">Chapter 4</a></p>
+      </div>
+      <p class="caption block w6 detail">Citations follow Turabian author-date style (Turabian 2018, chs. 18–19). Words with a dotted underline and an “i” open a plain-language definition.</p>
+    </div>
+  </section>
+
+  <!-- CHAPTER 1 -->
+  <section class="chapter" id="frameworks" aria-labelledby="h-frameworks" data-chapter="1" style="--tint:var(--t-base);--pc-fill:var(--base-fill);--pc-on:var(--on-base)">
+    <div class="grid">
+      <div class="panel splash w6">
+        <div class="splash-main">
+          <p class="caption">Chapter 1: The foundation</p>
+          <h2 id="h-frameworks" class="display">Frameworks: what to borrow from software engineering</h2>
+          <p class="where">Five published standards supply the principles that all three practice pillars rest on.</p>
+          <dl class="flow"><dt>Draws from</dt><dd>NIST, ISO/IEC, Google DORA, the Agile Manifesto</dd><dt>Feeds into</dt><dd>Chapters 2, 3, and 4</dd></dl>
+          <div class="tools"><span class="readtime"></span><button class="btn listen" type="button" hidden>Listen</button></div>
+        </div>
+        <div class="temple mini" aria-hidden="true" data-on="base" data-feeds="acc doc fri"></div>
+      </div>
+    </div>
+    <div class="readable">
+      <div class="mission"><span class="badge display">Mission</span><p>After this chapter you can say which framework governs the work, which guides daily practice, and why they differ in scale.</p></div>
+      <div class="bubble" style="margin-top:1.2rem"><span class="who">Key frame</span>Use NIST for governance and DORA for daily practice, with Agile’s values as the culture.</div>
+
+      <div class="grid detail">
+        <div class="panel w6"><p class="caption">The setup</p><p>Software engineering has the longest record of AI-assisted work and the most published standards. Two layers help most: a governance frame that says what must be managed, and a working frame that says how teams get good results.</p></div>
+
+        <div class="panel w3" data-threads="acc fri">
+          <h3 class="ptitle">Governance frame: the <button class="term" data-term="airmf">NIST AI Risk Management Framework</button> <span class="chips"></span></h3>
+          <p>The AI RMF is voluntary and built to help organizations bring trustworthiness into the design, development, use, and evaluation of AI systems (<a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST 2023</a>). It organizes the work into four functions: Govern, Map, Measure, and Manage (<a href="https://doi.org/10.6028/NIST.AI.600-1">NIST 2024</a>).</p>
+          <p>Its Generative AI Profile (NIST AI 600-1, July 2024) adds actions for risks that generative AI creates or makes worse (<a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence">NIST 2024</a>). For an LX team: who is responsible (Govern), what the tool touches (Map), how we test it (Measure), and what we do when it fails (Manage).</p>
+        </div>
+
+        <div class="panel w3" data-threads="acc doc fri">
+          <h3 class="ptitle">Working frame: the <button class="term" data-term="dora">DORA</button> AI Capabilities Model <span class="chips"></span></h3>
+          <p>Google’s DORA program published its first report on AI-assisted development in 2025 (<a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA 2025</a>). Its central claim is that AI adoption succeeds as a systems problem, not a tools problem (<a href="https://cloud.google.com/devops/state-of-devops">DORA 2025</a>). Of its seven capabilities, three matter most for a small LX shop (<a href="https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/">DORA n.d.</a>):</p>
+          <ul>
+            <li><strong>A clear, communicated <button class="term" data-term="stance">AI stance</button>.</strong> Ambiguity about what AI may be used for creates risk.</li>
+            <li><strong>Working in <button class="term" data-term="batch">small batches</button>.</strong> Large AI output is hard to review; small batches keep speed from turning into instability.</li>
+            <li><strong>User-centric focus.</strong> Teams without it can be harmed by adopting AI.</li>
+          </ul>
+        </div>
+
+        <div class="panel w2" data-threads="fri">
+          <h3 class="ptitle">Secure build: <button class="term" data-term="ssdf">NIST SSDF</button> and SP 800-218A <span class="chips"></span></h3>
+          <p>SP 800-218A extends the Secure Software Development Framework with AI-specific practices across the life cycle (<a href="https://csrc.nist.gov/pubs/sp/800/218/a/final">Booth et al. 2024</a>). Treat it as a checklist for anything that handles student data, not a daily workflow.</p>
+        </div>
+
+        <div class="panel w2" data-threads="acc">
+          <h3 class="ptitle">Institution: ISO/IEC 42001 <span class="chips"></span></h3>
+          <p>The first international standard for an AI management system; it specifies how an organization establishes, maintains, and improves its governance of AI (<a href="https://www.iso.org/standard/42001">ISO/IEC 2023</a>). Use it to inform a WTS policy, not a one-person project.</p>
+        </div>
+
+        <div class="panel w2" data-threads="acc doc">
+          <h3 class="ptitle">Culture: the Agile Manifesto <span class="chips"></span></h3>
+          <p>People over process, working results over exhaustive paperwork, collaboration, and responding to change (<a href="https://agilemanifesto.org/">Beck et al. 2001</a>). Agile opposes only valueless documentation, not documentation itself (<a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Nygard 2011</a>).</p>
+        </div>
+
+        <div class="panel w6">
+          <p class="pic-title display">Picture it: who each framework is for</p>
+          <div class="ladder" aria-hidden="true">
+            <div class="l1"><span>ISO/IEC 42001</span><span>Whole institution</span></div>
+            <div class="l2"><span>NIST AI RMF</span><span>Governance of AI use</span></div>
+            <div class="l3"><span>NIST SSDF / 800-218A</span><span>Security checks</span></div>
+            <div class="l4"><span>DORA AI Capabilities</span><span>Daily practice</span></div>
+            <div class="l5"><span>Agile values</span><span>The culture under it all</span></div>
+          </div>
+          <div class="ladder-scale" aria-hidden="true"><span>Wider scope</span><span>Closer to your daily work</span></div>
+          <details class="alt"><summary>Read a description of this picture</summary><p>A stack of five bars ordered by scope. At the top, ISO/IEC 42001 covers the whole institution. Below it, the NIST AI RMF covers governance of AI use, then NIST SSDF and SP 800-218A cover security checks, then the DORA AI Capabilities Model covers daily practice. At the bottom, highlighted, Agile values form the culture under everything. The top is the widest scope; the bottom is closest to daily work.</p></details>
+        </div>
+
+        <div class="w6 tw" data-threads="acc doc fri">
+          <table>
+            <caption>The five frameworks at a glance</caption>
+            <thead><tr><th scope="col">Framework</th><th scope="col">Use it for</th><th scope="col">Scale for WTS LX</th></tr></thead>
+            <tbody>
+              <tr data-threads="acc fri"><th scope="row"><a href="https://www.nist.gov/itl/ai-risk-management-framework">AI RMF 1.0</a> and <a href="https://doi.org/10.6028/NIST.AI.600-1">GenAI Profile</a></th><td>Risk vocabulary; the four functions</td><td>Use the four functions as headings in project briefs</td></tr>
+              <tr data-threads="fri"><th scope="row"><a href="https://csrc.nist.gov/pubs/sp/800/218/a/final">SSDF and SP 800-218A</a></th><td>Security checks across the life cycle</td><td>Checklist for tools touching student data</td></tr>
+              <tr data-threads="acc"><th scope="row"><a href="https://www.iso.org/standard/42001">ISO/IEC 42001</a></th><td>Institution-wide AI governance</td><td>Input to a WTS policy</td></tr>
+              <tr data-threads="acc doc fri"><th scope="row"><a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA AI Capabilities Model</a></th><td>Daily working practices</td><td>Adopt stance, small batches, user focus now</td></tr>
+              <tr data-threads="acc doc"><th scope="row"><a href="https://agilemanifesto.org/">Agile Manifesto</a></th><td>Values and culture</td><td>Frequent demos to faculty and students</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel connect w6"><p class="caption">Connect to what you already know</p><p>The AI RMF works like a course design cycle: you analyze before you design and evaluate after you deliver. Map is your analysis, Measure is your evaluation, and Govern names who owns each step.</p></div>
+      </div>
+    </div>
+    <div class="panel log detail" data-log="frameworks" data-prompt="Which of these frameworks does WTS already follow, even informally?"></div>
+    <div class="complete"><label class="donebox"><input type="checkbox" data-done="frameworks"> Chapter complete</label></div>
+  </section>
+
+  <!-- CHAPTER 2 -->
+  <section class="chapter" id="transparency" aria-labelledby="h-transparency" data-chapter="2" style="--tint:var(--t-acc);--pc-fill:var(--acc-fill);--pc-on:var(--on-acc)">
+    <div class="grid">
+      <div class="panel splash w6">
+        <div class="splash-main">
+          <p class="caption">Chapter 2: The first pillar</p>
+          <h2 id="h-transparency" class="display">Transparency, buy-in, and accountability</h2>
+          <p class="where">These methods make the work visible and owned, so stakeholders see why it was built, what it may do, and who answers for it.</p>
+          <dl class="flow"><dt>Draws from</dt><dd>NIST Govern, DORA’s AI stance, Agile collaboration</dd><dt>Feeds into</dt><dd>Workflow stages 3, 7, and 8</dd></dl>
+          <div class="tools"><span class="readtime"></span><button class="btn listen" type="button" hidden>Listen</button></div>
+        </div>
+        <div class="temple mini" aria-hidden="true" data-on="acc" data-feeds=""></div>
+      </div>
+    </div>
+    <div class="readable">
+      <div class="mission"><span class="badge display">Mission</span><p>After this chapter you can choose which of five methods a stakeholder needs to see before approving an AI-assisted project.</p></div>
+      <div class="bubble" style="margin-top:1.2rem"><span class="who">Key frame</span>Make the work visible and owned: a stance, decision records, an appetite, a reviewable spec, and blameless reviews.</div>
+
+      <div class="grid detail">
+        <div class="panel w6">
+          <p class="pic-title display">Picture it: five methods, five questions answered</p>
+          <div class="tiles" aria-hidden="true">
+            <div class="tile"><b>AI stance</b><span>What may AI do here?</span></div>
+            <div class="tile"><b>Decision record</b><span>Why this way?</span></div>
+            <div class="tile"><b>Appetite</b><span>How much time is it worth?</span></div>
+            <div class="tile"><b>Spec</b><span>What exactly are we building?</span></div>
+            <div class="tile"><b>Blameless review</b><span>What did we learn?</span></div>
+          </div>
+          <details class="alt"><summary>Read a description of this picture</summary><p>Five tiles, each pairing a method with the stakeholder question it answers. The AI stance answers what AI may do here. A decision record answers why it was done this way. An appetite answers how much time the work is worth. A spec answers what exactly is being built. A blameless review answers what was learned.</p></details>
+        </div>
+
+        <div class="panel w3" data-threads="acc">
+          <h3 class="ptitle">2.1 Publish a project AI stance <span class="chips"></span></h3>
+          <p>DORA found that a clear, communicated stance on AI use lifts results; ambiguity creates risk (<a href="https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/">DORA n.d.</a>). NIST’s Govern function asks the same: name policies, roles, and responsibilities before building (<a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST 2023</a>).</p>
+          <p class="prac"><strong>In practice:</strong> a half-page statement per project naming which AI tools were used, for what, what data they saw, and who reviewed the output.</p>
+        </div>
+
+        <div class="panel w3" data-threads="acc doc">
+          <h3 class="ptitle">2.2 Write <button class="term" data-term="adr">decision records</button> <span class="chips"></span></h3>
+          <p>Nygard’s 2011 record has a Title, Context, Decision, Status, and Consequences, negative as well as positive (<a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Nygard 2011</a>). When decisions pile up accepted without understanding, people become afraid to change anything (<a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Nygard 2011</a>).</p>
+          <p class="prac"><strong>In practice:</strong> one record per significant choice, such as “Canvas Theme Editor JS instead of an LTI tool.” Status moves to accepted only after the stakeholder signs off.</p>
+        </div>
+
+        <div class="panel w2" data-threads="acc fri">
+          <h3 class="ptitle">2.3 Pitch with an <button class="term" data-term="appetite">appetite</button> <span class="chips"></span></h3>
+          <p>Shape Up sets a time budget before design begins, then states the problem, rough solution, risks, and no-gos (<a href="https://basecamp.com/shapeup">Singer 2019</a>). Because AI makes adding features cheap, the appetite gives permission to cut scope.</p>
+        </div>
+
+        <div class="panel w2" data-threads="acc doc fri">
+          <h3 class="ptitle">2.4 Make the <button class="term" data-term="spec">spec</button> reviewable <span class="chips"></span></h3>
+          <p>Spec Kit gates AI work into specify, plan, tasks, and implement, with human review at each checkpoint (<a href="https://github.com/github/spec-kit">GitHub 2025</a>). Stakeholders approve a one-page spec in plain language before any build.</p>
+        </div>
+
+        <div class="panel w2" data-threads="acc doc">
+          <h3 class="ptitle">2.5 Review without blame <span class="chips"></span></h3>
+          <p>A <button class="term" data-term="postmortem">postmortem</button> records impact, causes, and follow-up actions, and is a learning opportunity, not punishment (<a href="https://sre.google/sre-book/postmortem-culture/">Lunney and Lueder 2016</a>). It fixes systems, not people.</p>
+        </div>
+
+        <div class="panel w6" data-threads="acc">
+          <h3 class="ptitle">Who is accountable? <span class="chips"></span></h3>
+          <p>The human, always. Generative AI shifts critical thinking toward verifying information, integrating responses, and “task stewardship” (<a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/">Lee et al. 2025</a>). Name that steward on every project.</p>
+        </div>
+
+        <div class="panel connect w6"><p class="caption">Connect to what you already know</p><p>A decision record is the rationale column of a course design map, written down at the moment of choice. An appetite works like a credit-hour workload budget: the time is fixed first, and the activities are shaped to fit it.</p></div>
+      </div>
+    </div>
+    <div class="panel log detail" data-log="transparency" data-prompt="Which stakeholder most needs to see the AI stance for a project you are working on now?"></div>
+    <div class="complete"><label class="donebox"><input type="checkbox" data-done="transparency"> Chapter complete</label></div>
+  </section>
+
+  <!-- CHAPTER 3 -->
+  <section class="chapter" id="documentation" aria-labelledby="h-documentation" data-chapter="3" style="--tint:var(--t-doc);--pc-fill:var(--doc-fill);--pc-on:var(--on-doc)">
+    <div class="grid">
+      <div class="panel splash w6">
+        <div class="splash-main">
+          <p class="caption">Chapter 3: The second pillar</p>
+          <h2 id="h-documentation" class="display">Documentation, communication, and reporting</h2>
+          <p class="where">These methods keep the record current at AI speed by making documentation part of each change, not a task after it.</p>
+          <dl class="flow"><dt>Draws from</dt><dd>DORA’s small batches, Agile’s “valuable documentation only”</dd><dt>Feeds into</dt><dd>Workflow stages 3–5 and the cadence</dd></dl>
+          <div class="tools"><span class="readtime"></span><button class="btn listen" type="button" hidden>Listen</button></div>
+        </div>
+        <div class="temple mini" aria-hidden="true" data-on="doc" data-feeds=""></div>
+      </div>
+    </div>
+    <div class="readable">
+      <div class="mission"><span class="badge display">Mission</span><p>After this chapter you can set a documentation cadence and ask AI for the right type of document for the right reader.</p></div>
+      <div class="bubble" style="margin-top:1.2rem"><span class="who">Key frame</span>Documentation is part of the change, not a task after it: AI drafts, a human curates.</div>
+
+      <div class="grid detail">
+        <div class="panel w3" data-threads="doc">
+          <h3 class="ptitle">3.1 Machines draft, humans curate <span class="chips"></span></h3>
+          <p>A <button class="term" data-term="changelog">changelog</button> is for humans, not machines: a curated, newest-first list grouped as Added, Changed, Deprecated, Removed, Fixed, and Security (<a href="https://keepachangelog.com/">Lacan n.d.</a>).</p>
+          <p class="prac"><strong>In practice:</strong> at the end of each AI session, ask for a draft entry in those six groups; you cut it to what a faculty member would care about.</p>
+        </div>
+
+        <div class="panel w3" data-threads="doc acc">
+          <h3 class="ptitle">3.3 Keep the record next to the work <span class="chips"></span></h3>
+          <p>Nygard kept decision records with the code they affect (<a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Nygard 2011</a>). Anthropic’s guidance keeps project context in a persistent file and ends each change with a descriptive commit message (<a href="https://code.claude.com/docs/en/best-practices">Anthropic n.d.</a>).</p>
+          <p class="prac"><strong>Without Git:</strong> one Notion page per project holds the spec, decisions, changelog, and AI stance. Paste it into each new AI session and update it before closing.</p>
+        </div>
+
+        <div class="panel w4" data-threads="doc">
+          <h3 class="ptitle">3.2 Sort documents by what the reader is doing <span class="chips"></span></h3>
+          <p><button class="term" data-term="diataxis">Diátaxis</button> divides documentation into tutorials, how-to guides, reference, and explanation; mixing them produces confusing documents (<a href="https://canonical.com/blog/diataxis-a-new-foundation-for-canonical-documentation">Procida n.d.</a>). Instead of “write documentation,” ask AI for one type for one reader.</p>
+          <div class="quad" aria-hidden="true">
+            <span></span><span class="ax">Learning</span><span class="ax">Working</span>
+            <span class="ax">Doing</span><div class="cell"><b>Tutorial</b>Student walkthrough of a new Canvas tool</div><div class="cell"><b>How-to</b>Add a week card to the landing page</div>
+            <span class="ax">Knowing</span><div class="cell"><b>Explanation</b>Why small-group pathways, for faculty</div><div class="cell"><b>Reference</b>Design system component list</div>
+          </div>
+          <details class="alt"><summary>Read a description of this picture</summary><p>A two-by-two grid. Columns are learning and working; rows are doing and knowing. Learning by doing is a tutorial, such as a student walkthrough of a new Canvas tool. Working by doing is a how-to guide, such as adding a week card to a landing page. Learning by knowing is explanation, such as the rationale for small-group pathways written for faculty. Working by knowing is reference, such as the design system component list.</p></details>
+        </div>
+
+        <div class="panel w2" data-threads="doc fri">
+          <h3 class="ptitle">3.4 Small batches make small reports <span class="chips"></span></h3>
+          <p>Small batches convert AI speed into stable results (<a href="https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/">DORA n.d.</a>). A weekly note on three finished changes beats a monthly report on one sprawling build.</p>
+        </div>
+
+        <div class="w6 tw">
+          <table>
+            <caption>3.5 A documentation cadence</caption>
+            <thead><tr><th scope="col">Artifact</th><th scope="col">When</th><th scope="col">AI drafts?</th><th scope="col">Human role</th><th scope="col">Source</th></tr></thead>
+            <tbody>
+              <tr data-threads="doc acc"><th scope="row">Spec (one page)</th><td>Before build</td><td>Yes, from your notes</td><td>Approve with stakeholder</td><td><a href="https://github.com/github/spec-kit">GitHub 2025</a></td></tr>
+              <tr data-threads="doc acc"><th scope="row">Decision record</th><td>At each significant choice</td><td>Yes</td><td>Write the consequences yourself</td><td><a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Nygard 2011</a></td></tr>
+              <tr data-threads="doc"><th scope="row">Changelog entry</th><td>End of each session</td><td>Yes</td><td>Cut to what matters</td><td><a href="https://keepachangelog.com/">Lacan n.d.</a></td></tr>
+              <tr data-threads="doc"><th scope="row">Status note</th><td>Weekly</td><td>Yes, from changelog</td><td>Add risks and asks</td><td><a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA 2025</a></td></tr>
+              <tr data-threads="doc acc"><th scope="row">Postmortem</th><td>After any failure</td><td>Draft timeline only</td><td>Write causes and actions</td><td><a href="https://sre.google/sre-book/postmortem-culture/">Lunney and Lueder 2016</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel connect w6"><p class="caption">Connect to what you already know</p><p>A well-built course already separates the four types: the guided lesson is a tutorial, assignment instructions are a how-to guide, syllabus policies are reference, and the lecture on why it matters is explanation.</p></div>
+      </div>
+    </div>
+    <div class="panel log detail" data-log="documentation" data-prompt="What document do faculty ask you for most often, and which of the four types is it?"></div>
+    <div class="complete"><label class="donebox"><input type="checkbox" data-done="documentation"> Chapter complete</label></div>
+  </section>
+
+  <!-- CHAPTER 4 -->
+  <section class="chapter" id="friction" aria-labelledby="h-friction" data-chapter="4" style="--tint:var(--t-fri);--pc-fill:var(--fri-fill);--pc-on:var(--on-fri)">
+    <div class="grid">
+      <div class="panel splash w6">
+        <div class="splash-main">
+          <p class="caption">Chapter 4: The third pillar</p>
+          <h2 id="h-friction" class="display">Designing productive friction</h2>
+          <p class="where">These gates slow down only the moments where human judgment cannot be replaced: framing, approving, and understanding.</p>
+          <dl class="flow"><dt>Draws from</dt><dd>NIST Measure, DORA’s small batches, three research studies</dd><dt>Feeds into</dt><dd>Workflow stages 1, 2, 4, 5, and 6</dd></dl>
+          <div class="tools"><span class="readtime"></span><button class="btn listen" type="button" hidden>Listen</button></div>
+        </div>
+        <div class="temple mini" aria-hidden="true" data-on="fri" data-feeds=""></div>
+      </div>
+    </div>
+    <div class="readable">
+      <div class="mission"><span class="badge display">Mission</span><p>After this chapter you can name the six gates and explain why felt speed is a poor guide.</p></div>
+      <div class="bubble" style="margin-top:1.2rem"><span class="who">Key frame</span>Slow down at six gates where judgment cannot be handed to AI; move freely everywhere else.</div>
+
+      <div class="grid detail">
+        <div class="panel stat w2" data-threads="fri"><span class="num">19%</span><p>Experienced developers took 19% longer on real tasks with AI allowed, yet believed afterward it had sped them up. Results may differ with other tools, projects, and experience (<a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">Becker et al. 2025</a>).</p></div>
+        <div class="panel stat w2" data-threads="fri"><span class="num">52</span><p>Developers learning a new library with AI scored lower on a later skills quiz; engaged patterns preserved learning. A preprint: a strong signal, not settled fact (<a href="https://arxiv.org/html/2601.20245v1">Shen and Tamkin 2026</a>; <a href="https://www.anthropic.com/research/AI-assistance-coding-skills">Anthropic 2026</a>).</p></div>
+        <div class="panel stat w2" data-threads="fri acc"><span class="num">319</span><p>Among 319 knowledge workers, more confidence in AI went with less critical thinking, and more self-confidence with more (<a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/">Lee et al. 2025</a>).</p></div>
+
+        <div class="panel w6">
+          <p class="pic-title display">Picture it: how it felt versus what was measured</p>
+          <div class="feltbars" aria-hidden="true">
+            <div class="fb"><span>How it felt</span><div class="track felt"><i>“AI made me faster”</i></div></div>
+            <div class="fb"><span>What was measured</span><div class="track meas"><i>Tasks took 19% longer</i></div></div>
+            <div class="fb"><span class="note"></span><span class="note">Bar lengths illustrate direction only, not exact values (Becker et al. 2025).</span></div>
+          </div>
+          <details class="alt"><summary>Read a description of this picture</summary><p>Two bars. The first, labeled “how it felt,” is shorter and reads “AI made me faster.” The second, labeled “what was measured,” is longer and reads “tasks took 19% longer.” The bar lengths show direction only, not exact values.</p></details>
+        </div>
+
+        <div class="panel w6">
+          <h3 class="ptitle">4.2 Six friction gates</h3>
+          <ol class="gates">
+            <li data-threads="fri"><strong>Frame the problem before prompting.</strong> Write the problem, user, and appetite yourself, without AI (<a href="https://basecamp.com/shapeup">Singer 2019</a>). This protects the self-confidence linked to critical thinking (<a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/">Lee et al. 2025</a>). <span class="chips"></span></li>
+            <li data-threads="fri"><strong>Run a <button class="term" data-term="premortem">pre-mortem</button>.</strong> Imagine the project has failed and list why; it surfaces risks ordinary critique misses (<a href="https://hbr.org/2007/09/performing-a-project-premortem">Klein 2007</a>). Ten minutes is enough. <span class="chips"></span></li>
+            <li data-threads="fri doc"><strong>Approve the plan before any build.</strong> Explore, then plan, then code, with the human editing the plan first; letting AI jump to code can solve the wrong problem (<a href="https://code.claude.com/docs/en/best-practices">Anthropic n.d.</a>). Spec Kit makes this a hard gate (<a href="https://github.com/github/spec-kit">GitHub 2025</a>). Ask the AI to interview you first (<a href="https://code.claude.com/docs/en/best-practices">Anthropic n.d.</a>). <span class="chips"></span></li>
+            <li data-threads="fri doc"><strong>Hold the batch small.</strong> If a change can’t be described in one sentence, it needs a plan (<a href="https://code.claude.com/docs/en/best-practices">Anthropic n.d.</a>); if it can’t be reviewed in one sitting, split it (<a href="https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/">DORA n.d.</a>). <span class="chips"></span></li>
+            <li data-threads="fri"><strong><button class="term" data-term="explainback">Explain it back</button> before accepting.</strong> Before pasting AI output into Canvas, state in your own words what it does and what could break. This is the engaged pattern that preserved skill (<a href="https://arxiv.org/html/2601.20245v1">Shen and Tamkin 2026</a>) and NIST’s Measure at human scale (<a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST 2023</a>). <span class="chips"></span></li>
+            <li data-threads="fri acc"><strong>Review after launch.</strong> Hold a short blameless review after release or failure and record actions (<a href="https://sre.google/sre-book/postmortem-culture/">Lunney and Lueder 2016</a>). <span class="chips"></span></li>
+          </ol>
+        </div>
+
+        <div class="panel w3"><h3 class="ptitle">4.3 Where friction does not belong</h3><p>Friction everywhere becomes bureaucracy, against Agile’s preference for people over process (<a href="https://agilemanifesto.org/">Beck et al. 2001</a>). Skip the plan gate for one-sentence changes (<a href="https://code.claude.com/docs/en/best-practices">Anthropic n.d.</a>), and let AI move freely on drafting and formatting once the plan is approved.</p></div>
+        <div class="panel connect w3"><p class="caption">Connect to what you already know</p><p>A pre-mortem is the move UDL asks of course designers: anticipate barriers before learners meet them (<a href="https://udlguidelines.cast.org/action-expression/strategy-development/challenges/">CAST 2024</a>, Consideration 6.2). Explain-back is the retrieval practice you would ask of a student, turned on yourself.</p></div>
+      </div>
+    </div>
+    <div class="panel log detail" data-log="friction" data-prompt="In your last AI-assisted build, where did you move forward without fully understanding the output?"></div>
+    <div class="complete"><label class="donebox"><input type="checkbox" data-done="friction"> Chapter complete</label></div>
+  </section>
+
+  <!-- CHAPTER 5 -->
+  <section class="chapter" id="workflow" aria-labelledby="h-workflow" data-chapter="5" style="--tint:var(--t-doc);--pc-fill:var(--cap);--pc-on:var(--cap-ink)">
+    <div class="grid">
+      <div class="panel splash w6">
+        <div class="splash-main">
+          <p class="caption">Chapter 5: The roof</p>
+          <h2 id="h-workflow" class="display">A workflow for a one-person LX shop</h2>
+          <p class="where">One repeatable cycle for a solo designer in Claude, Notion, and Canvas, built from every pillar. Eight stages fall into three batches.</p>
+          <dl class="flow"><dt>Draws from</dt><dd>Chapters 1–4</dd><dt>Produces</dt><dd>One Notion page per project that doubles as the stakeholder report</dd></dl>
+          <div class="tools"><span class="readtime"></span><button class="btn listen" type="button" hidden>Listen</button></div>
+        </div>
+        <div class="temple mini" aria-hidden="true" data-on="roof" data-feeds="acc doc fri base"></div>
+      </div>
+    </div>
+    <div class="readable">
+      <div class="mission"><span class="badge display">Mission</span><p>After this chapter you can run your next project through the cycle and know which artifact each stage leaves behind.</p></div>
+      <div class="bubble" style="margin-top:1.2rem"><span class="who">Key frame</span>Eight stages in three batches: think before the build, work in small steps during it, show and learn after it.</div>
+
+      <div class="phase" style="--pf:var(--fri-fill);--pon:var(--on-fri)">
+        <div class="phase-head"><h3 class="display">Before the build</h3><p>Think first. Most of the friction lives here.</p></div>
+        <div class="stages">
+          <article class="stage" data-threads="fri"><span class="sn">Stage 1</span><h4>Shape</h4><dl class="detail"><dt>Gate</dt><dd>Write problem, user, and appetite without AI</dd><dt>Artifact</dt><dd>One-paragraph pitch with no-gos</dd><dt>Source</dt><dd><a href="https://basecamp.com/shapeup">Singer 2019</a></dd></dl><div class="chips"></div></article>
+          <article class="stage" data-threads="fri"><span class="sn">Stage 2</span><h4>Pre-mortem</h4><dl class="detail"><dt>Gate</dt><dd>List reasons it failed</dd><dt>Artifact</dt><dd>Risk list, one mitigation each</dd><dt>Source</dt><dd><a href="https://hbr.org/2007/09/performing-a-project-premortem">Klein 2007</a></dd></dl><div class="chips"></div></article>
+          <article class="stage" data-threads="acc doc"><span class="sn">Stage 3</span><h4>Specify</h4><dl class="detail"><dt>Gate</dt><dd>Stakeholder approves in plain language</dd><dt>Artifact</dt><dd>One-page spec and AI stance</dd><dt>Source</dt><dd><a href="https://github.com/github/spec-kit">GitHub 2025</a>; <a href="https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/">DORA n.d.</a></dd></dl><div class="chips"></div></article>
+          <article class="stage" data-threads="fri doc"><span class="sn">Stage 4</span><h4>Plan</h4><dl class="detail"><dt>Gate</dt><dd>AI interviews you, then proposes; you edit before it builds</dd><dt>Artifact</dt><dd>Plan and decision records</dd><dt>Source</dt><dd><a href="https://code.claude.com/docs/en/best-practices">Anthropic n.d.</a>; <a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Nygard 2011</a></dd></dl><div class="chips"></div></article>
+        </div>
+      </div>
+      <div class="phase" style="--pf:var(--doc-fill);--pon:var(--on-doc)">
+        <div class="phase-head"><h3 class="display">During the build</h3><p>Move fast in small, documented steps.</p></div>
+        <div class="stages">
+          <article class="stage" data-threads="doc fri"><span class="sn">Stage 5</span><h4>Build in small batches</h4><dl class="detail"><dt>Gate</dt><dd>Each batch describable in one sentence</dd><dt>Artifact</dt><dd>Changelog entry per session</dd><dt>Source</dt><dd><a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA 2025</a>; <a href="https://keepachangelog.com/">Lacan n.d.</a></dd></dl><div class="chips"></div></article>
+          <article class="stage" data-threads="fri"><span class="sn">Stage 6</span><h4>Verify</h4><dl class="detail"><dt>Gate</dt><dd>Explain it back; test in a Canvas sandbox course</dd><dt>Artifact</dt><dd>Test notes</dd><dt>Source</dt><dd><a href="https://arxiv.org/html/2601.20245v1">Shen and Tamkin 2026</a>; <a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST 2023</a></dd></dl><div class="chips"></div></article>
+        </div>
+      </div>
+      <div class="phase" style="--pf:var(--acc-fill);--pon:var(--on-acc)">
+        <div class="phase-head"><h3 class="display">After the build</h3><p>Show the work and learn from it in the open.</p></div>
+        <div class="stages">
+          <article class="stage" data-threads="acc"><span class="sn">Stage 7</span><h4>Demo</h4><dl class="detail"><dt>Gate</dt><dd>Show working result to faculty or students</dd><dt>Artifact</dt><dd>Feedback captured as changelog items</dd><dt>Source</dt><dd><a href="https://agilemanifesto.org/">Beck et al. 2001</a></dd></dl><div class="chips"></div></article>
+          <article class="stage" data-threads="acc doc"><span class="sn">Stage 8</span><h4>Review</h4><dl class="detail"><dt>Gate</dt><dd>Blameless review after launch or failure</dd><dt>Artifact</dt><dd>Short postmortem with actions</dd><dt>Source</dt><dd><a href="https://sre.google/sre-book/postmortem-culture/">Lunney and Lueder 2016</a></dd></dl><div class="chips"></div></article>
+        </div>
+      </div>
+
+      <div class="grid detail">
+        <div class="panel w3"><p>For stakeholder meetings, the Notion page itself is the report: pitch, spec, decisions, changelog, and review in one place, readable top to bottom.</p><p class="prac"><strong>Open question for WTS:</strong> whether the institution will adopt a seminary-wide AI stance. A project stance works now, but DORA’s evidence favors a clear organizational one (<a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">DORA 2025</a>).</p></div>
+        <div class="panel connect w3"><p class="caption">Connect to what you already know</p><p>The cycle runs in the same order as designing a course from its outcomes: decide what success looks like (Shape, Specify), decide how you will know (Verify), and only then build the activities (Build).</p></div>
+      </div>
+    </div>
+    <div class="panel log detail" data-log="workflow" data-prompt="Which stage would you add first to the way you work now?"></div>
+    <div class="complete"><label class="donebox"><input type="checkbox" data-done="workflow"> Chapter complete</label></div>
+  </section>
+
+  <!-- BACK MATTER -->
+  <section class="backmatter" id="logbook" aria-labelledby="h-logbook">
+    <div class="panel">
+      <h2 id="h-logbook" class="section-head display">Your captain’s log</h2>
+      <p>Everything you recorded, gathered in one place. It stays in this browser only. Copy the written entries to keep them elsewhere.</p>
+      <div class="logbook" id="logbook-list"></div>
+      <div class="tools" style="margin-top:.8rem"><button class="btn" id="copyLog" type="button">Copy written entries</button><button class="btn" id="clearAll" type="button">Clear log and progress</button><span class="logmsg" id="copyMsg" aria-live="polite"></span></div>
+    </div>
+  </section>
+
+  <section class="backmatter" id="glossary" aria-labelledby="h-gloss">
+    <div class="panel">
+      <h2 id="h-gloss" class="section-head display">Glossary</h2>
+      <dl class="glossary" id="glossList"></dl>
+    </div>
+  </section>
+
+  <section class="backmatter" id="udl" aria-labelledby="h-udl">
+    <div class="panel">
+      <h2 id="h-udl" class="section-head display">How this page applies UDL 3.0</h2>
+      <p>CAST names the goal of UDL as learner agency that is purposeful and reflective, resourceful and authentic, strategic and action-oriented (<a href="https://udlguidelines.cast.org/">CAST 2024</a>). Every feature on this page serves one of those three.</p>
+      <div class="shield" aria-hidden="true">
+        <div class="se">Engagement<small>Purposeful and reflective</small></div>
+        <div class="sr2">Representation<small>Resourceful and authentic</small></div>
+        <div class="sa">Action and expression<small>Strategic and action-oriented</small></div>
+      </div>
+      <div class="tw">
+        <table>
+          <caption>Page features mapped to CAST UDL Guidelines 3.0</caption>
+          <thead><tr><th scope="col">Feature on this page</th><th scope="col">Principle</th><th scope="col">Consideration</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Quest paths; key frames or full story</th><td>Engagement</td><td><a href="https://udlguidelines.cast.org/engagement/interests-identities/choice-autonomy/">7.1 Choice and autonomy</a>; <a href="https://udlguidelines.cast.org/engagement/effort-persistence/challenge-support/">8.2 Challenge and support</a></td></tr>
+            <tr><th scope="row">Comic panels, waypoints, and chapter progress</th><td>Engagement</td><td><a href="https://udlguidelines.cast.org/engagement/interests-identities/joy-play/">7.3 Nurture joy and play</a></td></tr>
+            <tr><th scope="row">Animations off; Sidekick quiet mode</th><td>Engagement</td><td><a href="https://udlguidelines.cast.org/engagement/interests-identities/biases-threats-distractions/">7.4 Address distractions</a></td></tr>
+            <tr><th scope="row">Mission statement at each chapter</th><td>Engagement</td><td><a href="https://udlguidelines.cast.org/engagement/effort-persistence/meaning-purpose-goals/">8.1 Clarify goals</a></td></tr>
+            <tr><th scope="row">Sidekick tips with next-step buttons</th><td>Engagement</td><td><a href="https://udlguidelines.cast.org/engagement/effort-persistence/feedback/">8.5 Action-oriented feedback</a></td></tr>
+            <tr><th scope="row">Captain’s log in each chapter</th><td>Engagement</td><td><a href="https://udlguidelines.cast.org/engagement/emotional-capacity/awareness/">9.2 Awareness</a>; <a href="https://udlguidelines.cast.org/engagement/emotional-capacity/reflection/">9.3 Reflection</a></td></tr>
+            <tr><th scope="row">Settings: size, theme, density, typeface, headlines, spacing, motion</th><td>Representation</td><td><a href="https://udlguidelines.cast.org/representation/perception/customize-display/">1.1 Customize the display</a></td></tr>
+            <tr><th scope="row">Listen buttons; text descriptions of every picture</th><td>Representation</td><td><a href="https://udlguidelines.cast.org/representation/perception/ways-perceive-information/">1.2 Multiple ways to perceive</a></td></tr>
+            <tr><th scope="row">Vocabulary pop-ups and glossary</th><td>Representation</td><td><a href="https://udlguidelines.cast.org/representation/language-symbols/vocabulary-symbols-structure/">2.1 Clarify vocabulary</a></td></tr>
+            <tr><th scope="row">“Picture it” panels beside the prose</th><td>Representation</td><td><a href="https://udlguidelines.cast.org/representation/language-symbols/multiple-media/">2.5 Multiple media</a></td></tr>
+            <tr><th scope="row">“Connect to what you already know” panels</th><td>Representation</td><td><a href="https://udlguidelines.cast.org/representation/building-knowledge/prior-knowledge/">3.1 Prior knowledge</a>; <a href="https://udlguidelines.cast.org/representation/building-knowledge/transfer-generalization/">3.4 Transfer</a></td></tr>
+            <tr><th scope="row">Color-coded pillars and batch highlighting</th><td>Representation</td><td><a href="https://udlguidelines.cast.org/representation/building-knowledge/patterns-features/">3.2 Patterns and relationships</a></td></tr>
+            <tr><th scope="row">Skip link, full keyboard access, waypoints, picture navigation</th><td>Action and expression</td><td><a href="https://udlguidelines.cast.org/action-expression/interaction/response-navigation-movement/">4.1 Navigation</a>; <a href="https://udlguidelines.cast.org/action-expression/interaction/assistive-technologies/">4.2 Accessible tools</a></td></tr>
+            <tr><th scope="row">Log in words, voice, image, or sketch</th><td>Action and expression</td><td><a href="https://udlguidelines.cast.org/action-expression/expression-communication/multiple-media/">5.1 Multiple media</a>; <a href="https://udlguidelines.cast.org/action-expression/expression-communication/construction-composition-creativity/">5.2 Multiple tools</a>; <a href="https://udlguidelines.cast.org/action-expression/strategy-development/exclusionary-practices/">6.5 Challenge exclusionary practices</a></td></tr>
+            <tr><th scope="row">Strategy tracker: goal, objectives, waypoints, progress</th><td>Action and expression</td><td><a href="https://udlguidelines.cast.org/action-expression/strategy-development/goals/">6.1 Goals</a>; <a href="https://udlguidelines.cast.org/action-expression/strategy-development/monitoring-progress/">6.4 Monitoring progress</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="backmatter refs" id="references" aria-labelledby="h-refs">
+    <div class="panel">
+      <h2 id="h-refs" class="section-head display">Reference list</h2>
+      <p class="caption">Turabian author-date style. Undated pages carry “n.d.” with an access date of October 29, 2026.</p>
+      <p>Anthropic. n.d. “Best Practices for Claude Code.” Claude Code Docs. Accessed October 29, 2026. <a href="https://code.claude.com/docs/en/best-practices">https://code.claude.com/docs/en/best-practices</a>.</p>
+      <p>Anthropic. 2026. “How AI Assistance Impacts the Formation of Coding Skills.” Anthropic Research. <a href="https://www.anthropic.com/research/AI-assistance-coding-skills">https://www.anthropic.com/research/AI-assistance-coding-skills</a>.</p>
+      <p>Beck, Kent, Mike Beedle, Arie van Bennekum, Alistair Cockburn, Ward Cunningham, Martin Fowler, James Grenning, et al. 2001. “Manifesto for Agile Software Development.” <a href="https://agilemanifesto.org/">https://agilemanifesto.org/</a>.</p>
+      <p>Becker, Joel, Nate Rush, Elizabeth Barnes, and David Rein. 2025. “Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.” METR, arXiv:2507.09089. <a href="https://arxiv.org/pdf/2507.09089">https://arxiv.org/pdf/2507.09089</a>.</p>
+      <p>Booth, Harold, Murugiah Souppaya, Apostol Vassilev, Michael Ogata, Martin Stanley, and Karen Scarfone. 2024. <em>Secure Software Development Practices for Generative AI and Dual-Use Foundation Models: An SSDF Community Profile</em>. NIST Special Publication 800-218A. Gaithersburg, MD: National Institute of Standards and Technology. <a href="https://csrc.nist.gov/pubs/sp/800/218/a/final">https://csrc.nist.gov/pubs/sp/800/218/a/final</a>.</p>
+      <p>CAST. 2024. “Universal Design for Learning Guidelines Version 3.0.” <a href="https://udlguidelines.cast.org/">https://udlguidelines.cast.org/</a>.</p>
+      <p>DORA. 2025. <em>State of AI-Assisted Software Development</em>. Google Cloud. <a href="https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf">https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf</a>.</p>
+      <p>DORA. n.d. “From Adoption to Impact: Putting the DORA AI Capabilities Model to Work.” Google Cloud Blog. Accessed October 29, 2026. <a href="https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/">https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/</a>.</p>
+      <p>GitHub. 2025. <em>Spec Kit</em>. GitHub repository. <a href="https://github.com/github/spec-kit">https://github.com/github/spec-kit</a>.</p>
+      <p>ISO/IEC (International Organization for Standardization and International Electrotechnical Commission). 2023. <em>ISO/IEC 42001:2023, Information Technology—Artificial Intelligence—Management System</em>. Geneva: ISO. <a href="https://www.iso.org/standard/42001">https://www.iso.org/standard/42001</a>.</p>
+      <p>Klein, Gary. 2007. “Performing a Project Premortem.” <em>Harvard Business Review</em> 85, no. 9 (September): 18–19. <a href="https://hbr.org/2007/09/performing-a-project-premortem">https://hbr.org/2007/09/performing-a-project-premortem</a>.</p>
+      <p>Lacan, Olivier. n.d. <em>Keep a Changelog</em>. Accessed October 29, 2026. <a href="https://keepachangelog.com/">https://keepachangelog.com/</a>.</p>
+      <p>Lee, Hao-Ping (Hank), Advait Sarkar, Lev Tankelevitch, Ian Drosos, Sean Rintel, Richard Banks, and Nicholas Wilson. 2025. “The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects from a Survey of Knowledge Workers.” In <em>Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems (CHI ’25)</em>. New York: ACM. <a href="https://doi.org/10.1145/3706598.3713778">https://doi.org/10.1145/3706598.3713778</a>.</p>
+      <p>Lunney, John, and Sue Lueder. 2016. “Postmortem Culture: Learning from Failure.” In <em>Site Reliability Engineering: How Google Runs Production Systems</em>, edited by Betsy Beyer, Chris Jones, Jennifer Petoff, and Niall Richard Murphy, chap. 15. Sebastopol, CA: O’Reilly Media. <a href="https://sre.google/sre-book/postmortem-culture/">https://sre.google/sre-book/postmortem-culture/</a>.</p>
+      <p>NIST (National Institute of Standards and Technology). 2023. <em>Artificial Intelligence Risk Management Framework (AI RMF 1.0)</em>. NIST AI 100-1. Gaithersburg, MD: NIST. <a href="https://doi.org/10.6028/NIST.AI.100-1">https://doi.org/10.6028/NIST.AI.100-1</a>.</p>
+      <p>NIST (National Institute of Standards and Technology). 2024. <em>Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile</em>. NIST AI 600-1. Gaithersburg, MD: NIST. <a href="https://doi.org/10.6028/NIST.AI.600-1">https://doi.org/10.6028/NIST.AI.600-1</a>.</p>
+      <p>Nygard, Michael. 2011. “Documenting Architecture Decisions.” Cognitect Blog, November 15, 2011. <a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions</a>.</p>
+      <p>Procida, Daniele. n.d. “Diátaxis, a New Foundation for Canonical Documentation.” Canonical Blog. Accessed October 29, 2026. <a href="https://canonical.com/blog/diataxis-a-new-foundation-for-canonical-documentation">https://canonical.com/blog/diataxis-a-new-foundation-for-canonical-documentation</a>.</p>
+      <p>Shen, Judy Hanwen, and Alex Tamkin. 2026. “How AI Impacts Skill Formation.” arXiv:2601.20245. <a href="https://arxiv.org/html/2601.20245v1">https://arxiv.org/html/2601.20245v1</a>.</p>
+      <p>Singer, Ryan. 2019. <em>Shape Up: Stop Running in Circles and Ship Work That Matters</em>. Chicago: Basecamp. <a href="https://basecamp.com/shapeup">https://basecamp.com/shapeup</a>.</p>
+      <p>Turabian, Kate L. 2018. <em>A Manual for Writers of Research Papers, Theses, and Dissertations</em>. 9th ed. Chicago: University of Chicago Press.</p>
+    </div>
+    <footer>Prepared October 29, 2026. Verify the METR author list and undated sources before formal citation. <a class="totop" href="#main">Back to the cover</a></footer>
+  </section>
+</main>
+
+<!-- STRATEGY TRACKER + SIDEKICK -->
+<aside class="tracker" id="tracker" data-open="false" aria-label="Strategy tracker and sidekick">
+  <div class="panel">
+    <h2 class="display">Strategy tracker</h2>
+    <p class="goal" id="curGoal">Current goal: choose a path on the cover.</p>
+    <ol class="waypoints" id="waypoints" aria-label="Chapter waypoints"></ol>
+    <ul class="objectives" id="objectives"></ul>
+    <div class="tools" style="margin-top:.7rem"><button class="btn" id="reflectBtn" type="button">Reflect and adapt</button></div>
+  </div>
+  <div class="panel sidekick" aria-labelledby="skTitle">
+    <div class="face"><span class="bot" aria-hidden="true"><i></i></span><h2 id="skTitle" class="display">Sidekick</h2></div>
+    <p class="sk-msg" id="skMsg" aria-live="polite">Hi! I’ll point out next steps as you read. Ask me to find any term or topic below.</p>
+    <div class="sk-actions" id="skActions"></div>
+    <form class="sk-ask" id="skForm" role="search">
+      <label for="skInput" class="sr">Ask the sidekick to find a term or topic</label>
+      <input id="skInput" type="text" placeholder="Find a term, like “appetite”" autocomplete="off">
+      <button class="btn" type="submit">Find</button>
+    </form>
+    <ul class="sk-results" id="skResults" aria-live="polite"></ul>
+  </div>
+</aside>
+</div>
+
+<div class="panel toast" id="toast" hidden role="status">
+  <p class="sk-msg" id="toastMsg" style="margin:0 0 .6rem"></p>
+  <div class="sk-actions" id="toastActions" style="margin:0"></div>
+</div>
+
+<dialog class="vocab" id="vocab" aria-labelledby="vTitle">
+  <div class="panel">
+    <p class="caption">Word bank</p>
+    <h2 id="vTitle" class="display"></h2>
+    <p id="vDef"></p>
+    <p class="src" id="vSrc"></p>
+    <div class="row"><button class="btn" id="vGloss" type="button">Open the glossary</button><button class="btn" id="vClose" type="button">Got it</button></div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  root.classList.add('js');
+  var KEY = 'graphic-ai-brief-v1';
+  var CH = ['frameworks','transparency','documentation','friction','workflow'];
+  var CHNAME = {frameworks:'Frameworks',transparency:'Transparency',documentation:'Documentation',friction:'Friction',workflow:'Workflow'};
+  var names = {acc:'Transparency and accountability', doc:'Documentation', fri:'Friction'};
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var D = {size:'0',theme:'auto',density:'roomy',font:'legible',headline:'comic',spacing:'normal',depth:'full',motion:reduced?'off':'on',sidekick:'on',rate:'1',path:'',done:{},logs:{},tips:{}};
+  var S = load();
+  function load(){ var s = JSON.parse(JSON.stringify(D)); try{ var o = JSON.parse(localStorage.getItem(KEY)||'null'); if(o) for(var k in o) s[k]=o[k]; }catch(e){} s.done=s.done||{}; s.logs=s.logs||{}; s.tips=s.tips||{}; return s; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); return true; }catch(e){ return false; } }
+
+  /* ---------- sidekick ---------- */
+  var skMsg = document.getElementById('skMsg'), skActions = document.getElementById('skActions');
+  var toast = document.getElementById('toast'), toastMsg = document.getElementById('toastMsg'), toastActions = document.getElementById('toastActions');
+  var wide = matchMedia('(min-width:1180px)');
+  function say(text, actions, force){
+    if(S.sidekick === 'off' && !force) return;
+    [ [skMsg, skActions], [toastMsg, toastActions] ].forEach(function(pair){
+      pair[0].textContent = text; pair[1].innerHTML = '';
+      (actions||[]).forEach(function(a){
+        var b = document.createElement('button'); b.type='button'; b.className='btn'; b.textContent=a[0];
+        b.addEventListener('click', function(){ toast.hidden = true; a[1](); });
+        pair[1].appendChild(b);
+      });
+    });
+    if(!wide.matches){
+      var close = document.createElement('button'); close.type='button'; close.className='btn'; close.textContent='Dismiss';
+      close.addEventListener('click', function(){ toast.hidden = true; });
+      toastActions.appendChild(close);
+      toast.hidden = false;
+    }
+  }
+  function go(id){ var el = document.getElementById(id); if(!el) return; el.scrollIntoView(); var h = el.querySelector('h2'); if(h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } }
+  function nextChapter(){ for(var i=0;i<CH.length;i++){ if(!S.done[CH[i]]) return CH[i]; } return null; }
+
+  /* ---------- glossary + vocabulary dialog ---------- */
+  var G = {
+    airmf:['AI Risk Management Framework','NIST’s voluntary framework for managing the risks of AI systems, organized into four functions: Govern, Map, Measure, and Manage.','NIST 2023','https://www.nist.gov/itl/ai-risk-management-framework'],
+    ssdf:['Secure Software Development Framework','NIST’s set of practices for building software with fewer security weaknesses. SP 800-218A adds practices specific to AI.','Booth et al. 2024','https://csrc.nist.gov/pubs/sp/800/218/a/final'],
+    dora:['DORA','DevOps Research and Assessment, a Google research program that studies what makes software teams perform well. Its 2025 report focuses on AI-assisted development.','DORA 2025','https://services.google.com/fh/files/misc/2025_state_of_ai_assisted_software_development.pdf'],
+    stance:['AI stance','A clear, shared statement of which AI tools may be used, for what purposes, and with what data.','DORA n.d.','https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/'],
+    batch:['Small batch','A unit of change small enough to review and test in one sitting, rather than one large release.','DORA n.d.','https://cloud.google.com/blog/products/ai-machine-learning/from-adoption-to-impact-putting-the-dora-ai-capabilities-model-to-work/'],
+    adr:['Decision record','An Architecture Decision Record: a short note capturing one decision with its context, status, and consequences, good and bad.','Nygard 2011','https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions'],
+    appetite:['Appetite','The amount of time a problem is worth, decided before designing the solution. The work is then shaped to fit that time.','Singer 2019','https://basecamp.com/shapeup'],
+    spec:['Spec','Short for specification: a plain-language description of what will be built and why, approved before building starts.','GitHub 2025','https://github.com/github/spec-kit'],
+    postmortem:['Postmortem','A written review after something goes wrong, covering impact, causes, and follow-up actions. “Blameless” means it fixes systems rather than blaming people.','Lunney and Lueder 2016','https://sre.google/sre-book/postmortem-culture/'],
+    premortem:['Pre-mortem','A planning exercise in which the team imagines the project has already failed and lists the reasons why, so the risks can be addressed in advance.','Klein 2007','https://hbr.org/2007/09/performing-a-project-premortem'],
+    changelog:['Changelog','A curated list of notable changes, newest first, written for people rather than machines.','Lacan n.d.','https://keepachangelog.com/'],
+    diataxis:['Diátaxis','A framework that sorts documentation into four types by what the reader needs: tutorials, how-to guides, reference, and explanation.','Procida n.d.','https://canonical.com/blog/diataxis-a-new-foundation-for-canonical-documentation'],
+    explainback:['Explain-back','A label used in this brief, not a published term: stating in your own words what AI output does and what could break, before accepting it. It draws on the engaged patterns that preserved learning.','Shen and Tamkin 2026','https://arxiv.org/html/2601.20245v1'],
+    udl:['Universal Design for Learning','CAST’s framework for designing learning that works for all people, organized around engagement, representation, and action and expression.','CAST 2024','https://udlguidelines.cast.org/']
+  };
+  var gl = document.getElementById('glossList');
+  Object.keys(G).sort(function(a,b){ return G[a][0].localeCompare(G[b][0]); }).forEach(function(k){
+    var g=G[k], d=document.createElement('div'); d.id='g-'+k;
+    d.innerHTML='<dt>'+g[0]+'</dt><dd>'+g[1]+' <span class="gsrc">(<a href="'+g[3]+'">'+g[2]+'</a>)</span></dd>';
+    gl.appendChild(d);
+  });
+  var dlg = document.getElementById('vocab'), lastTerm = null, termCounts = {};
+  function openTerm(k, btn){
+    var g = G[k]; if(!g) return;
+    document.getElementById('vTitle').textContent = g[0];
+    document.getElementById('vDef').textContent = g[1];
+    document.getElementById('vSrc').innerHTML = 'Source: <a href="'+g[3]+'">'+g[2]+'</a>';
+    lastTerm = btn;
+    if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+    var ch = btn && btn.closest('[data-chapter]');
+    if(ch){ var id = ch.id; termCounts[id] = (termCounts[id]||0) + 1;
+      if(termCounts[id] === 3 && !S.tips['terms-'+id]){ S.tips['terms-'+id]=1; save();
+        setTimeout(function(){ say('Lots of new words in this chapter. Want the key frames first, then come back for the detail?', [['Show key frames', function(){ setOpt('depth','key'); go(id); }], ['Open glossary', function(){ go('glossary'); }]]); }, 400);
+      }
+    }
+  }
+  function closeDlg(){ if(dlg.close) dlg.close(); else dlg.removeAttribute('open'); }
+  dlg.addEventListener('close', function(){ if(lastTerm) lastTerm.focus(); });
+  document.getElementById('vClose').addEventListener('click', closeDlg);
+  document.getElementById('vGloss').addEventListener('click', function(){ lastTerm = null; closeDlg(); go('glossary'); });
+  dlg.addEventListener('click', function(e){ if(e.target === dlg) closeDlg(); });
+  document.querySelectorAll('.term').forEach(function(b){ b.type='button'; b.setAttribute('aria-haspopup','dialog'); b.title='Open definition'; });
+
+  /* ---------- mini diagrams ---------- */
+  document.querySelectorAll('.temple.mini').forEach(function(t){
+    var on=t.dataset.on, feeds=(t.dataset.feeds||'').split(' ');
+    function c(k){ return (on===k?' on':'')+(feeds.indexOf(k)>-1?' feeds':''); }
+    t.innerHTML='<div class="t-part t-roof'+c('roof')+'"><span class="inner"><span class="t-num">5</span><span class="t-name">Workflow</span></span></div>'+
+      '<div class="t-pillars"><div class="t-part t-pillar acc'+c('acc')+'"><span class="t-num">2</span><span class="t-name">Trans&shy;parency</span></div>'+
+      '<div class="t-part t-pillar doc'+c('doc')+'"><span class="t-num">3</span><span class="t-name">Docu&shy;ments</span></div>'+
+      '<div class="t-part t-pillar fri'+c('fri')+'"><span class="t-num">4</span><span class="t-name">Friction</span></div></div>'+
+      '<div class="t-part t-base'+c('base')+'"><span class="t-name">1 Frameworks</span></div>';
+  });
+
+  /* ---------- chips + batch highlight ---------- */
+  document.querySelectorAll('[data-threads]').forEach(function(el){
+    var slot = el.querySelector(':scope > .chips, :scope > h3 > .chips, :scope > .ptitle > .chips'); if(!slot) return;
+    el.dataset.threads.split(' ').forEach(function(t){
+      var b=document.createElement('button'); b.type='button'; b.className='chip '+t; b.dataset.filter=t; b.textContent=names[t]; b.title='Highlight the '+names[t]+' batch'; slot.appendChild(b);
+    });
+  });
+  var cur=null, status=document.getElementById('status');
+  function highlight(t){
+    cur = (cur===t)?null:t;
+    document.body.classList.toggle('filtering', !!cur);
+    if(cur) document.body.dataset.thread=cur; else delete document.body.dataset.thread;
+    var n=0;
+    document.querySelectorAll('[data-threads]').forEach(function(el){ var h=!!cur && el.dataset.threads.split(' ').indexOf(cur)>-1; el.classList.toggle('hit',h); if(h) n++; });
+    document.querySelectorAll('.hero-temple .t-pillar').forEach(function(p){ p.classList.toggle('match', p.dataset.pillar===cur); });
+    document.querySelectorAll('.fbtn').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.filter===cur?'true':'false'); });
+    status.textContent = cur ? (n+' panels belong to the '+names[cur]+' batch. Select it again or press Escape to clear.') : '';
+  }
+
+  /* ---------- settings ---------- */
+  var sizes=[1,1.12,1.25,1.4], lhs={normal:1.6,relaxed:1.85,loose:2.1};
+  function apply(){
+    root.style.setProperty('--scale', sizes[+S.size]||1);
+    root.style.setProperty('--lh', lhs[S.spacing]||1.6);
+    S.theme==='auto' ? root.removeAttribute('data-theme') : root.setAttribute('data-theme', S.theme);
+    S.font==='legible' ? root.removeAttribute('data-font') : root.setAttribute('data-font', S.font);
+    S.headline==='comic' ? root.removeAttribute('data-headline') : root.setAttribute('data-headline', S.headline);
+    S.density==='roomy' ? root.removeAttribute('data-density') : root.setAttribute('data-density', S.density);
+    root.classList.toggle('keyonly', S.depth==='key');
+    root.classList.toggle('motion', S.motion==='on');
+    root.classList.toggle('nomotion', S.motion!=='on');
+    ['size','theme','density','font','headline','spacing','depth','motion','sidekick','rate'].forEach(function(n){
+      document.querySelectorAll('input[name="'+n+'"]').forEach(function(i){ i.checked = (i.value===String(S[n])); });
+    });
+    document.querySelectorAll('.quest').forEach(function(q){ q.setAttribute('aria-pressed', q.dataset.path===S.path?'true':'false'); });
+    readTimes();
+  }
+  function setOpt(k,v){ S[k]=v; save(); apply(); }
+  var setPanel=document.getElementById('settings'), setBtn=document.getElementById('setBtn');
+  setPanel.addEventListener('change', function(e){ var i=e.target; if(!i.name) return; S[i.name]=i.value; S.path=''; save(); apply(); });
+  function openSet(open){ setPanel.hidden=!open; setBtn.setAttribute('aria-expanded', open?'true':'false'); if(open){ var f=setPanel.querySelector('input:checked')||setPanel.querySelector('input'); if(f) f.focus(); } else setBtn.focus(); }
+  setBtn.addEventListener('click', function(){ openSet(setPanel.hidden); });
+  document.getElementById('closeSet').addEventListener('click', function(){ openSet(false); });
+  document.getElementById('resetSet').addEventListener('click', function(){ ['size','theme','density','font','headline','spacing','depth','motion','sidekick','rate','path'].forEach(function(k){ S[k]=D[k]; }); save(); apply(); });
+
+  /* ---------- tracker drawer (narrow screens) ---------- */
+  var trk=document.getElementById('tracker'), trkBtn=document.getElementById('trkBtn');
+  trkBtn.addEventListener('click', function(){ var open = trk.dataset.open!=='true'; trk.dataset.open = open?'true':'false'; trkBtn.setAttribute('aria-expanded', open?'true':'false'); if(open) toast.hidden = true; });
+
+  /* ---------- quest paths ---------- */
+  var paths={quick:{depth:'key',size:'0',to:'summary',msg:'Quick recon it is. Key frames only. Open Settings anytime to see the full story.'},
+    present:{depth:'key',size:'2',to:'summary',msg:'Zoom briefing mode: large key frames. Stop at each headline to speak the point.'},
+    full:{depth:'full',size:'0',to:'frameworks',msg:'Full mission. Each chapter ends with a log entry. Write, speak, show, or sketch.'}};
+  document.querySelectorAll('.quest').forEach(function(q){ q.addEventListener('click', function(){ var p=paths[q.dataset.path]; S.depth=p.depth; S.size=p.size; S.path=q.dataset.path; save(); apply(); go(p.to); say(p.msg); }); });
+
+  /* ---------- reading time ---------- */
+  function readTimes(){
+    document.querySelectorAll('[data-chapter]').forEach(function(sec){
+      var r=sec.querySelector('.readable'), o=sec.querySelector('.readtime'); if(!r||!o) return;
+      var w=(r.innerText||'').trim().split(/\s+/).length; o.textContent='About '+Math.max(1,Math.round(w/220))+' min'+(S.depth==='key'?' (key frames)':'');
+    });
+  }
+
+  /* ---------- tracker: waypoints, objectives, progress ---------- */
+  var icons={
+    frameworks:'<path d="M5 21V4h11l-2 4 2 4H5"/>',
+    transparency:'<path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/>',
+    documentation:'<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/>',
+    friction:'<path d="M6 21V5"/><path d="M18 21V5"/><path d="M6 9h12"/><path d="M6 13h12"/>',
+    workflow:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'
+  };
+  var wpEl=document.getElementById('waypoints'), objEl=document.getElementById('objectives');
+  CH.forEach(function(c,i){
+    var li=document.createElement('li');
+    li.innerHTML='<button class="wp" type="button" data-go="'+c+'" aria-label="Chapter '+(i+1)+': '+CHNAME[c]+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+icons[c]+'</svg></button>';
+    wpEl.appendChild(li);
+    var o=document.createElement('li');
+    o.innerHTML='<label><input type="checkbox" data-done="'+c+'"> <span>Chapter '+(i+1)+': '+CHNAME[c]+'</span></label>';
+    objEl.appendChild(o);
+  });
+  function progress(){
+    var n=CH.filter(function(c){ return S.done[c]; }).length;
+    document.getElementById('xpText').textContent=n+' of 5 chapters';
+    document.getElementById('xpFill').style.width=(n/5*100)+'%';
+    document.querySelectorAll('input[data-done]').forEach(function(i){ i.checked=!!S.done[i.dataset.done]; });
+    document.querySelectorAll('.wp').forEach(function(w){ w.classList.toggle('done', !!S.done[w.dataset.go]); });
+    var nx=nextChapter();
+    document.getElementById('curGoal').textContent = nx ? 'Current goal: Chapter '+(CH.indexOf(nx)+1)+', '+CHNAME[nx]+'.' : 'Mission complete. Review your log.';
+  }
+  document.addEventListener('change', function(e){
+    var i=e.target; if(!i.matches || !i.matches('input[data-done]')) return;
+    var c=i.dataset.done; S.done[c]=i.checked; save(); progress();
+    if(!i.checked) return;
+    var L=S.logs[c]||{}, logged=(L.text&&L.text.trim())||L.audio||L.img||L.sketch;
+    var nx=nextChapter();
+    if(!logged && S.depth==='full'){ say('Chapter done. Before moving on, log one thought, even a single sentence or a quick sketch.', [['Open the log', function(){ var lg=document.querySelector('[data-log="'+c+'"]'); if(lg){ lg.scrollIntoView(); var t=lg.querySelector('textarea'); if(t) t.focus({preventScroll:true}); } }], nx?['Skip to next chapter', function(){ go(nx); }]:['See my log', function(){ go('logbook'); }]]); }
+    else if(nx){ say('Waypoint reached. Next up: Chapter '+(CH.indexOf(nx)+1)+', '+CHNAME[nx]+'.', [['Go there', function(){ go(nx); }]]); }
+    else { say('All five waypoints reached. Your log is ready to copy and share.', [['Open my log', function(){ go('logbook'); }]]); }
+  });
+  document.getElementById('reflectBtn').addEventListener('click', function(){
+    var c = curChapter || nextChapter() || 'workflow';
+    var lg=document.querySelector('[data-log="'+c+'"]');
+    if(S.depth==='key'){ say('Logs are hidden in key-frames mode. Switch to the full story to reflect.', [['Show full story', function(){ setOpt('depth','full'); lg && lg.scrollIntoView(); }]], true); return; }
+    if(lg){ lg.scrollIntoView(); var t=lg.querySelector('textarea'); if(t) t.focus({preventScroll:true}); }
+  });
+
+  /* ---------- captain's log (write, speak, show, sketch) ---------- */
+  var logIdx=0;
+  document.querySelectorAll('[data-log]').forEach(function(box){
+    var c=box.dataset.log, n=++logIdx, L=S.logs[c]=S.logs[c]||{};
+    var id='lg'+n;
+    box.innerHTML='<p class="caption">Captain’s log: Chapter '+(CH.indexOf(c)+1)+'</p>'+
+      '<p class="prompt" id="'+id+'-p">'+box.dataset.prompt+'</p>'+
+      '<div class="tabs" role="tablist" aria-label="Ways to answer">'+
+        ['Write','Speak','Show','Sketch'].map(function(t,i){ return '<button class="tab" role="tab" type="button" id="'+id+'-t'+i+'" aria-controls="'+id+'-p'+i+'" aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'">'+t+'</button>'; }).join('')+
+      '</div>'+
+      '<div class="tabpanel" role="tabpanel" id="'+id+'-p0" aria-labelledby="'+id+'-t0"><label class="sr" for="'+id+'-ta">Your written answer</label><textarea id="'+id+'-ta" aria-describedby="'+id+'-p"></textarea></div>'+
+      '<div class="tabpanel" role="tabpanel" id="'+id+'-p1" aria-labelledby="'+id+'-t1" hidden><p>Record a voice memo of up to one minute.</p><div class="row"><button class="btn rec" type="button">Start recording</button><span class="timer" aria-live="polite"></span><button class="btn delA" type="button" hidden>Delete memo</button></div><div class="aud"></div></div>'+
+      '<div class="tabpanel" role="tabpanel" id="'+id+'-p2" aria-labelledby="'+id+'-t2" hidden><p>Add a photo of a whiteboard, a diagram, or a page of notes.</p><label class="btn" style="display:inline-block">Choose image<input class="file sr" type="file" accept="image/*"></label><div class="imgwrap"></div><label for="'+id+'-alt" style="display:block;margin-top:.5rem">Describe your image in a sentence (for listeners and screen readers)</label><input type="text" id="'+id+'-alt" class="alt"><div class="row"><button class="btn delI" type="button" hidden>Remove image</button></div></div>'+
+      '<div class="tabpanel" role="tabpanel" id="'+id+'-p3" aria-labelledby="'+id+'-t3" hidden><p>Sketch a quick map of your idea. Prefer words? The Write tab works just as well.</p><canvas width="800" height="400" aria-label="Sketch pad"></canvas><div class="row"><button class="btn clr" type="button">Clear sketch</button></div></div>'+
+      '<p class="logmsg" aria-live="polite"></p>';
+    var msg=box.querySelector('.logmsg');
+    function note(t){ msg.textContent=t; }
+    function persist(okText){ if(save()){ if(okText) note(okText); renderLog(); } else { note('This device’s storage is full. Remove a voice memo or image, then try again.'); say('Your log is full on this device. Removing a voice memo or image will make room.', [], true); } }
+    /* tabs */
+    var tabs=[].slice.call(box.querySelectorAll('[role="tab"]')), panels=[].slice.call(box.querySelectorAll('[role="tabpanel"]'));
+    function sel(i){ tabs.forEach(function(t,j){ t.setAttribute('aria-selected', j===i?'true':'false'); t.tabIndex = j===i?0:-1; panels[j].hidden = j!==i; }); tabs[i].focus(); if(i===3) drawSaved(); }
+    tabs.forEach(function(t,i){ t.addEventListener('click', function(){ sel(i); }); t.addEventListener('keydown', function(e){ if(e.key==='ArrowRight'){ e.preventDefault(); sel((i+1)%4); } if(e.key==='ArrowLeft'){ e.preventDefault(); sel((i+3)%4); } if(e.key==='Home'){ e.preventDefault(); sel(0); } if(e.key==='End'){ e.preventDefault(); sel(3); } }); });
+    /* write */
+    var ta=box.querySelector('textarea'), tmr; ta.value=L.text||'';
+    ta.addEventListener('input', function(){ L.text=ta.value; clearTimeout(tmr); tmr=setTimeout(function(){ persist('Saved to your log on this device.'); }, 400); });
+    /* speak */
+    var recBtn=box.querySelector('.rec'), timer=box.querySelector('.timer'), aud=box.querySelector('.aud'), delA=box.querySelector('.delA'), mr=null, chunks=[], t0=0, tick=null;
+    function showAudio(){ aud.innerHTML=''; if(L.audio){ var a=document.createElement('audio'); a.controls=true; a.src=L.audio; a.setAttribute('aria-label','Your voice memo'); aud.appendChild(a); delA.hidden=false; } else delA.hidden=true; }
+    showAudio();
+    if(!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder)){ recBtn.disabled=true; note(''); recBtn.textContent='Voice memos aren’t available in this browser'; }
+    recBtn.addEventListener('click', function(){
+      if(mr && mr.state==='recording'){ mr.stop(); return; }
+      navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+        chunks=[]; mr=new MediaRecorder(stream);
+        mr.ondataavailable=function(e){ if(e.data.size) chunks.push(e.data); };
+        mr.onstop=function(){ clearInterval(tick); stream.getTracks().forEach(function(t){ t.stop(); }); recBtn.textContent='Start recording'; recBtn.setAttribute('aria-pressed','false'); timer.textContent='';
+          var blob=new Blob(chunks,{type:mr.mimeType||'audio/webm'}), fr=new FileReader();
+          fr.onload=function(){ L.audio=fr.result; showAudio(); persist('Voice memo saved to your log.'); };
+          fr.readAsDataURL(blob); };
+        mr.start(); t0=Date.now(); recBtn.textContent='Stop recording'; recBtn.setAttribute('aria-pressed','true'); note('Recording. Speak your thought, then select Stop.');
+        tick=setInterval(function(){ var s=Math.round((Date.now()-t0)/1000); timer.textContent=s+'s of 60'; if(s>=60) mr.stop(); }, 500);
+      }).catch(function(){ note('The microphone isn’t available here. Try Write, Show, or Sketch instead.'); say('I couldn’t reach a microphone on this device. Any other tab works just as well for your log.', [['Write instead', function(){ sel(0); }]], true); });
+    });
+    delA.addEventListener('click', function(){ delete L.audio; showAudio(); persist('Voice memo removed.'); });
+    /* show */
+    var file=box.querySelector('.file'), imgwrap=box.querySelector('.imgwrap'), alt=box.querySelector('.alt'), delI=box.querySelector('.delI');
+    function showImg(){ imgwrap.innerHTML=''; if(L.img){ var im=document.createElement('img'); im.className='preview'; im.src=L.img; im.alt=L.alt||'Image added to the log'; imgwrap.appendChild(im); delI.hidden=false; } else delI.hidden=true; alt.value=L.alt||''; }
+    showImg();
+    file.addEventListener('change', function(){
+      var f=file.files && file.files[0]; if(!f) return;
+      if(!/^image\//.test(f.type)){ note('That file isn’t an image. Choose a photo or screenshot.'); return; }
+      var fr=new FileReader();
+      fr.onload=function(){ var im=new Image(); im.onload=function(){ var max=900, sc=Math.min(1, max/Math.max(im.width,im.height)), cv=document.createElement('canvas'); cv.width=Math.round(im.width*sc); cv.height=Math.round(im.height*sc); var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height); cx.drawImage(im,0,0,cv.width,cv.height); L.img=cv.toDataURL('image/jpeg',.8); showImg(); persist('Image added. Add a one-sentence description so everyone can follow it.'); alt.focus(); };
+        im.onerror=function(){ note('That image couldn’t be opened. Try a JPG or PNG.'); }; im.src=fr.result; };
+      fr.readAsDataURL(f); file.value='';
+    });
+    alt.addEventListener('input', function(){ L.alt=alt.value; var im=imgwrap.querySelector('img'); if(im) im.alt=alt.value||'Image added to the log'; clearTimeout(tmr); tmr=setTimeout(function(){ persist('Description saved.'); }, 400); });
+    delI.addEventListener('click', function(){ delete L.img; delete L.alt; showImg(); persist('Image removed.'); });
+    /* sketch */
+    var cv=box.querySelector('canvas'), cx=cv.getContext('2d'), drawing=false, drawn=false;
+    function ink(){ return getComputedStyle(root).getPropertyValue('--cap') ? '#14151c' : '#14151c'; }
+    function drawSaved(){ cx.fillStyle='#fffdf6'; cx.fillRect(0,0,cv.width,cv.height); if(L.sketch){ var im=new Image(); im.onload=function(){ cx.drawImage(im,0,0); }; im.src=L.sketch; } }
+    drawSaved();
+    function pos(e){ var r=cv.getBoundingClientRect(); return [(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]; }
+    cv.addEventListener('pointerdown', function(e){ drawing=true; cv.setPointerCapture(e.pointerId); var p=pos(e); cx.beginPath(); cx.moveTo(p[0],p[1]); cx.lineWidth=4; cx.lineCap='round'; cx.lineJoin='round'; cx.strokeStyle=ink(); });
+    cv.addEventListener('pointermove', function(e){ if(!drawing) return; var p=pos(e); cx.lineTo(p[0],p[1]); cx.stroke(); drawn=true; });
+    function end(){ if(!drawing) return; drawing=false; if(drawn){ L.sketch=cv.toDataURL('image/png'); persist('Sketch saved to your log.'); } }
+    cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+    box.querySelector('.clr').addEventListener('click', function(){ delete L.sketch; drawn=false; drawSaved(); persist('Sketch cleared.'); });
+  });
+
+  /* ---------- logbook ---------- */
+  function renderLog(){
+    var wrap=document.getElementById('logbook-list'); wrap.innerHTML=''; var any=false;
+    CH.forEach(function(c,i){
+      var L=S.logs[c]||{}, has=(L.text&&L.text.trim())||L.audio||L.img||L.sketch; if(!has) return; any=true;
+      var e=document.createElement('div'); e.className='entry';
+      var bits=[]; if(L.audio) bits.push('voice memo'); if(L.img) bits.push('image'); if(L.sketch) bits.push('sketch');
+      var p=document.querySelector('[data-log="'+c+'"]');
+      e.innerHTML='<h3>Chapter '+(i+1)+': '+CHNAME[c]+'</h3>';
+      var q=document.createElement('p'); q.style.fontStyle='italic'; q.textContent=p?p.dataset.prompt:''; e.appendChild(q);
+      if(L.text && L.text.trim()){ var t=document.createElement('p'); t.textContent=L.text; e.appendChild(t); }
+      if(bits.length){ var m=document.createElement('p'); m.className='meta'; m.textContent='Also saved: '+bits.join(', ')+'.'; e.appendChild(m); }
+      if(L.audio){ var a=document.createElement('audio'); a.controls=true; a.src=L.audio; a.setAttribute('aria-label','Voice memo for chapter '+(i+1)); e.appendChild(a); }
+      wrap.appendChild(e);
+    });
+    if(!any){ var em=document.createElement('p'); em.textContent='Your log is empty so far. Each chapter ends with a prompt you can answer in words, voice, an image, or a sketch.'; wrap.appendChild(em); }
+  }
+  function logText(){ return CH.map(function(c,i){ var L=S.logs[c]||{}, p=document.querySelector('[data-log="'+c+'"]'); return (L.text&&L.text.trim()) ? ('Chapter '+(i+1)+': '+CHNAME[c]+'\n'+(p?p.dataset.prompt:'')+'\n'+L.text.trim()) : ''; }).filter(Boolean).join('\n\n'); }
+  document.getElementById('copyLog').addEventListener('click', function(){
+    var t=logText(), m=document.getElementById('copyMsg');
+    if(!t){ m.textContent='No written entries yet. Answer any chapter prompt in the Write tab first.'; return; }
+    function fallback(){ var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); var ok=false; try{ ok=document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); m.textContent = ok ? 'Written entries copied.' : 'Copying is blocked here. Select the entries above and copy them by hand.'; }
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function(){ m.textContent='Written entries copied.'; }, fallback); else fallback();
+  });
+  document.getElementById('clearAll').addEventListener('click', function(){
+    if(!confirm('Clear your whole log and chapter progress on this device?')) return;
+    S.logs={}; S.done={}; S.tips={}; save(); location.reload();
+  });
+
+  /* ---------- listen ---------- */
+  var canSpeak='speechSynthesis' in window && 'SpeechSynthesisUtterance' in window, speaking=null;
+  if(!canSpeak){ var rs=document.getElementById('rateSet'); if(rs) rs.hidden=true; }
+  function stopSpeak(){ if(!canSpeak) return; speechSynthesis.cancel(); if(speaking){ speaking.textContent='Listen'; speaking.setAttribute('aria-pressed','false'); speaking=null; } }
+  document.querySelectorAll('[data-chapter]').forEach(function(sec){
+    var b=sec.querySelector('.listen'); if(!b||!canSpeak) return;
+    b.hidden=false; b.setAttribute('aria-pressed','false');
+    b.addEventListener('click', function(){
+      if(speaking===b){ stopSpeak(); return; } stopSpeak();
+      var txt=sec.querySelector('h2').innerText+'. '+sec.querySelector('.readable').innerText;
+      txt=txt.replace(/\((?:[^()]*\d{4}[^()]*|[^()]*n\.d\.[^()]*)\)/g,'').replace(/\bi\b(?=\s)/g,'').replace(/\s+/g,' ');
+      var parts=txt.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[txt];
+      speaking=b; b.textContent='Stop'; b.setAttribute('aria-pressed','true');
+      parts.forEach(function(p,i){ var u=new SpeechSynthesisUtterance(p.trim()); u.rate=parseFloat(S.rate)||1; u.lang='en-US'; if(i===parts.length-1) u.onend=function(){ if(speaking===b) stopSpeak(); }; speechSynthesis.speak(u); });
+    });
+  });
+
+  /* ---------- global clicks + keys ---------- */
+  document.addEventListener('click', function(e){
+    var t=e.target.closest('.term'); if(t){ e.preventDefault(); openTerm(t.dataset.term, t); return; }
+    var f=e.target.closest('[data-filter]'); if(f){ e.preventDefault(); highlight(f.dataset.filter); return; }
+    var g=e.target.closest('[data-go]'); if(g){ e.preventDefault(); go(g.dataset.go); if(!wide.matches && g.closest('.tracker')){ trk.dataset.open='false'; trkBtn.setAttribute('aria-expanded','false'); } }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key!=='Escape') return;
+    if(!setPanel.hidden){ openSet(false); return; }
+    if(trk.dataset.open==='true' && !wide.matches){ trk.dataset.open='false'; trkBtn.setAttribute('aria-expanded','false'); trkBtn.focus(); return; }
+    if(!toast.hidden){ toast.hidden=true; return; }
+    if(cur) highlight(cur);
+    if(speaking) stopSpeak();
+  });
+
+  /* ---------- sidekick search ---------- */
+  var index=[];
+  Object.keys(G).forEach(function(k){ index.push({label:'Definition: '+G[k][0], text:(G[k][0]+' '+G[k][1]).toLowerCase(), act:function(){ openTerm(k, document.querySelector('.term[data-term="'+k+'"]')); }}); });
+  document.querySelectorAll('[data-chapter] h3, [data-chapter] h4, [data-chapter] h2').forEach(function(h){
+    var host=h.closest('.panel, .stage, .phase, .chapter'); var sec=h.closest('[data-chapter]');
+    index.push({label:h.innerText.replace(/\s*(Transparency and accountability|Documentation|Friction)\b/g,'').replace(/\s+i\b/g,'').trim(), text:(host?host.innerText:h.innerText).toLowerCase(), act:function(){ if(S.depth==='key' && h.closest('.detail')) setOpt('depth','full'); h.setAttribute('tabindex','-1'); h.scrollIntoView(); h.focus({preventScroll:true}); }});
+  });
+  document.getElementById('skForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var q=document.getElementById('skInput').value.trim().toLowerCase(), out=document.getElementById('skResults'); out.innerHTML='';
+    if(!q){ skMsg.textContent='Type a word or topic, like “spec” or “pre-mortem,” and I’ll find it.'; return; }
+    var words=q.split(/\s+/), hits=index.map(function(it){ var s=0; words.forEach(function(w){ if(it.label.toLowerCase().indexOf(w)>-1) s+=3; if(it.text.indexOf(w)>-1) s+=1; }); return [s,it]; }).filter(function(x){ return x[0]>0; }).sort(function(a,b){ return b[0]-a[0]; }).slice(0,5);
+    if(!hits.length){ skMsg.textContent='I couldn’t find “'+q+'” in this brief. Try a shorter word, or browse the glossary.'; var li=document.createElement('li'); var b=document.createElement('button'); b.type='button'; b.textContent='Open the glossary'; b.addEventListener('click', function(){ go('glossary'); }); li.appendChild(b); out.appendChild(li); return; }
+    skMsg.textContent='Here’s where “'+q+'” shows up:';
+    hits.forEach(function(h){ var li=document.createElement('li'), b=document.createElement('button'); b.type='button'; b.textContent=h[1].label; b.addEventListener('click', h[1].act); li.appendChild(b); out.appendChild(li); });
+  });
+
+  /* ---------- reading position, reveal, and long-stay tips ---------- */
+  var curChapter=null, stay={}, phases=document.querySelectorAll('.phase');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); }, {threshold:.15});
+    phases.forEach(function(p){ io.observe(p); });
+    var so=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ curChapter=en.target.id; document.querySelectorAll('.wp').forEach(function(w){ w.classList.toggle('current', w.dataset.go===curChapter); }); } }); }, {rootMargin:'-35% 0px -55% 0px'});
+    document.querySelectorAll('[data-chapter]').forEach(function(s){ so.observe(s); });
+  } else phases.forEach(function(p){ p.classList.add('in'); });
+  setInterval(function(){
+    if(document.hidden || !curChapter || S.done[curChapter]) return;
+    stay[curChapter]=(stay[curChapter]||0)+15;
+    if(stay[curChapter]>=300 && !S.tips['stay-'+curChapter]){ S.tips['stay-'+curChapter]=1; save();
+      var sec=document.getElementById(curChapter), kf=sec && sec.querySelector('.bubble');
+      say('You’ve been in this chapter a while. Here’s its key frame: '+(kf?kf.innerText.replace(/^Key frame\s*/i,''):'')+' Ready to mark it complete, or want a pause to log a thought?', [['Mark complete', function(){ var i=document.querySelector('.complete input[data-done="'+curChapter+'"]'); if(i){ i.checked=true; i.dispatchEvent(new Event('change',{bubbles:true})); } }], ['Log a thought', function(){ document.getElementById('reflectBtn').click(); }]]);
+    }
+  }, 15000);
+
+  apply(); progress(); renderLog();
+})();
+</script>
+</body>
+</html>
