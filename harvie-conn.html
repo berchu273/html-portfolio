@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Harvie Conn — A Personal Study Notebook</title>
+<style>
+  :root {
+    --paper: #f6f1e7;
+    --paper2: #efe7d8;
+    --card: #fffdf8;
+    --ink: #2b2620;
+    --ink2: #5c5348;
+    --muted: #8a7f70;
+    --line: #e2d8c6;
+    --accent: #9a3b26;      /* brick red: the city */
+    --accent-soft: #f3e1d9;
+    --teal: #24646b;
+    --teal-soft: #dcebec;
+    --gold: #b07d1a;
+    --gold-soft: #f5ead1;
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(60,40,20,.06), 0 6px 18px rgba(60,40,20,.06);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 16px/1.6 var(--sans); padding-bottom: 120px;
+  }
+  h1, h2, h3, h4 { font-family: var(--serif); font-weight: 600; line-height: 1.2; margin: 0 0 .5em; }
+  a { color: var(--teal); }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  /* nav */
+  nav.top {
+    position: sticky; top: 0; z-index: 20; background: rgba(246,241,231,.92);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  nav.top .wrap { display: flex; gap: 4px; align-items: center; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
+  nav.top .brand { font-family: var(--serif); font-weight: 700; margin-right: auto; white-space: nowrap; padding-right: 12px; }
+  nav.top a { text-decoration: none; color: var(--ink2); padding: 6px 10px; border-radius: 8px; font-size: 14px; white-space: nowrap; }
+  nav.top a:hover { background: var(--paper2); color: var(--ink); }
+
+  /* hero */
+  header.hero { padding: 56px 0 28px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; color: var(--accent); font-weight: 700; }
+  .hero h1 { font-size: clamp(34px, 6vw, 56px); margin: 8px 0 12px; }
+  .hero p.lede { font-family: var(--serif); font-size: 20px; color: var(--ink2); max-width: 720px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 28px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); }
+  .stat b { display: block; font-family: var(--serif); font-size: 30px; line-height: 1.1; }
+  .stat span { font-size: 13px; color: var(--muted); }
+
+  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  section > .wrap > h2 { font-size: 30px; }
+  .sub { color: var(--ink2); max-width: 720px; margin-top: -4px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+  .grid { display: grid; gap: 14px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--card);
+    padding: 8px 14px; border-radius: 999px; cursor: pointer; font-size: 14px; transition: .15s;
+  }
+  .btn:hover { border-color: var(--ink2); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn.small { padding: 4px 10px; font-size: 13px; }
+  .btn.ghost { background: transparent; border-color: transparent; color: var(--ink2); }
+  .btn.ghost:hover { background: var(--paper2); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  label.f { display: block; font-size: 13px; color: var(--ink2); margin: 10px 0 4px; font-weight: 600; }
+  input[type=text], input[type=url], input[type=search], input[type=number], select, textarea {
+    width: 100%; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px;
+  }
+  textarea { min-height: 110px; resize: vertical; font-family: var(--serif); font-size: 17px; line-height: 1.55; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--teal-soft); border-color: var(--teal); }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 12.5px;
+    background: var(--paper2); color: var(--ink2); border: 1px solid transparent; cursor: pointer; user-select: none;
+  }
+  .chip.on { background: var(--teal); color: #fff; }
+  .chip.t-note { background: var(--paper2); }
+  .chip.t-question { background: var(--teal-soft); color: var(--teal); }
+  .chip.t-quote { background: var(--gold-soft); color: var(--gold); }
+  .chip.t-insight { background: var(--accent-soft); color: var(--accent); }
+  .chip.t-application { background: #e4ecdc; color: #4b6b2c; }
+
+  /* timeline */
+  .timeline { position: relative; margin: 20px 0 0; padding-left: 26px; }
+  .timeline::before { content: ""; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--line); }
+  .tl { position: relative; margin-bottom: 18px; }
+  .tl::before { content: ""; position: absolute; left: -23px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--paper); }
+  .tl.mine::before { background: var(--teal); }
+  .tl .yr { font-family: var(--serif); font-weight: 700; color: var(--accent); }
+  .tl.mine .yr { color: var(--teal); }
+  .tl .what { color: var(--ink); }
+  .tl .del { margin-left: 6px; }
+
+  /* themes */
+  .theme { cursor: pointer; transition: transform .15s; position: relative; }
+  .theme:hover { transform: translateY(-2px); }
+  .theme h3 { font-size: 19px; }
+  .theme p { color: var(--ink2); font-size: 14.5px; margin: 0 0 10px; }
+  .theme .count { font-size: 12.5px; color: var(--teal); font-weight: 600; }
+  .theme .q { font-family: var(--serif); font-style: italic; color: var(--ink2); font-size: 14.5px; border-left: 3px solid var(--gold-soft); padding-left: 10px; margin-top: 8px; }
+
+  /* books */
+  .book { display: flex; flex-direction: column; gap: 6px; }
+  .book .spine { height: 6px; border-radius: 3px; background: var(--line); }
+  .book.read .spine { background: var(--teal); }
+  .book.reading .spine { background: var(--gold); }
+  .book.want .spine { background: var(--accent); }
+  .book h4 { font-size: 16.5px; margin: 4px 0 0; }
+  .book .meta { font-size: 13px; color: var(--muted); }
+  .book select { padding: 5px 8px; font-size: 13px; margin-top: auto; }
+
+  /* recordings */
+  .rec { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .rec:last-child { border-bottom: 0; }
+  .rec.playing { background: var(--teal-soft); }
+  .rec .play { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; cursor: pointer; font-size: 16px; }
+  .rec .play.link { background: var(--teal); }
+  .rec .t { font-weight: 600; }
+  .rec .m { font-size: 13px; color: var(--muted); }
+  .bar { height: 4px; background: var(--line); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--teal); }
+  .status { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--paper2); color: var(--ink2); }
+  .status.done { background: var(--teal); color: #fff; }
+  .status.prog { background: var(--gold-soft); color: var(--gold); }
+  .empty { text-align: center; color: var(--muted); padding: 30px 10px; font-family: var(--serif); font-style: italic; }
+  .tabs { display: flex; gap: 6px; margin: 4px 0 8px; }
+  .tabs button { border: 0; background: transparent; padding: 6px 10px; border-radius: 8px; cursor: pointer; color: var(--ink2); }
+  .tabs button.on { background: var(--paper2); color: var(--ink); font-weight: 600; }
+
+  /* notes */
+  .notes-feed { display: grid; gap: 14px; margin-top: 16px; }
+  .note { position: relative; }
+  .note .body { font-family: var(--serif); font-size: 17.5px; line-height: 1.6; }
+  .note .body p { margin: 0 0 .6em; }
+  .note.t-quote .body { font-style: italic; border-left: 3px solid var(--gold); padding-left: 14px; }
+  .note.t-question .body::before { content: "?"; float: left; font-size: 34px; line-height: 1; color: var(--teal); margin-right: 10px; font-weight: 700; }
+  .note .foot { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .note .foot .sp { margin-left: auto; }
+  .note .src { color: var(--teal); cursor: pointer; text-decoration: underline dotted; }
+  .note.flash { animation: flash 1.6s ease; }
+  @keyframes flash { 0%,40% { box-shadow: 0 0 0 4px var(--gold); } 100% { box-shadow: var(--shadow); } }
+  .filters { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; margin-top: 14px; }
+  @media (max-width: 640px) { .filters { grid-template-columns: 1fr; } }
+
+  /* prompt card */
+  .prompt-card { background: linear-gradient(135deg, #2b2620, #4a3a2c); color: #f6f1e7; border: 0; min-height: 190px; display: flex; flex-direction: column; justify-content: space-between; }
+  .prompt-card .pq { font-family: var(--serif); font-size: 22px; line-height: 1.4; }
+  .prompt-card .btn { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); color: #fff; }
+  .resurface .body { font-family: var(--serif); font-size: 17px; }
+
+  /* player */
+  .player {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: var(--ink); color: var(--paper);
+    padding: 10px 0; box-shadow: 0 -6px 20px rgba(0,0,0,.15); transform: translateY(110%); transition: transform .25s;
+  }
+  .player.show { transform: none; }
+  .player .wrap { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center; }
+  .player .now { font-size: 14px; overflow: hidden; }
+  .player .now b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--serif); font-size: 16px; }
+  .player audio { width: 100%; height: 36px; grid-column: 1 / -1; }
+  .player .ctrls { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .player .btn { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); color: #fff; }
+  .player .btn.primary { background: var(--accent); border-color: var(--accent); }
+  .player .btn.on { background: var(--paper); color: var(--ink); }
+
+  /* modal */
+  dialog { border: 0; border-radius: 16px; padding: 0; max-width: 620px; width: calc(100% - 24px); box-shadow: 0 20px 60px rgba(0,0,0,.3); background: var(--card); color: var(--ink); }
+  dialog::backdrop { background: rgba(43,38,32,.45); }
+  dialog form { padding: 22px; }
+  dialog h3 { font-size: 22px; }
+  .hint { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+  .toast { position: fixed; left: 50%; top: 20px; transform: translateX(-50%) translateY(-80px); background: var(--ink); color: var(--paper); padding: 10px 18px; border-radius: 999px; z-index: 50; transition: .25s; font-size: 14px; }
+  .toast.show { transform: translateX(-50%); }
+  footer { padding: 30px 0; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+  .kbd { font-family: ui-monospace, monospace; font-size: 12px; background: var(--paper2); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <span class="brand">Learning Harvie Conn</span>
+    <a href="#life">Life</a>
+    <a href="#themes">Themes</a>
+    <a href="#books">Books</a>
+    <a href="#listen">Listening Room</a>
+    <a href="#notebook">Notebook</a>
+    <a href="#reflect">Reflect</a>
+    <a href="#backup">Backup</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">A personal study notebook</div>
+    <h1>Harvie M. Conn <span style="color:var(--muted);font-weight:400">(1933–1999)</span></h1>
+    <p class="lede">Missionary to Korea, Westminster Theological Seminary's first professor of missions, and one of
+      the people who called evangelicals to the city. This page is where I listen to his lectures,
+      write down what I'm learning, and watch my understanding grow.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<!-- LIFE -->
+<section id="life">
+  <div class="wrap">
+    <h2>His life, briefly</h2>
+    <p class="sub">The dates come from public biographies. Add your own milestones as you learn them; they show up in teal.</p>
+    <div class="grid g2" style="margin-top:10px">
+      <div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:19px">Add to the timeline</h3>
+        <p class="hint">Something you heard in a lecture, a date you found, or a story he told.</p>
+        <label class="f" for="tlYear">Year</label>
+        <input type="text" id="tlYear" placeholder="e.g. 1968">
+        <label class="f" for="tlText">What happened</label>
+        <input type="text" id="tlText" placeholder="e.g. Mentioned in lecture 3: began teaching at…">
+        <div class="row" style="margin-top:12px"><button class="btn primary" id="tlAdd">Add milestone</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THEMES -->
+<section id="themes">
+  <div class="wrap">
+    <h2>Big themes to trace</h2>
+    <p class="sub">These are starting points for organizing what you learn. Click a theme to see your notes on it, and tag new notes with these themes as you write them.</p>
+    <div class="grid g3" id="themeGrid" style="margin-top:16px"></div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section id="books">
+  <div class="wrap">
+    <h2>The bookshelf</h2>
+    <p class="sub">His major books, authored and edited. Track what you want to read, are reading, and have finished.</p>
+    <div class="grid g3" id="bookGrid" style="margin-top:16px"></div>
+  </div>
+</section>
+
+<!-- LISTENING ROOM -->
+<section id="listen">
+  <div class="wrap">
+    <h2>Listening Room</h2>
+    <p class="sub">Add the recordings you're listening to. Westminster keeps many of Conn's lectures at
+      <a href="https://wm.wts.edu/" target="_blank" rel="noopener">wm.wts.edu</a> (search “Harvie Conn”).
+      Paste a link, or upload an audio file you have saved. The page remembers where you stopped, and you can drop a timestamped note at any moment.</p>
+    <div class="row" style="margin:14px 0">
+      <button class="btn primary" id="addRecBtn">＋ Add a recording</button>
+      <input type="search" id="recSearch" placeholder="Search recordings…" style="max-width:260px">
+    </div>
+    <div class="tabs" id="recTabs">
+      <button data-f="all" class="on">All</button>
+      <button data-f="new">Not started</button>
+      <button data-f="prog">In progress</button>
+      <button data-f="done">Finished</button>
+    </div>
+    <div class="card" style="padding:0" id="recList"></div>
+  </div>
+</section>
+
+<!-- NOTEBOOK -->
+<section id="notebook">
+  <div class="wrap">
+    <h2>My Notebook</h2>
+    <p class="sub">Your notes, questions, quotes, and insights. Everything you write here becomes part of this page.
+      Tip: press <span class="kbd">N</span> anywhere to start a new note. Write <span class="kbd">**bold**</span> for emphasis.</p>
+    <div class="row" style="margin-top:14px">
+      <button class="btn primary" id="newNoteBtn">✎ New note</button>
+    </div>
+    <div class="filters">
+      <input type="search" id="noteSearch" placeholder="Search your notes…">
+      <select id="noteType">
+        <option value="">All kinds</option>
+        <option value="note">Notes</option>
+        <option value="question">Questions</option>
+        <option value="quote">Quotes</option>
+        <option value="insight">Insights</option>
+        <option value="application">Applications</option>
+      </select>
+      <select id="noteSort">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+        <option value="rec">By recording</option>
+      </select>
+    </div>
+    <div class="row" id="themeFilter" style="margin-top:10px"></div>
+    <div class="notes-feed" id="notesFeed"></div>
+  </div>
+</section>
+
+<!-- REFLECT -->
+<section id="reflect">
+  <div class="wrap">
+    <h2>Reflect &amp; revisit</h2>
+    <p class="sub">Draw a question to think about, or bring back something you wrote a while ago.</p>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card prompt-card">
+        <div>
+          <div class="eyebrow" style="color:#e9b9a8">Reflection prompt</div>
+          <div class="pq" id="promptText" style="margin-top:10px"></div>
+        </div>
+        <div class="row" style="margin-top:16px">
+          <button class="btn" id="promptNext">↻ Draw another</button>
+          <button class="btn" id="promptAnswer">✎ Write a response</button>
+        </div>
+      </div>
+      <div class="card resurface">
+        <div class="eyebrow">From your notebook</div>
+        <div id="resurface" style="margin-top:10px"></div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn" id="resurfaceNext">↻ Show another note</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BACKUP -->
+<section id="backup">
+  <div class="wrap">
+    <h2>Keep your work safe</h2>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="card">
+        <h3 style="font-size:19px">Where your notes live</h3>
+        <p class="sub" style="margin:0">Your notes, progress, and recordings are saved in <b>this browser</b>.
+          Clearing site data or switching devices will lose them unless you export a backup.
+          Audio files you upload are kept in the browser too, but they aren't included in the backup file. Links are.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:19px">Export / import</h3>
+        <p class="hint">To publish your notes with the site, export the file, name it <span class="kbd">harvie-conn-data.json</span>,
+          and commit it next to this page. Any visitor (or you, on another device) will see those notes too.</p>
+        <div class="row" style="margin-top:12px">
+          <button class="btn primary" id="exportBtn">⇩ Export backup</button>
+          <label class="btn" for="importFile" style="cursor:pointer">⇧ Import backup</label>
+          <input type="file" id="importFile" accept="application/json,.json" hidden>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">A personal learning space about Harvie M. Conn (1933–1999). Biographical details come from public sources; recordings belong to their owners.</div>
+</footer>
+
+<!-- PLAYER -->
+<div class="player" id="player">
+  <div class="wrap">
+    <div class="now"><span style="opacity:.6;font-size:12px">NOW LISTENING</span><b id="nowTitle">—</b></div>
+    <div class="ctrls">
+      <button class="btn small" id="back15" title="Back 15 seconds">⟲ 15</button>
+      <button class="btn small" id="fwd30" title="Forward 30 seconds">30 ⟳</button>
+      <button class="btn small" id="speedBtn" title="Playback speed">1×</button>
+      <button class="btn small primary" id="noteHere" title="Note at this moment (T)">✎ Note at <span id="noteHereTime">0:00</span></button>
+      <button class="btn small" id="closePlayer" title="Close player">✕</button>
+    </div>
+    <audio id="audio" controls preload="metadata"></audio>
+  </div>
+</div>
+
+<!-- ADD RECORDING DIALOG -->
+<dialog id="recDialog">
+  <form method="dialog" id="recForm">
+    <h3 id="recDialogTitle">Add a recording</h3>
+    <label class="f" for="recTitle">Title *</label>
+    <input type="text" id="recTitle" required placeholder="e.g. Contextual Theology, Part III">
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <label class="f" for="recSeries">Course / series</label>
+        <input type="text" id="recSeries" placeholder="e.g. Contextual Theology" list="seriesList">
+        <datalist id="seriesList"></datalist>
+      </div>
+      <div>
+        <label class="f" for="recPart">Part / order</label>
+        <input type="number" id="recPart" min="0" placeholder="e.g. 4">
+      </div>
+    </div>
+    <label class="f" for="recUrl">Link (audio file or web page)</label>
+    <input type="url" id="recUrl" placeholder="https://wm.wts.edu/listen/…  or a direct .mp3 link">
+    <p class="hint">A direct audio link (.mp3, .m4a…) plays right here. A page link opens in a new tab so you can listen there, and you can still take notes here.</p>
+    <label class="f" for="recFile">…or upload an audio file</label>
+    <input type="file" id="recFile" accept="audio/*">
+    <p class="hint" id="recFileHint"></p>
+    <label class="f" for="recDesc">Why I'm listening / summary</label>
+    <input type="text" id="recDesc" placeholder="Optional">
+    <div class="row" style="margin-top:18px;justify-content:flex-end">
+      <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn primary" value="ok" id="recSave">Save recording</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- NOTE DIALOG -->
+<dialog id="noteDialog">
+  <form method="dialog" id="noteForm">
+    <h3 id="noteDialogTitle">New note</h3>
+    <div class="row" id="noteTypePick" style="margin:6px 0 4px"></div>
+    <label class="f" for="noteText">What are you thinking?</label>
+    <textarea id="noteText" required placeholder="Write freely…"></textarea>
+    <div class="grid" style="grid-template-columns:2fr 1fr;gap:10px">
+      <div>
+        <label class="f" for="noteRec">From recording</label>
+        <select id="noteRec"></select>
+      </div>
+      <div>
+        <label class="f" for="noteTime">At (m:ss)</label>
+        <input type="text" id="noteTime" placeholder="—">
+      </div>
+    </div>
+    <label class="f">Themes</label>
+    <div class="row" id="noteThemePick"></div>
+    <div class="row" style="margin-top:18px;justify-content:flex-end">
+      <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn primary" value="ok">Save note</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ---------- Reference content ---------- */
+  const TIMELINE = [
+    { y: "1933", t: "Born April 7 in Regina, Saskatchewan, to Irish immigrant parents." },
+    { y: "1950s", t: "Studies at Calvin College, then Westminster Theological Seminary (B.D. 1957, Th.M. 1958)." },
+    { y: "1960–72", t: "Missionary in Korea: theological education, evangelism, and broadcasting. Teaches New Testament at the General Assembly Theological Seminary in Seoul." },
+    { y: "1972", t: "Joins the Westminster faculty, first teaching apologetics, then becoming the seminary's first professor of missions." },
+    { y: "1980s", t: "Helps build Westminster's urban program, including the D.Min. in urban mission and the M.A. in Missiology." },
+    { y: "1983", t: "Urban Mission journal launches; Conn serves as its editor." },
+    { y: "1999", t: "Dies August 28, aged 66." }
+  ];
+
+  const THEMES = [
+    { id: "urban", name: "The City & Urban Mission", d: "Why the church must take cities seriously, and how mission changes when you do.", q: "What would it mean for my church to see the city as a gift and not a threat?" },
+    { id: "context", name: "Contextualization", d: "How the unchanging Word meets changing cultures. Theology, anthropology, and mission in conversation.", q: "Where does my own culture shape how I read Scripture without my noticing?" },
+    { id: "justice", name: "Evangelism, Justice & Grace", d: "Holding word and deed together: doing justice and preaching grace as one witness.", q: "Do I treat evangelism and justice as rivals or as partners?" },
+    { id: "kingdom", name: "The Kingdom of God", d: "The kingdom as the frame for mission: God's reign arriving in the whole of life.", q: "How does the kingdom change what counts as 'spiritual' work?" },
+    { id: "korea", name: "Korea & the World Church", d: "Lessons from his years in Korea and from churches outside the West.", q: "What can the Western church learn from the global church?" },
+    { id: "theoed", name: "Theological Education", d: "Training leaders for the church as it actually is, in the city and around the world.", q: "Who is theological education for, and who does it leave out?" },
+    { id: "growth", name: "Church Growth, Examined", d: "Engaging and critiquing the church growth movement theologically.", q: "When is 'growth' the wrong measure of faithfulness?" },
+    { id: "reformed", name: "Reformed Theology on Mission", d: "Bringing the Reformed tradition to bear on mission, and mission to bear on the tradition.", q: "What does my tradition give to mission, and what might it need to relearn?" }
+  ];
+
+  const BOOKS = [
+    { id: "cwt", t: "Contemporary World Theology", y: 1973 },
+    { id: "tpcg", t: "Theological Perspectives on Church Growth", y: 1976, ed: true },
+    { id: "edj", t: "Evangelism: Doing Justice and Preaching Grace", y: 1982 },
+    { id: "ewcw", t: "Eternal Word and Changing Worlds: Theology, Anthropology, and Mission in Trialogue", y: 1984 },
+    { id: "rtu", t: "Reaching the Unreached: The Old-New Challenge", y: 1984, ed: true },
+    { id: "mte", t: "Missions and Theological Education in World Perspective", y: 1984, ed: true, w: "with Samuel Rowen" },
+    { id: "cvum", t: "A Clarified Vision for Urban Mission", y: 1987 },
+    { id: "ih", t: "Inerrancy and Hermeneutic: A Tradition, a Challenge, a Debate", y: 1988, ed: true },
+    { id: "acec", t: "The American City and the Evangelical Church", y: 1994 },
+    { id: "pguc", t: "Planting and Growing Urban Churches", y: 1997, ed: true },
+    { id: "um", t: "Urban Ministry: The Kingdom, the City and the People of God", y: 2001, w: "with Manuel Ortiz" }
+  ];
+
+  const NOTE_TYPES = [
+    { id: "note", label: "Note" },
+    { id: "question", label: "Question" },
+    { id: "quote", label: "Quote" },
+    { id: "insight", label: "Insight" },
+    { id: "application", label: "Application" }
+  ];
+
+  const PROMPTS = [
+    "What is one idea from Conn that unsettled you this week? Why?",
+    "Summarize the last lecture you heard in three sentences, as if to a friend.",
+    "Where do you see Conn's Korea years shaping the way he thinks?",
+    "Which of his themes feels most urgent for your neighborhood or city?",
+    "Write down one question you'd ask Conn if you could sit in his office.",
+    "What did he assume his students already believed? Do you believe it?",
+    "Connect something you heard to a passage of Scripture.",
+    "How might Conn's idea of 'trialogue' (theology, anthropology, mission) change a sermon or a Bible study?",
+    "What would doing justice and preaching grace look like together in your church this month?",
+    "Is there a place where you disagree with him? Make the argument.",
+    ...THEMES.map(t => t.q)
+  ];
+
+  /* ---------- Storage ---------- */
+  const KEY = "hc-learning-v1";
+  const blank = () => ({ recordings: [], notes: [], books: {}, timeline: [], activeDays: [], deleted: [], speed: 1 });
+  let S = load();
+  function load() {
+    try { return Object.assign(blank(), JSON.parse(localStorage.getItem(KEY) || "{}")); }
+    catch { return blank(); }
+  }
+  function save() {
+    const today = new Date().toISOString().slice(0, 10);
+    if (!S.activeDays.includes(today)) S.activeDays.push(today);
+    localStorage.setItem(KEY, JSON.stringify(S));
+  }
+
+  // IndexedDB for uploaded audio blobs
+  const idb = new Promise((res, rej) => {
+    if (!("indexedDB" in window)) return rej(new Error("no idb"));
+    const r = indexedDB.open("hc-audio", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("files");
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+  const idbDo = (mode, fn) => idb.then(db => new Promise((res, rej) => {
+    const tx = db.transaction("files", mode); const req = fn(tx.objectStore("files"));
+    tx.oncomplete = () => res(req && req.result); tx.onerror = () => rej(tx.error);
+  }));
+  const putFile = (k, blob) => idbDo("readwrite", s => s.put(blob, k));
+  const getFile = k => idbDo("readonly", s => s.get(k));
+  const delFile = k => idbDo("readwrite", s => s.delete(k));
+
+  /* ---------- Helpers ---------- */
+  const $ = s => document.querySelector(s);
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmt = sec => {
+    if (sec == null || isNaN(sec)) return "";
+    sec = Math.floor(sec); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60;
+    return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(s).padStart(2, "0");
+  };
+  const parseTime = str => {
+    if (!str || !str.trim()) return null;
+    const p = str.trim().split(":").map(Number); if (p.some(isNaN)) return null;
+    return p.reduce((a, v) => a * 60 + v, 0);
+  };
+  const isAudioUrl = u => /\.(mp3|m4a|aac|ogg|oga|wav|flac|opus|webm)(\?|#|$)/i.test(u || "");
+  const recById = id => S.recordings.find(r => r.id === id);
+  const dateStr = ts => new Date(ts).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  function render(text) {
+    return esc(text).split(/\n{2,}/).map(p =>
+      "<p>" + p.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>").replace(/\n/g, "<br>") + "</p>"
+    ).join("");
+  }
+  function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2200); }
+  function recStatus(r) {
+    if (r.done) return "done";
+    if (r.position > 5 || r.opened) return "prog";
+    return "new";
+  }
+
+  /* ---------- Stats ---------- */
+  function renderStats() {
+    const done = S.recordings.filter(r => r.done).length;
+    const secs = S.recordings.reduce((a, r) => a + (r.done ? (r.duration || 0) : (r.position || 0)), 0);
+    const booksRead = Object.values(S.books).filter(v => v === "read").length;
+    const items = [
+      [S.recordings.length, "recordings collected"],
+      [done, "lectures finished"],
+      [(secs / 3600).toFixed(1), "hours listened"],
+      [S.notes.length, "notes written"],
+      [booksRead, "books read"],
+      [S.activeDays.length, "days of study"]
+    ];
+    $("#stats").innerHTML = items.map(([n, l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join("");
+  }
+
+  /* ---------- Timeline ---------- */
+  function renderTimeline() {
+    const sortKey = y => parseInt(String(y).match(/\d{4}/)?.[0] || "9999", 10);
+    const all = [...TIMELINE.map(x => ({ ...x })), ...S.timeline.map(x => ({ ...x, mine: true }))]
+      .sort((a, b) => sortKey(a.y) - sortKey(b.y));
+    $("#timeline").innerHTML = all.map(x => `
+      <div class="tl ${x.mine ? "mine" : ""}">
+        <div class="yr">${esc(x.y)}</div>
+        <div class="what">${esc(x.t)}${x.mine ? ` <button class="btn ghost small del" data-del-tl="${x.id}" title="Remove">✕</button>` : ""}</div>
+      </div>`).join("");
+  }
+  $("#tlAdd").onclick = () => {
+    const y = $("#tlYear").value.trim(), t = $("#tlText").value.trim();
+    if (!y || !t) return toast("Add a year and a description");
+    S.timeline.push({ id: uid(), y, t }); save(); renderTimeline();
+    $("#tlYear").value = $("#tlText").value = ""; toast("Milestone added");
+  };
+  $("#timeline").onclick = e => {
+    const id = e.target.dataset.delTl; if (!id) return;
+    S.timeline = S.timeline.filter(x => x.id !== id); S.deleted.push(id); save(); renderTimeline();
+  };
+
+  /* ---------- Themes ---------- */
+  let themeFilter = null;
+  function renderThemes() {
+    $("#themeGrid").innerHTML = THEMES.map(t => {
+      const n = S.notes.filter(x => (x.themes || []).includes(t.id)).length;
+      return `<div class="card theme" data-theme="${t.id}" tabindex="0">
+        <h3>${esc(t.name)}</h3><p>${esc(t.d)}</p>
+        <div class="count">${n ? n + " note" + (n > 1 ? "s" : "") + " →" : "No notes yet"}</div>
+        <div class="q">${esc(t.q)}</div></div>`;
+    }).join("");
+  }
+  $("#themeGrid").onclick = e => {
+    const c = e.target.closest("[data-theme]"); if (!c) return;
+    themeFilter = c.dataset.theme; renderNotes(); location.hash = "#notebook";
+  };
+
+  /* ---------- Books ---------- */
+  function renderBooks() {
+    $("#bookGrid").innerHTML = BOOKS.map(b => {
+      const st = S.books[b.id] || "";
+      return `<div class="card book ${st}">
+        <div class="spine"></div>
+        <h4>${esc(b.t)}</h4>
+        <div class="meta">${b.y}${b.ed ? " · editor" : ""}${b.w ? " · " + esc(b.w) : ""}</div>
+        <select data-book="${b.id}" aria-label="Reading status">
+          <option value="">— Not on my list —</option>
+          <option value="want" ${st === "want" ? "selected" : ""}>Want to read</option>
+          <option value="reading" ${st === "reading" ? "selected" : ""}>Reading now</option>
+          <option value="read" ${st === "read" ? "selected" : ""}>Read ✓</option>
+        </select></div>`;
+    }).join("");
+  }
+  $("#bookGrid").onchange = e => {
+    const id = e.target.dataset.book; if (!id) return;
+    if (e.target.value) S.books[id] = e.target.value; else delete S.books[id];
+    save(); renderBooks(); renderStats();
+  };
+
+  /* ---------- Recordings ---------- */
+  let recFilter = "all", editingRec = null;
+  function sortedRecs() {
+    return [...S.recordings].sort((a, b) =>
+      (a.series || "zzz").localeCompare(b.series || "zzz") || (a.part ?? 9999) - (b.part ?? 9999) || a.addedAt - b.addedAt);
+  }
+  function renderRecs() {
+    const q = $("#recSearch").value.toLowerCase();
+    const list = sortedRecs().filter(r =>
+      (recFilter === "all" || recStatus(r) === recFilter) &&
+      (!q || [r.title, r.series, r.desc].join(" ").toLowerCase().includes(q)));
+    if (!S.recordings.length) {
+      $("#recList").innerHTML = `<div class="empty">No recordings yet. Add the first lecture you're listening to.</div>`;
+    } else if (!list.length) {
+      $("#recList").innerHTML = `<div class="empty">Nothing matches.</div>`;
+    } else {
+      $("#recList").innerHTML = list.map(r => {
+        const st = recStatus(r), playable = r.fileKey || isAudioUrl(r.url);
+        const pct = r.done ? 100 : (r.duration ? Math.min(100, (r.position || 0) / r.duration * 100) : 0);
+        const nCount = S.notes.filter(n => n.recordingId === r.id).length;
+        return `<div class="rec ${current && current.id === r.id ? "playing" : ""}">
+          <button class="play ${playable ? "" : "link"}" data-play="${r.id}" title="${playable ? "Play / pause" : "Open link"}">${playable ? (current && current.id === r.id && !audio.paused ? "❚❚" : "▶") : "↗"}</button>
+          <div>
+            <div class="t">${esc(r.title)}</div>
+            <div class="m">${[r.series && esc(r.series) + (r.part != null ? " · Part " + r.part : ""), r.duration && fmt(r.duration), nCount && nCount + " note" + (nCount > 1 ? "s" : ""), r.fileKey && "uploaded file"].filter(Boolean).join(" · ")}</div>
+            ${r.desc ? `<div class="m" style="font-style:italic">${esc(r.desc)}</div>` : ""}
+            ${playable && pct ? `<div class="bar"><i style="width:${pct}%"></i></div>` : ""}
+          </div>
+          <div class="row" style="justify-content:flex-end">
+            <span class="status ${st}">${{ new: "Not started", prog: "In progress", done: "Finished ✓" }[st]}</span>
+            <button class="btn ghost small" data-note-rec="${r.id}" title="Write a note about this recording">✎</button>
+            <button class="btn ghost small" data-toggle-done="${r.id}" title="Toggle finished">${r.done ? "↺" : "✓"}</button>
+            <button class="btn ghost small" data-edit-rec="${r.id}" title="Edit">⋯</button>
+          </div></div>`;
+      }).join("");
+    }
+    $("#seriesList").innerHTML = [...new Set(S.recordings.map(r => r.series).filter(Boolean))].map(s => `<option value="${esc(s)}">`).join("");
+  }
+  $("#recSearch").oninput = renderRecs;
+  $("#recTabs").onclick = e => {
+    if (!e.target.dataset.f) return; recFilter = e.target.dataset.f;
+    [...$("#recTabs").children].forEach(b => b.classList.toggle("on", b === e.target)); renderRecs();
+  };
+  $("#recList").onclick = e => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.play) playRec(b.dataset.play);
+    else if (b.dataset.noteRec) openNote({ recordingId: b.dataset.noteRec });
+    else if (b.dataset.toggleDone) { const r = recById(b.dataset.toggleDone); r.done = !r.done; save(); renderAll(); }
+    else if (b.dataset.editRec) openRecDialog(recById(b.dataset.editRec));
+  };
+
+  function openRecDialog(r) {
+    editingRec = r || null;
+    $("#recDialogTitle").textContent = r ? "Edit recording" : "Add a recording";
+    $("#recTitle").value = r?.title || ""; $("#recSeries").value = r?.series || "";
+    $("#recPart").value = r?.part ?? ""; $("#recUrl").value = r?.url || ""; $("#recDesc").value = r?.desc || "";
+    $("#recFile").value = "";
+    $("#recFileHint").textContent = r?.fileKey ? "An uploaded file is attached. Choose a new one to replace it." : "";
+    let del = $("#recDelete");
+    if (r && !del) {
+      del = document.createElement("button"); del.type = "button"; del.id = "recDelete"; del.className = "btn ghost";
+      del.style.color = "var(--accent)"; del.style.marginRight = "auto"; del.textContent = "Delete";
+      $("#recSave").parentNode.prepend(del);
+      del.onclick = () => {
+        if (!confirm("Delete this recording? Notes linked to it are kept.")) return;
+        const rr = editingRec; if (rr.fileKey) delFile(rr.fileKey).catch(() => {});
+        S.recordings = S.recordings.filter(x => x.id !== rr.id); S.deleted.push(rr.id);
+        if (current && current.id === rr.id) closePlayer();
+        save(); $("#recDialog").close(); renderAll(); toast("Recording deleted");
+      };
+    }
+    if (del) del.hidden = !r;
+    $("#recDialog").showModal(); $("#recTitle").focus();
+  }
+  $("#addRecBtn").onclick = () => openRecDialog();
+  $("#recFile").onchange = () => {
+    const f = $("#recFile").files[0];
+    if (f && !$("#recTitle").value) $("#recTitle").value = f.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ");
+  };
+  $("#recForm").onsubmit = async e => {
+    if (e.submitter && e.submitter.value === "cancel") return;
+    const title = $("#recTitle").value.trim(); if (!title) return;
+    const r = editingRec || { id: uid(), addedAt: Date.now(), position: 0 };
+    r.title = title; r.series = $("#recSeries").value.trim();
+    r.part = $("#recPart").value === "" ? null : Number($("#recPart").value);
+    r.url = $("#recUrl").value.trim(); r.desc = $("#recDesc").value.trim();
+    const f = $("#recFile").files[0];
+    if (f) {
+      try { const k = r.fileKey || "f_" + r.id; await putFile(k, f); r.fileKey = k; r.duration = null; }
+      catch { toast("Couldn't store the file in this browser"); }
+    }
+    if (!editingRec) S.recordings.push(r);
+    save(); renderAll(); toast(editingRec ? "Recording updated" : "Recording added");
+  };
+
+  /* ---------- Player ---------- */
+  const audio = $("#audio");
+  let current = null, objUrl = null, lastSave = 0;
+  const SPEEDS = [1, 1.25, 1.5, 1.75, 2, 0.75];
+  async function playRec(id) {
+    const r = recById(id); if (!r) return;
+    r.opened = true;
+    if (!r.fileKey && !isAudioUrl(r.url)) {
+      save(); renderAll();
+      if (r.url) window.open(r.url, "_blank", "noopener");
+      else toast("Add a link or file to this recording");
+      return;
+    }
+    if (current && current.id === id) { audio.paused ? audio.play() : audio.pause(); return; }
+    if (objUrl) { URL.revokeObjectURL(objUrl); objUrl = null; }
+    current = r;
+    if (r.fileKey) {
+      try { const blob = await getFile(r.fileKey); if (!blob) throw 0; objUrl = URL.createObjectURL(blob); audio.src = objUrl; }
+      catch { toast("The uploaded file is missing in this browser. Edit the recording to re-attach it."); current = null; return; }
+    } else audio.src = r.url;
+    audio.playbackRate = S.speed || 1;
+    $("#nowTitle").textContent = r.title + (r.series ? " — " + r.series : "");
+    $("#player").classList.add("show");
+    audio.addEventListener("loadedmetadata", function once() {
+      audio.removeEventListener("loadedmetadata", once);
+      if (r.position && !r.done && r.position < audio.duration - 5) audio.currentTime = r.position;
+      audio.playbackRate = S.speed || 1;
+    });
+    audio.play().catch(() => {});
+    save(); renderAll();
+  }
+  audio.ontimeupdate = () => {
+    $("#noteHereTime").textContent = fmt(audio.currentTime) || "0:00";
+    if (!current) return;
+    current.position = audio.currentTime;
+    if (Date.now() - lastSave > 5000) { lastSave = Date.now(); save(); renderStats(); }
+  };
+  audio.onloadedmetadata = () => { if (current && isFinite(audio.duration)) { current.duration = audio.duration; save(); } };
+  audio.onplay = () => renderRecs();
+  audio.onpause = () => { if (current) { save(); renderRecs(); renderStats(); } };
+  audio.onended = () => { if (current) { current.done = true; current.position = 0; save(); renderAll(); toast("Lecture finished. Nice work."); } };
+  audio.onerror = () => { if (current && audio.src) toast("That link couldn't be played here. Try opening it in a new tab."); };
+  function closePlayer() { audio.pause(); audio.removeAttribute("src"); audio.load(); current = null; $("#player").classList.remove("show"); renderRecs(); }
+  $("#closePlayer").onclick = closePlayer;
+  $("#back15").onclick = () => audio.currentTime = Math.max(0, audio.currentTime - 15);
+  $("#fwd30").onclick = () => audio.currentTime = audio.currentTime + 30;
+  const speedBtn = $("#speedBtn");
+  speedBtn.textContent = (S.speed || 1) + "×";
+  speedBtn.onclick = () => {
+    S.speed = SPEEDS[(SPEEDS.indexOf(S.speed || 1) + 1) % SPEEDS.length];
+    audio.playbackRate = S.speed; speedBtn.textContent = S.speed + "×"; save();
+  };
+  $("#noteHere").onclick = () => {
+    if (!current) return; const t = audio.currentTime; audio.pause();
+    openNote({ recordingId: current.id, time: t });
+  };
+
+  /* ---------- Notes ---------- */
+  let editingNote = null, pickType = "note", pickThemes = new Set();
+  function openNote(preset = {}) {
+    editingNote = preset.id ? S.notes.find(n => n.id === preset.id) : null;
+    const n = editingNote || preset;
+    $("#noteDialogTitle").textContent = editingNote ? "Edit note" : "New note";
+    $("#noteText").value = n.text || "";
+    pickType = n.type || "note"; pickThemes = new Set(n.themes || []);
+    $("#noteRec").innerHTML = `<option value="">— None —</option>` + sortedRecs().map(r =>
+      `<option value="${r.id}" ${r.id === n.recordingId ? "selected" : ""}>${esc(r.title)}${r.series ? " (" + esc(r.series) + ")" : ""}</option>`).join("");
+    $("#noteTime").value = n.time != null ? fmt(n.time) : "";
+    renderPickers();
+    $("#noteDialog").showModal(); $("#noteText").focus();
+  }
+  function renderPickers() {
+    $("#noteTypePick").innerHTML = NOTE_TYPES.map(t =>
+      `<span class="chip t-${t.id} ${pickType === t.id ? "on" : ""}" data-type="${t.id}">${t.label}</span>`).join("");
+    $("#noteThemePick").innerHTML = THEMES.map(t =>
+      `<span class="chip ${pickThemes.has(t.id) ? "on" : ""}" data-ptheme="${t.id}">${esc(t.name)}</span>`).join("");
+  }
+  $("#noteTypePick").onclick = e => { if (e.target.dataset.type) { pickType = e.target.dataset.type; renderPickers(); } };
+  $("#noteThemePick").onclick = e => {
+    const id = e.target.dataset.ptheme; if (!id) return;
+    pickThemes.has(id) ? pickThemes.delete(id) : pickThemes.add(id); renderPickers();
+  };
+  $("#noteForm").onsubmit = e => {
+    if (e.submitter && e.submitter.value === "cancel") return;
+    const text = $("#noteText").value.trim(); if (!text) return;
+    const n = editingNote || { id: uid(), createdAt: Date.now() };
+    Object.assign(n, {
+      text, type: pickType, themes: [...pickThemes], recordingId: $("#noteRec").value || null,
+      time: $("#noteRec").value ? parseTime($("#noteTime").value) : null, updatedAt: Date.now()
+    });
+    if (!editingNote) S.notes.push(n);
+    save(); renderAll(); toast(editingNote ? "Note updated" : "Note saved to your notebook");
+    if (!editingNote) flashNote(n.id);
+  };
+  function flashNote(id) {
+    requestAnimationFrame(() => { const el = document.getElementById("note-" + id); if (el) { el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 1700); } });
+  }
+  $("#newNoteBtn").onclick = () => openNote();
+
+  function noteCard(n) {
+    const r = n.recordingId && recById(n.recordingId);
+    const type = NOTE_TYPES.find(t => t.id === n.type) || NOTE_TYPES[0];
+    const themes = (n.themes || []).map(id => THEMES.find(t => t.id === id)).filter(Boolean);
+    return `<article class="card note t-${type.id}" id="note-${n.id}">
+      <div class="body">${render(n.text)}</div>
+      <div class="foot">
+        <span class="chip t-${type.id}">${type.label}</span>
+        ${themes.map(t => `<span class="chip" data-ftheme="${t.id}">${esc(t.name)}</span>`).join("")}
+        ${r ? `<span class="src" data-jump="${n.id}" title="Play from here">♪ ${esc(r.title)}${n.time != null ? " @ " + fmt(n.time) : ""}</span>` : ""}
+        <span class="sp">${dateStr(n.createdAt)}</span>
+        <button class="btn ghost small" data-edit-note="${n.id}" title="Edit">✎</button>
+        <button class="btn ghost small" data-del-note="${n.id}" title="Delete">✕</button>
+      </div></article>`;
+  }
+  function renderNotes() {
+    const q = $("#noteSearch").value.toLowerCase(), ty = $("#noteType").value, sort = $("#noteSort").value;
+    let list = S.notes.filter(n =>
+      (!ty || n.type === ty) && (!themeFilter || (n.themes || []).includes(themeFilter)) &&
+      (!q || (n.text + " " + (recById(n.recordingId)?.title || "")).toLowerCase().includes(q)));
+    if (sort === "new") list.sort((a, b) => b.createdAt - a.createdAt);
+    else if (sort === "old") list.sort((a, b) => a.createdAt - b.createdAt);
+    else {
+      const order = sortedRecs().map(r => r.id);
+      list.sort((a, b) => ((order.indexOf(a.recordingId) + 1 || 1e6) - (order.indexOf(b.recordingId) + 1 || 1e6)) || (a.time || 0) - (b.time || 0));
+    }
+    $("#themeFilter").innerHTML = THEMES.map(t =>
+      `<span class="chip ${themeFilter === t.id ? "on" : ""}" data-ftheme="${t.id}">${esc(t.name)}</span>`).join("") +
+      (themeFilter ? ` <button class="btn ghost small" data-clear-theme>Clear filter</button>` : "");
+    $("#notesFeed").innerHTML = list.length ? list.map(noteCard).join("")
+      : `<div class="empty">${S.notes.length ? "No notes match these filters." : "Your notebook is empty. Start with one sentence: what's the first thing you want to understand about Harvie Conn?"}</div>`;
+  }
+  ["#noteSearch", "#noteType", "#noteSort"].forEach(s => $(s).addEventListener("input", renderNotes));
+  document.addEventListener("click", e => {
+    const t = e.target;
+    if (t.dataset.ftheme) { themeFilter = themeFilter === t.dataset.ftheme ? null : t.dataset.ftheme; renderNotes(); }
+    else if (t.hasAttribute("data-clear-theme")) { themeFilter = null; renderNotes(); }
+    else if (t.dataset.editNote) openNote({ id: t.dataset.editNote });
+    else if (t.dataset.delNote) {
+      if (!confirm("Delete this note?")) return;
+      S.notes = S.notes.filter(n => n.id !== t.dataset.delNote); S.deleted.push(t.dataset.delNote); save(); renderAll();
+    } else if (t.dataset.jump) {
+      const n = S.notes.find(x => x.id === t.dataset.jump); const r = recById(n.recordingId); if (!r) return;
+      if (r.fileKey || isAudioUrl(r.url)) {
+        r.position = n.time || 0; r.done = false;
+        if (current && current.id === r.id) { audio.currentTime = r.position; audio.play(); }
+        else playRec(r.id);
+      } else if (r.url) window.open(r.url, "_blank", "noopener");
+    }
+  });
+
+  /* ---------- Reflect ---------- */
+  let promptIdx = Math.floor(Math.random() * PROMPTS.length);
+  const showPrompt = () => $("#promptText").textContent = PROMPTS[promptIdx];
+  $("#promptNext").onclick = () => { let i; do { i = Math.floor(Math.random() * PROMPTS.length); } while (i === promptIdx && PROMPTS.length > 1); promptIdx = i; showPrompt(); };
+  $("#promptAnswer").onclick = () => openNote({ type: "insight", text: "**" + PROMPTS[promptIdx] + "**\n\n" });
+  let lastResurface = null;
+  function showResurface() {
+    const box = $("#resurface");
+    if (!S.notes.length) { box.innerHTML = `<div class="empty" style="padding:20px 0">Write a few notes and they'll start showing up here for review.</div>`; return; }
+    // favor older notes: weight by age in days
+    const now = Date.now();
+    const pool = S.notes.length > 1 ? S.notes.filter(n => n.id !== lastResurface) : S.notes;
+    const weights = pool.map(n => 1 + (now - n.createdAt) / 864e5);
+    let x = Math.random() * weights.reduce((a, b) => a + b, 0), pick = pool[0];
+    for (let i = 0; i < pool.length; i++) { x -= weights[i]; if (x <= 0) { pick = pool[i]; break; } }
+    lastResurface = pick.id;
+    const r = recById(pick.recordingId);
+    box.innerHTML = `<div class="body">${render(pick.text)}</div>
+      <div class="hint">${dateStr(pick.createdAt)}${r ? " · " + esc(r.title) : ""}</div>
+      <div class="row" style="margin-top:10px"><button class="btn small" data-edit-note="${pick.id}">Add to this thought</button></div>`;
+  }
+  $("#resurfaceNext").onclick = showResurface;
+
+  /* ---------- Backup ---------- */
+  $("#exportBtn").onclick = () => {
+    const data = { app: "harvie-conn-learning", version: 1, exportedAt: new Date().toISOString(),
+      ...S, recordings: S.recordings.map(({ ...r }) => r) };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "harvie-conn-data.json"; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000); toast("Backup downloaded");
+  };
+  function merge(data) {
+    let added = 0;
+    const mergeList = (key) => {
+      const have = new Set([...S[key].map(x => x.id), ...S.deleted]);
+      (data[key] || []).forEach(x => { if (x && x.id && !have.has(x.id)) { S[key].push(x); added++; } });
+    };
+    mergeList("recordings"); mergeList("notes"); mergeList("timeline");
+    Object.entries(data.books || {}).forEach(([k, v]) => { if (!S.books[k]) S.books[k] = v; });
+    (data.activeDays || []).forEach(d => { if (!S.activeDays.includes(d)) S.activeDays.push(d); });
+    return added;
+  }
+  $("#importFile").onchange = async e => {
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const data = JSON.parse(await f.text());
+      const n = merge(data); save(); renderAll(); toast(`Imported ${n} new item${n === 1 ? "" : "s"}`);
+    } catch { toast("That file couldn't be read"); }
+    e.target.value = "";
+  };
+
+  /* ---------- Keyboard ---------- */
+  document.addEventListener("keydown", e => {
+    if (e.target.closest("input, textarea, select, dialog") || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === "n" || e.key === "N") { e.preventDefault(); openNote(current ? { recordingId: current.id, time: audio.currentTime } : {}); }
+    if ((e.key === "t" || e.key === "T") && current) { e.preventDefault(); $("#noteHere").click(); }
+  });
+
+  /* ---------- Render ---------- */
+  function renderAll() { renderStats(); renderTimeline(); renderThemes(); renderBooks(); renderRecs(); renderNotes(); }
+  renderAll(); showPrompt(); showResurface();
+
+  // Load published notes committed next to this page (harvie-conn-data.json), if present.
+  if (location.protocol.startsWith("http")) {
+    fetch("harvie-conn-data.json", { cache: "no-cache" })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && merge(d)) { save(); renderAll(); showResurface(); } })
+      .catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>
