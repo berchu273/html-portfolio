@@ -171,6 +171,9 @@
   .player .now { font-size: 14px; overflow: hidden; }
   .player .now b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--serif); font-size: 16px; }
   .player audio { width: 100%; height: 36px; grid-column: 1 / -1; }
+  .player .sp-host { grid-column: 1 / -1; }
+  .player .sp-host iframe { display: block; border-radius: 12px; }
+  [hidden] { display: none !important; }
   .player .ctrls { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
   .player .btn { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); color: #fff; }
   .player .btn.primary { background: var(--accent); border-color: var(--accent); }
@@ -373,6 +376,7 @@
       <button class="btn small" id="closePlayer" title="Close player">✕</button>
     </div>
     <audio id="audio" controls preload="metadata"></audio>
+    <div id="spHost" class="sp-host" hidden><div id="spEmbed"></div></div>
   </div>
 </div>
 
@@ -395,7 +399,7 @@
     </div>
     <label class="f" for="recUrl">Link (audio file or web page)</label>
     <input type="url" id="recUrl" placeholder="https://wm.wts.edu/listen/…  or a direct .mp3 link">
-    <p class="hint">A direct audio link (.mp3, .m4a…) plays right here. A page link opens in a new tab so you can listen there, and you can still take notes here.</p>
+    <p class="hint">Spotify episode links and direct audio links (.mp3, .m4a…) play right here. A page link opens in a new tab so you can listen there, and you can still take notes here.</p>
     <label class="f" for="recFile">…or upload an audio file</label>
     <input type="file" id="recFile" accept="audio/*">
     <p class="hint" id="recFileHint"></p>
@@ -476,6 +480,18 @@
     { id: "um", t: "Urban Ministry: The Kingdom, the City and the People of God", y: 2001, w: "with Manuel Ortiz" }
   ];
 
+  /* Built-in sources: these appear for everyone who opens the page.
+     To add one, copy an entry and give it a new unique id. */
+  const SOURCES = [
+    {
+      id: "src-spotify-1D5oiUi45rbPtlMMcGxArF",
+      title: "Podcast episode on Harvie Conn",
+      series: "Podcasts",
+      url: "https://open.spotify.com/episode/1D5oiUi45rbPtlMMcGxArF",
+      desc: "Spotify episode"
+    }
+  ];
+
   const NOTE_TYPES = [
     { id: "note", label: "Note" },
     { id: "question", label: "Question" },
@@ -543,6 +559,10 @@
     return p.reduce((a, v) => a * 60 + v, 0);
   };
   const isAudioUrl = u => /\.(mp3|m4a|aac|ogg|oga|wav|flac|opus|webm)(\?|#|$)/i.test(u || "");
+  const spotifyUri = u => {
+    const m = /open\.spotify\.com\/(?:intl-[a-z-]+\/)?(episode|track|show|playlist|album)\/([A-Za-z0-9]+)/.exec(u || "");
+    return m ? "spotify:" + m[1] + ":" + m[2] : null;
+  };
   const recById = id => S.recordings.find(r => r.id === id);
   const dateStr = ts => new Date(ts).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
   function render(text) {
@@ -650,14 +670,14 @@
       $("#recList").innerHTML = `<div class="empty">Nothing matches.</div>`;
     } else {
       $("#recList").innerHTML = list.map(r => {
-        const st = recStatus(r), playable = r.fileKey || isAudioUrl(r.url);
+        const st = recStatus(r), playable = canPlayHere(r), isSp = !r.fileKey && !!spotifyUri(r.url);
         const pct = r.done ? 100 : (r.duration ? Math.min(100, (r.position || 0) / r.duration * 100) : 0);
         const nCount = S.notes.filter(n => n.recordingId === r.id).length;
         return `<div class="rec ${current && current.id === r.id ? "playing" : ""}">
-          <button class="play ${playable ? "" : "link"}" data-play="${r.id}" title="${playable ? "Play / pause" : "Open link"}">${playable ? (current && current.id === r.id && !audio.paused ? "❚❚" : "▶") : "↗"}</button>
+          <button class="play ${playable ? "" : "link"}" data-play="${r.id}" title="${playable ? "Play / pause" : "Open link"}">${playable ? (current && current.id === r.id && !isPaused() ? "❚❚" : "▶") : "↗"}</button>
           <div>
             <div class="t">${esc(r.title)}</div>
-            <div class="m">${[r.series && esc(r.series) + (r.part != null ? " · Part " + r.part : ""), r.duration && fmt(r.duration), nCount && nCount + " note" + (nCount > 1 ? "s" : ""), r.fileKey && "uploaded file"].filter(Boolean).join(" · ")}</div>
+            <div class="m">${[r.series && esc(r.series) + (r.part != null ? " · Part " + r.part : ""), r.duration && fmt(r.duration), nCount && nCount + " note" + (nCount > 1 ? "s" : ""), r.fileKey && "uploaded file", isSp && "Spotify"].filter(Boolean).join(" · ")}</div>
             ${r.desc ? `<div class="m" style="font-style:italic">${esc(r.desc)}</div>` : ""}
             ${playable && pct ? `<div class="bar"><i style="width:${pct}%"></i></div>` : ""}
           </div>
@@ -716,6 +736,7 @@
     if (e.submitter && e.submitter.value === "cancel") return;
     const title = $("#recTitle").value.trim(); if (!title) return;
     const r = editingRec || { id: uid(), addedAt: Date.now(), position: 0 };
+    if (r.builtin) r.edited = true;
     r.title = title; r.series = $("#recSeries").value.trim();
     r.part = $("#recPart").value === "" ? null : Number($("#recPart").value);
     r.url = $("#recUrl").value.trim(); r.desc = $("#recDesc").value.trim();
@@ -729,28 +750,98 @@
   };
 
   /* ---------- Player ---------- */
+  // Two engines: the built-in <audio> element (files, direct links) and the Spotify embed.
   const audio = $("#audio");
-  let current = null, objUrl = null, lastSave = 0;
+  let current = null, objUrl = null, lastSave = 0, eng = "audio";
   const SPEEDS = [1, 1.25, 1.5, 1.75, 2, 0.75];
+  let spCtl = null, spApi = null, spPendingSeek = null;
+  const sp = { pos: 0, dur: 0, paused: true };
+
+  const canPlayHere = r => !!(r.fileKey || isAudioUrl(r.url) || spotifyUri(r.url));
+  const curTime = () => eng === "sp" ? sp.pos : audio.currentTime;
+  const isPaused = () => eng === "sp" ? sp.paused : audio.paused;
+  function seekTo(t) { t = Math.max(0, t); if (eng === "sp") { spCtl && spCtl.seek(t); sp.pos = t; } else audio.currentTime = t; }
+  function pausePlayback() { if (eng === "sp") { if (spCtl && !sp.paused) spCtl.togglePlay(); } else audio.pause(); }
+  function resumePlayback() { if (eng === "sp") { if (spCtl && sp.paused) spCtl.togglePlay(); } else audio.play().catch(() => {}); }
+  function setEngine(e) {
+    eng = e;
+    audio.hidden = e !== "audio"; $("#spHost").hidden = e !== "sp";
+    $("#speedBtn").hidden = e === "sp";   // Spotify's embed doesn't allow speed changes
+  }
+
+  function loadSpotifyApi() {
+    if (spApi) return spApi;
+    spApi = new Promise((res, rej) => {
+      window.onSpotifyIframeApiReady = api => res(api);
+      const sc = document.createElement("script");
+      sc.src = "https://open.spotify.com/embed/iframe-api/v1"; sc.async = true;
+      sc.onerror = () => rej(new Error("load failed"));
+      document.head.appendChild(sc);
+      setTimeout(() => rej(new Error("timeout")), 12000);
+    });
+    spApi.catch(() => { spApi = null; });
+    return spApi;
+  }
+  async function startSpotify(r, uri) {
+    setEngine("sp");
+    sp.pos = r.done ? 0 : (r.position || 0); sp.dur = r.duration || 0; sp.paused = true;
+    spPendingSeek = sp.pos > 5 ? sp.pos : null;
+    try {
+      const api = await loadSpotifyApi();
+      if (!spCtl) {
+        await new Promise(res => api.createController($("#spEmbed"), { uri, width: "100%", height: 152 }, c => {
+          spCtl = c;
+          c.addListener("playback_update", onSpotifyUpdate);
+          c.addListener("ready", () => { try { c.play(); } catch {} });
+          res();
+        }));
+      } else { spCtl.loadUri(uri); spCtl.play(); }
+    } catch {
+      toast("Couldn't load the Spotify player here, so it's opening in Spotify instead.");
+      window.open(r.url, "_blank", "noopener");
+    }
+  }
+  function onSpotifyUpdate(e) {
+    if (!current || eng !== "sp" || !e || !e.data) return;
+    const d = e.data, wasPaused = sp.paused;
+    sp.paused = !!d.isPaused; sp.dur = (d.duration || 0) / 1000; sp.pos = (d.position || 0) / 1000;
+    // Resume where you left off once playback actually starts
+    if (spPendingSeek != null && !sp.paused && sp.dur) { const t = spPendingSeek; spPendingSeek = null; if (t < sp.dur - 5) seekTo(t); }
+    $("#noteHereTime").textContent = fmt(sp.pos) || "0:00";
+    if (sp.dur) current.duration = sp.dur;
+    if (spPendingSeek == null) current.position = sp.pos;
+    if (sp.dur && sp.paused && sp.pos >= sp.dur - 1.5) {
+      if (!current.done) { current.done = true; current.position = 0; save(); renderAll(); toast("Finished. Nice work."); }
+      return;
+    }
+    if (wasPaused !== sp.paused) { save(); renderRecs(); renderStats(); }
+    else if (Date.now() - lastSave > 5000) { lastSave = Date.now(); save(); renderStats(); }
+  }
+
   async function playRec(id) {
     const r = recById(id); if (!r) return;
     r.opened = true;
-    if (!r.fileKey && !isAudioUrl(r.url)) {
+    if (!canPlayHere(r)) {
       save(); renderAll();
       if (r.url) window.open(r.url, "_blank", "noopener");
       else toast("Add a link or file to this recording");
       return;
     }
-    if (current && current.id === id) { audio.paused ? audio.play() : audio.pause(); return; }
+    if (current && current.id === id) { isPaused() ? resumePlayback() : pausePlayback(); return; }
+    // stop whatever was playing
+    pausePlayback();
     if (objUrl) { URL.revokeObjectURL(objUrl); objUrl = null; }
     current = r;
+    $("#nowTitle").textContent = r.title + (r.series ? " — " + r.series : "");
+    $("#player").classList.add("show");
+    const uri = spotifyUri(r.url);
+    if (uri && !r.fileKey) { save(); renderAll(); return startSpotify(r, uri); }
+    setEngine("audio");
     if (r.fileKey) {
       try { const blob = await getFile(r.fileKey); if (!blob) throw 0; objUrl = URL.createObjectURL(blob); audio.src = objUrl; }
       catch { toast("The uploaded file is missing in this browser. Edit the recording to re-attach it."); current = null; return; }
     } else audio.src = r.url;
     audio.playbackRate = S.speed || 1;
-    $("#nowTitle").textContent = r.title + (r.series ? " — " + r.series : "");
-    $("#player").classList.add("show");
     audio.addEventListener("loadedmetadata", function once() {
       audio.removeEventListener("loadedmetadata", once);
       if (r.position && !r.done && r.position < audio.duration - 5) audio.currentTime = r.position;
@@ -760,20 +851,26 @@
     save(); renderAll();
   }
   audio.ontimeupdate = () => {
+    if (eng !== "audio") return;
     $("#noteHereTime").textContent = fmt(audio.currentTime) || "0:00";
     if (!current) return;
     current.position = audio.currentTime;
     if (Date.now() - lastSave > 5000) { lastSave = Date.now(); save(); renderStats(); }
   };
-  audio.onloadedmetadata = () => { if (current && isFinite(audio.duration)) { current.duration = audio.duration; save(); } };
+  audio.onloadedmetadata = () => { if (current && eng === "audio" && isFinite(audio.duration)) { current.duration = audio.duration; save(); } };
   audio.onplay = () => renderRecs();
-  audio.onpause = () => { if (current) { save(); renderRecs(); renderStats(); } };
-  audio.onended = () => { if (current) { current.done = true; current.position = 0; save(); renderAll(); toast("Lecture finished. Nice work."); } };
-  audio.onerror = () => { if (current && audio.src) toast("That link couldn't be played here. Try opening it in a new tab."); };
-  function closePlayer() { audio.pause(); audio.removeAttribute("src"); audio.load(); current = null; $("#player").classList.remove("show"); renderRecs(); }
+  audio.onpause = () => { if (current && eng === "audio") { save(); renderRecs(); renderStats(); } };
+  audio.onended = () => { if (current && eng === "audio") { current.done = true; current.position = 0; save(); renderAll(); toast("Finished. Nice work."); } };
+  audio.onerror = () => { if (current && eng === "audio" && audio.src) toast("That link couldn't be played here. Try opening it in a new tab."); };
+  function closePlayer() {
+    pausePlayback();
+    if (eng === "audio") { audio.removeAttribute("src"); audio.load(); }
+    if (current) save();
+    current = null; $("#player").classList.remove("show"); renderRecs();
+  }
   $("#closePlayer").onclick = closePlayer;
-  $("#back15").onclick = () => audio.currentTime = Math.max(0, audio.currentTime - 15);
-  $("#fwd30").onclick = () => audio.currentTime = audio.currentTime + 30;
+  $("#back15").onclick = () => seekTo(curTime() - 15);
+  $("#fwd30").onclick = () => seekTo(curTime() + 30);
   const speedBtn = $("#speedBtn");
   speedBtn.textContent = (S.speed || 1) + "×";
   speedBtn.onclick = () => {
@@ -781,7 +878,7 @@
     audio.playbackRate = S.speed; speedBtn.textContent = S.speed + "×"; save();
   };
   $("#noteHere").onclick = () => {
-    if (!current) return; const t = audio.currentTime; audio.pause();
+    if (!current) return; const t = curTime(); pausePlayback();
     openNote({ recordingId: current.id, time: t });
   };
 
@@ -870,9 +967,9 @@
       S.notes = S.notes.filter(n => n.id !== t.dataset.delNote); S.deleted.push(t.dataset.delNote); save(); renderAll();
     } else if (t.dataset.jump) {
       const n = S.notes.find(x => x.id === t.dataset.jump); const r = recById(n.recordingId); if (!r) return;
-      if (r.fileKey || isAudioUrl(r.url)) {
+      if (canPlayHere(r)) {
         r.position = n.time || 0; r.done = false;
-        if (current && current.id === r.id) { audio.currentTime = r.position; audio.play(); }
+        if (current && current.id === r.id) { seekTo(r.position); resumePlayback(); }
         else playRec(r.id);
       } else if (r.url) window.open(r.url, "_blank", "noopener");
     }
@@ -932,9 +1029,21 @@
   /* ---------- Keyboard ---------- */
   document.addEventListener("keydown", e => {
     if (e.target.closest("input, textarea, select, dialog") || e.metaKey || e.ctrlKey || e.altKey) return;
-    if (e.key === "n" || e.key === "N") { e.preventDefault(); openNote(current ? { recordingId: current.id, time: audio.currentTime } : {}); }
+    if (e.key === "n" || e.key === "N") { e.preventDefault(); openNote(current ? { recordingId: current.id, time: curTime() } : {}); }
     if ((e.key === "t" || e.key === "T") && current) { e.preventDefault(); $("#noteHere").click(); }
   });
+
+  /* ---------- Built-in sources ---------- */
+  function syncSources() {
+    SOURCES.forEach((src, i) => {
+      if (S.deleted.includes(src.id)) return;
+      let r = recById(src.id);
+      if (!r) { r = { id: src.id, addedAt: i, position: 0, builtin: true }; S.recordings.push(r); }
+      r.builtin = true;
+      if (!r.edited) Object.assign(r, { title: src.title, series: src.series || "", part: src.part ?? null, url: src.url || "", desc: src.desc || "" });
+    });
+  }
+  syncSources(); localStorage.setItem(KEY, JSON.stringify(S));
 
   /* ---------- Render ---------- */
   function renderAll() { renderStats(); renderTimeline(); renderThemes(); renderBooks(); renderRecs(); renderNotes(); }
