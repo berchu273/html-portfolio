@@ -203,6 +203,7 @@
     <a href="#notebook">Notebook</a>
     <a href="#reflect">Reflect</a>
     <a href="#backup">Backup</a>
+    <a href="harvie-conn-map.html" style="background:var(--ink);color:var(--paper)">3D Map →</a>
   </div>
 </nav>
 
@@ -933,6 +934,7 @@
       <div class="foot">
         <span class="chip t-${type.id}">${type.label}</span>
         ${themes.map(t => `<span class="chip" data-ftheme="${t.id}">${esc(t.name)}</span>`).join("")}
+        ${n.nodeLabel ? `<a class="chip" href="harvie-conn-map.html" title="From the knowledge map">◎ ${esc(n.nodeLabel)}</a>` : ""}${n.ai ? `<span class="chip t-insight">AI draft, unverified</span>` : ""}
         ${r ? `<span class="src" data-jump="${n.id}" title="Play from here">♪ ${esc(r.title)}${n.time != null ? " @ " + fmt(n.time) : ""}</span>` : ""}
         <span class="sp">${dateStr(n.createdAt)}</span>
         <button class="btn ghost small" data-edit-note="${n.id}" title="Edit">✎</button>
@@ -1048,6 +1050,8 @@
   /* ---------- Render ---------- */
   function renderAll() { renderStats(); renderTimeline(); renderThemes(); renderBooks(); renderRecs(); renderNotes(); }
   renderAll(); showPrompt(); showResurface();
+  // Notes written on the map page arrive through shared storage
+  addEventListener("storage", e => { if (e.key === KEY && !document.querySelector("dialog[open]")) { S = load(); renderAll(); } });
 
   // Load published notes committed next to this page (harvie-conn-data.json), if present.
   if (location.protocol.startsWith("http")) {

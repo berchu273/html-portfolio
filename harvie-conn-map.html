@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harvie Conn — Knowledge Map</title>
+<style>
+  :root {
+    --bg: #17130f; --bg2: #221c16; --panel: #fffdf8; --paper2: #efe7d8; --ink: #2b2620; --ink2: #5c5348; --muted: #8a7f70;
+    --line: #e2d8c6; --dline: rgba(246,241,231,.14); --light: #f6f1e7; --accent: #9a3b26; --teal: #24646b; --gold: #e9b44c;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--light); font: 15px/1.55 var(--sans); overflow: hidden; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  a { color: var(--teal); }
+  .app { display: grid; grid-template-rows: auto 1fr; height: 100dvh; }
+
+  header { display: flex; gap: 8px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--dline); background: var(--bg2); flex-wrap: wrap; }
+  header .brand { font-family: var(--serif); font-weight: 700; font-size: 17px; margin-right: 6px; white-space: nowrap; }
+  .tabs { display: flex; background: rgba(255,255,255,.06); border-radius: 999px; padding: 3px; }
+  .tabs button { border: 0; background: transparent; padding: 5px 14px; border-radius: 999px; cursor: pointer; color: #cfc6b8; }
+  .tabs button.on { background: var(--light); color: var(--ink); font-weight: 600; }
+  header input[type=search] { background: rgba(255,255,255,.08); border: 1px solid var(--dline); border-radius: 999px; padding: 6px 12px; width: 190px; color: var(--light); }
+  header input::placeholder { color: #9d9486; }
+  .hbtn { border: 1px solid var(--dline); background: transparent; color: var(--light); padding: 5px 12px; border-radius: 999px; cursor: pointer; text-decoration: none; font-size: 14px; white-space: nowrap; }
+  .hbtn:hover { background: rgba(255,255,255,.08); }
+  .hbtn.gold { background: var(--gold); color: var(--ink); border-color: var(--gold); font-weight: 600; }
+  .spacer { flex: 1; }
+
+  main { position: relative; overflow: hidden; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+  canvas.drag { cursor: grabbing; }
+  .view { position: absolute; inset: 0; overflow: auto; padding: 20px; background: #f6f1e7; color: var(--ink); }
+  .view .inner { max-width: 860px; }
+  .view h2 { font-family: var(--serif); margin: 0 0 4px; }
+  .view p.sub { color: var(--ink2); margin: 0 0 14px; }
+
+  .legend { position: absolute; left: 12px; top: 12px; display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; }
+  .legend button { display: flex; align-items: center; gap: 7px; border: 0; background: rgba(23,19,15,.6); color: #d8cfc1; padding: 3px 9px 3px 6px; border-radius: 999px; cursor: pointer; width: max-content; }
+  .legend button.off { opacity: .35; text-decoration: line-through; }
+  .legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .hud { position: absolute; left: 12px; bottom: 12px; right: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; pointer-events: none; }
+  .hud > * { pointer-events: auto; }
+  .time { display: flex; gap: 8px; align-items: center; background: rgba(23,19,15,.75); border: 1px solid var(--dline); border-radius: 999px; padding: 5px 12px; flex: 1; max-width: 520px; min-width: 240px; }
+  .time input { flex: 1; accent-color: var(--gold); min-width: 80px; }
+  .time b { font-family: var(--serif); min-width: 84px; text-align: right; }
+  #keyBtn { display: none; }
+  @media (max-width: 760px) { #keyBtn { display: inline-block; } }
+  .hint { position: absolute; right: 12px; top: 12px; font-size: 12px; color: #9d9486; text-align: right; pointer-events: none; }
+
+  /* detail panel */
+  .panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(400px, 100%); background: var(--panel); color: var(--ink); overflow-y: auto;
+    box-shadow: -8px 0 30px rgba(0,0,0,.35); transform: translateX(105%); transition: transform .25s; padding: 18px 18px 40px; z-index: 5; }
+  .panel.show { transform: none; }
+  @media (max-width: 760px) {
+    .panel { top: auto; left: 0; width: 100%; max-height: 60%; border-radius: 16px 16px 0 0; transform: translateY(105%); box-shadow: 0 -8px 30px rgba(0,0,0,.4); }
+    header { padding: 6px 8px; gap: 6px; }
+    header .brand { display: none; }
+    header input[type=search] { width: 0; flex: 1; min-width: 90px; order: 5; }
+    .tabs button { padding: 5px 11px; }
+    .hbtn { padding: 5px 10px; font-size: 13px; }
+    .legend { display: none; background: rgba(23,19,15,.85); padding: 8px; border-radius: 12px; }
+    .legend.show { display: flex; }
+    .hint { display: none; }
+  }
+  .panel h2 { font-family: var(--serif); font-size: 23px; line-height: 1.2; margin: 6px 0 2px; padding-right: 30px; }
+  .panel h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 20px 0 6px; }
+  .panel .close { position: absolute; right: 10px; top: 10px; border: 0; background: var(--paper2); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+  .panel p { margin: 6px 0; }
+  .panel .sum { font-family: var(--serif); font-size: 17px; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 2px 9px; border-radius: 999px; background: var(--paper2); color: var(--ink2); }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; }
+  .st-sourced { background: #dcebec; color: var(--teal); }
+  .st-verify { background: #f5ead1; color: #8a6210; }
+  .st-open { background: #ece4f3; color: #5b3b78; }
+  .st-ai { background: #f3e1d9; color: var(--accent); }
+  .conn { display: flex; gap: 6px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 14px; }
+  .conn:hover b { text-decoration: underline; }
+  .conn span { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+  .btn { border: 1px solid var(--line); background: #fff; padding: 6px 12px; border-radius: 999px; cursor: pointer; font-size: 13.5px; }
+  .btn:hover { border-color: var(--ink2); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.on { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .panel textarea, .panel select, .panel input[type=text], dialog input, dialog select, dialog textarea {
+    width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: #fff; color: var(--ink); }
+  .panel textarea, dialog textarea { min-height: 76px; font-family: var(--serif); font-size: 16px; resize: vertical; }
+  .mynote { background: var(--paper2); border-radius: 8px; padding: 8px 10px; margin: 6px 0; font-family: var(--serif); white-space: pre-wrap; }
+  .mynote small { display: block; font-family: var(--sans); color: var(--muted); font-size: 11.5px; margin-top: 4px; }
+  .small { font-size: 12.5px; color: var(--muted); }
+  .aibox { background: #f4f0fa; border: 1px solid #ded3ec; border-radius: 10px; padding: 12px; }
+
+  /* outline */
+  .tree details { margin-left: 18px; }
+  .tree > details { margin-left: 0; }
+  .tree summary, .tree .leaf { padding: 4px 6px; border-radius: 6px; cursor: pointer; display: flex; gap: 8px; align-items: baseline; list-style: none; }
+  .tree summary::-webkit-details-marker { display: none; }
+  .tree summary::before { content: "▸"; color: var(--muted); width: 10px; }
+  .tree details[open] > summary::before { content: "▾"; }
+  .tree .leaf { margin-left: 18px; }
+  .tree .leaf::before { content: "•"; color: var(--muted); width: 10px; }
+  .tree summary:hover, .tree .leaf:hover { background: var(--paper2); }
+  .tree .lab { font-family: var(--serif); font-size: 16.5px; }
+  .tree .lab.sel { background: var(--gold); }
+  .tree .yr { color: var(--muted); font-size: 12.5px; }
+  .tree i.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; align-self: center; }
+  table { border-collapse: collapse; width: 100%; background: #fffdf8; border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  tbody tr { cursor: pointer; } tbody tr:hover { background: var(--paper2); }
+  td.t { font-family: var(--serif); font-size: 16px; }
+
+  dialog { border: 0; border-radius: 16px; padding: 22px; max-width: 560px; width: calc(100% - 24px); color: var(--ink); background: var(--panel); }
+  dialog::backdrop { background: rgba(0,0,0,.55); }
+  dialog h3 { font-family: var(--serif); font-size: 21px; margin: 0 0 8px; }
+  dialog label { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink2); margin: 10px 0 3px; }
+  .toast { position: fixed; left: 50%; top: 64px; transform: translate(-50%, -140px); background: var(--light); color: var(--ink); padding: 9px 18px; border-radius: 999px; z-index: 50; transition: .25s; font-size: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+  .toast.show { transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <span class="brand">Harvie Conn · Knowledge Map</span>
+    <div class="tabs" id="tabs">
+      <button data-v="map" class="on">3D Map</button>
+      <button data-v="outline">Outline</button>
+      <button data-v="works">Works</button>
+    </div>
+    <input type="search" id="search" placeholder="Search the map…">
+    <span class="spacer"></span>
+    <button class="hbtn gold" id="addBtn">＋ Add</button>
+    <button class="hbtn" id="aiMapBtn" title="Build a prompt that asks an AI to review your whole map">✦ AI review</button>
+    <button class="hbtn" id="moreBtn" title="Export or import what you've added">⇅ Backup</button>
+    <a class="hbtn" href="harvie-conn.html">Notebook →</a>
+  </header>
+
+  <main>
+    <canvas id="cv" aria-label="3D knowledge map. Use the Outline tab for a text version."></canvas>
+    <div class="legend" id="legend"></div>
+    <div class="hint" id="hint">Drag to turn · scroll or pinch to zoom · tap a dot</div>
+    <div class="hud" id="hud">
+      <div class="time">
+        <button class="hbtn" id="playBtn" title="Play his life from 1933">▶</button>
+        <input type="range" id="year" aria-label="Show the map up to this year">
+        <b id="yearLab">Whole life</b>
+      </div>
+      <button class="hbtn" id="spinBtn" title="Pause or resume the slow rotation">❚❚ Motion</button>
+      <button class="hbtn" id="homeBtn" title="Back to the centre">⌂ Centre</button>
+      <button class="hbtn" id="keyBtn" title="Show what the colours mean">● Key</button>
+    </div>
+
+    <div class="view" id="outlineView" hidden><div class="inner">
+      <h2>Outline</h2>
+      <p class="sub">The same knowledge as the map, as a nested outline. Tap any line to open it.
+        <button class="btn" id="copyOutline">Copy as text</button></p>
+      <div class="tree" id="tree"></div>
+    </div></div>
+
+    <div class="view" id="worksView" hidden><div class="inner" style="max-width:1000px">
+      <h2>Works</h2>
+      <p class="sub">A working bibliography, not yet complete. “To verify” entries need checking against a library record. The rows marked “to catalogue” are the parts still missing.</p>
+      <div class="row" style="margin-bottom:10px">
+        <select id="kindSel" style="width:auto;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:#fff">
+          <option value="">All kinds</option><option value="book">Books he wrote</option><option value="edited">Volumes he edited</option>
+          <option value="article">Articles</option><option value="about">About him</option><option value="catalogue">Still to catalogue</option>
+        </select>
+        <span class="small" id="worksCount"></span>
+      </div>
+      <table><thead><tr><th>Year</th><th>Title</th><th>Kind</th><th>Status</th><th>Mine</th></tr></thead><tbody id="worksBody"></tbody></table>
+    </div></div>
+
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </main>
+</div>
+
+<dialog id="nodeDlg">
+  <form method="dialog" id="nodeForm">
+    <h3 id="nodeDlgTitle">Add to the map</h3>
+    <label for="nLabel">Name *</label><input id="nLabel" required placeholder="e.g. Lausanne Congress 1974">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label for="nType">What is it?</label><select id="nType"></select></div>
+      <div><label for="nYear">Year (optional)</label><input id="nYear" inputmode="numeric" placeholder="e.g. 1974"></div>
+    </div>
+    <label for="nParent">Goes under</label><select id="nParent"></select>
+    <label for="nSummary">What do you know about it?</label><textarea id="nSummary" placeholder="One to three sentences."></textarea>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label for="nStatus">How sure are you?</label><select id="nStatus">
+        <option value="verify">To verify</option><option value="sourced">Sourced</option>
+        <option value="open">Open question</option><option value="ai">AI-suggested</option></select></div>
+      <div><label for="nSource">Where is it from?</label><input id="nSource" placeholder="Book, lecture, link…"></div>
+    </div>
+    <div class="row" style="justify-content:flex-end;margin-top:16px">
+      <button class="btn" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn primary" value="ok">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="textDlg">
+  <h3 id="textDlgTitle"></h3>
+  <p class="small" id="textDlgSub"></p>
+  <textarea id="textDlgBody" style="min-height:240px;font-family:ui-monospace,monospace;font-size:12.5px" readonly></textarea>
+  <div class="row" style="justify-content:flex-end;margin-top:12px" id="textDlgBtns"></div>
+</dialog>
+
+<dialog id="backupDlg">
+  <h3>Back up what you've added</h3>
+  <p class="small">The nodes, connections and progress you add here are saved in this browser. Export them to keep a copy, or to send to Claude to be built into the site for good. Your notes are backed up from the Notebook page.</p>
+  <div class="row" style="margin-top:12px">
+    <button class="btn primary" id="exportBtn">⇩ Export my additions</button>
+    <label class="btn" for="importFile" style="cursor:pointer">⇧ Import</label><input type="file" id="importFile" accept=".json,application/json" hidden>
+    <button class="btn" onclick="this.closest('dialog').close()">Close</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script src="harvie-conn-graph.js"></script>
+<script>
+(() => {
+  "use strict";
+  const KM = window.KM;
+  if (!KM) { document.body.innerHTML = '<p style="padding:30px">The data file harvie-conn-graph.js did not load. It must sit next to this page.</p>'; return; }
+
+  /* ---------- Vocabulary ---------- */
+  const TYPES = {
+    root:     { name: "The person",  color: "#f6f1e7", r: 13 },
+    facet:    { name: "Branches",    color: "#e9b44c", r: 9 },
+    event:    { name: "Life events", color: "#e07a5f", r: 5.5 },
+    place:    { name: "Places",      color: "#9aa7c7", r: 5 },
+    person:   { name: "People",      color: "#f2a7a0", r: 5.5 },
+    theme:    { name: "Ideas",       color: "#b8d47a", r: 6.5 },
+    work:     { name: "Works",       color: "#6fb3b8", r: 5 },
+    source:   { name: "Sources about him", color: "#b9ad9c", r: 5 },
+    question: { name: "Questions",   color: "#c9a3e6", r: 5.5 }
+  };
+  const STATUS = {
+    sourced: ["Sourced", "Stated in the public sources listed below."],
+    verify:  ["To verify", "From memory or a single source. Check it before relying on it."],
+    open:    ["Open", "A question or a gap, not a claim."],
+    ai:      ["AI-suggested", "Suggested by an AI and not yet checked against a source."]
+  };
+  const KINDS = { book: "Book", edited: "Edited volume", article: "Article", about: "About him", catalogue: "To catalogue" };
+  const MASTERY = ["Unexplored", "Learning", "Understood"];
+
+  /* ---------- Storage ---------- */
+  const MKEY = "hc-map-v1", NKEY = "hc-learning-v1";
+  const loadJSON = (k, d) => { try { return Object.assign(d, JSON.parse(localStorage.getItem(k) || "{}")); } catch { return d; } };
+  let M = loadJSON(MKEY, { nodes: [], edges: [], mastery: {}, deleted: [] });
+  const saveM = () => localStorage.setItem(MKEY, JSON.stringify(M));
+  const notebook = () => loadJSON(NKEY, { notes: [], books: {} });
+
+  /* ---------- Helpers ---------- */
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const uid = () => "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  function toast(m) { const t = $("#toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("show"), 2200); }
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); toast("Copied"); }
+    catch { const ta = $("#textDlgBody"); ta.select(); document.execCommand("copy"); toast("Copied"); }
+  }
+
+  /* ---------- Graph model ---------- */
+  let nodes = [], edges = [], byId = {}, kids = {}, links = [];
+  function build() {
+    const old = byId;
+    nodes = [...KM.nodes, ...M.nodes].filter(n => !M.deleted.includes(n.id)).map(n => ({ ...n }));
+    byId = {}; nodes.forEach(n => byId[n.id] = n);
+    nodes.forEach(n => { if (n.parent && !byId[n.parent]) n.parent = "conn"; });
+    kids = {}; nodes.forEach(n => { if (n.parent) (kids[n.parent] ||= []).push(n); });
+    edges = [...KM.edges, ...M.edges].filter(e => byId[e.from] && byId[e.to]);
+    links = [...nodes.filter(n => n.parent).map(n => ({ a: byId[n.parent], b: n, tree: true })),
+             ...edges.map(e => ({ a: byId[e.from], b: byId[e.to], rel: e.rel, user: e.user, id: e.id }))];
+    // depth for sizing and layout
+    const depth = n => n.parent ? 1 + depth(byId[n.parent]) : 0;
+    nodes.forEach((n, i) => {
+      n.depth = depth(n);
+      const o = old[n.id];
+      if (o && o.x != null) { n.x = o.x; n.y = o.y; n.z = o.z; }
+      else {
+        const p = n.parent && (old[n.parent] || byId[n.parent]);
+        const R = n.depth === 0 ? 0 : 60 + n.depth * 55, a = i * 2.399963, h = 1 - 2 * ((i * 0.618034) % 1), s = Math.sqrt(1 - h * h);
+        n.x = (p && p.x || 0) * 0.6 + R * s * Math.cos(a); n.y = (p && p.y || 0) * 0.6 + R * h; n.z = (p && p.z || 0) * 0.6 + R * s * Math.sin(a);
+      }
+      n.vx = n.vy = n.vz = 0; n.ph = i * 1.7;
+    });
+    alpha = Math.max(alpha, 0.6);
+  }
+  const neighbors = id => {
+    const out = [];
+    const n = byId[id]; if (!n) return out;
+    if (n.parent) out.push({ n: byId[n.parent], rel: "part of", dir: "out" });
+    (kids[id] || []).forEach(k => out.push({ n: k, rel: "includes", dir: "in" }));
+    edges.forEach(e => {
+      if (e.from === id) out.push({ n: byId[e.to], rel: e.rel, dir: "out", e });
+      else if (e.to === id) out.push({ n: byId[e.from], rel: e.rel, dir: "in", e });
+    });
+    return out;
+  };
+  const notesFor = n => notebook().notes.filter(x => x.nodeId === n.id || (n.type === "theme" && (x.themes || []).includes(n.themeId || n.id)));
+
+  /* ---------- 3D engine: force layout + perspective projection on a 2D canvas ---------- */
+  const cv = $("#cv"), ctx = cv.getContext("2d");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W = 0, H = 0, DPR = 1, alpha = 1, CX = 0, CY = 0;
+  const cam = { yaw: 0.6, pitch: 0.25, dist: 620, tx: 0, ty: 0, tz: 0, gx: 0, gy: 0, gz: 0, gdist: 620 };
+  let spin = !reduceMotion, selected = null, hover = null, hiddenTypes = new Set(), yearMax = null, query = "", view = "map", lastTouch = 0;
+
+  function resize() {
+    const r = cv.getBoundingClientRect(); DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height; cv.width = W * DPR; cv.height = H * DPR;
+  }
+  new ResizeObserver(resize).observe(cv);
+
+  function simulate() {
+    if (alpha < 0.012) return;
+    const N = nodes.length;
+    for (let i = 0; i < N; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < N; j++) {
+        const b = nodes[j]; let dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+        const d2 = dx * dx + dy * dy + dz * dz + 0.01, f = 1500 * alpha / d2, d = Math.sqrt(d2);
+        dx = dx / d * f; dy = dy / d * f; dz = dz / d * f;
+        a.vx += dx; a.vy += dy; a.vz += dz; b.vx -= dx; b.vy -= dy; b.vz -= dz;
+      }
+    }
+    for (const l of links) {
+      const a = l.a, b = l.b; let dx = b.x - a.x, dy = b.y - a.y, dz = b.z - a.z;
+      const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1, rest = l.tree ? (b.depth <= 1 ? 150 : 62) : 135, k = (l.tree ? 0.06 : 0.012) * alpha;
+      const f = (d - rest) * k; dx = dx / d * f; dy = dy / d * f; dz = dz / d * f;
+      a.vx += dx; a.vy += dy; a.vz += dz; b.vx -= dx; b.vy -= dy; b.vz -= dz;
+    }
+    for (const n of nodes) {
+      if (n.type === "root") { n.x = n.y = n.z = 0; continue; }
+      n.vx -= n.x * 0.004 * alpha; n.vy -= n.y * 0.004 * alpha; n.vz -= n.z * 0.004 * alpha;
+      n.vx *= 0.82; n.vy *= 0.82; n.vz *= 0.82; n.x += n.vx; n.y += n.vy; n.z += n.vz;
+    }
+    alpha *= 0.992;
+  }
+
+  const visible = n => !hiddenTypes.has(n.type) && (yearMax == null || n.year == null || n.year <= yearMax || n.type === "root" || n.type === "facet");
+  const matches = n => query && (n.label + " " + (n.summary || "")).toLowerCase().includes(query);
+
+  function project(n, t) {
+    const bob = reduceMotion ? 0 : Math.sin(t * 0.0008 + n.ph) * 2.2;
+    const x = n.x - cam.tx, y = n.y - cam.ty + bob, z = n.z - cam.tz;
+    const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw), cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+    const x1 = x * cy - z * sy, z1 = x * sy + z * cy, y1 = y * cp - z1 * sp, z2 = y * sp + z1 * cp + cam.dist;
+    if (z2 < 30) { n.s = 0; return; }
+    const s = 640 / z2; n.sx = CX + x1 * s; n.sy = CY + y1 * s; n.s = s; n.sz = z2;
+  }
+
+  function frame(t) {
+    requestAnimationFrame(frame);
+    if (view !== "map" || !W) return;
+    simulate();
+    if (spin && !pointers.size) cam.yaw += selected ? 0.0006 : 0.0016;
+    cam.tx += (cam.gx - cam.tx) * 0.08; cam.ty += (cam.gy - cam.ty) * 0.08; cam.tz += (cam.gz - cam.tz) * 0.08;
+    cam.dist += (cam.gdist - cam.dist) * 0.1;
+    const narrow = W <= 760, gcx = selected && !narrow ? (W - 400) / 2 : W / 2, gcy = selected && narrow ? H * 0.2 : H / 2;
+    CX = CX ? CX + (gcx - CX) * 0.12 : gcx; CY = CY ? CY + (gcy - CY) * 0.12 : gcy;
+    if (selected && byId[selected]) { const n = byId[selected]; cam.gx = n.x; cam.gy = n.y; cam.gz = n.z; }
+
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    const g = ctx.createRadialGradient(CX, CY, 0, CX, CY, Math.max(W, H) * 0.7);
+    g.addColorStop(0, "#2a221a"); g.addColorStop(1, "#120f0c"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+    for (const n of nodes) project(n, t);
+    const near = new Set(); if (selected) { near.add(selected); neighbors(selected).forEach(x => near.add(x.n.id)); }
+    const focusing = !!selected || !!query;
+    const lit = n => selected ? near.has(n.id) : query ? matches(n) : true;
+
+    // edges
+    for (const l of links) {
+      const a = l.a, b = l.b; if (!a.s || !b.s || !visible(a) || !visible(b)) continue;
+      const on = selected && (a.id === selected || b.id === selected);
+      const fog = Math.max(0.08, Math.min(1, 700 / ((a.sz + b.sz) / 2)));
+      ctx.strokeStyle = on ? "rgba(233,180,76,.9)" : l.tree ? `rgba(246,241,231,${(focusing ? 0.06 : 0.2) * fog})` : `rgba(111,179,184,${(focusing ? 0.05 : 0.22) * fog})`;
+      ctx.lineWidth = on ? 1.6 : 0.8; ctx.setLineDash(l.tree ? [] : [3, 4]);
+      ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+
+    // nodes, far to near
+    const order = nodes.filter(n => n.s && visible(n)).sort((a, b) => b.sz - a.sz), labels = [];
+    for (const n of order) {
+      const T = TYPES[n.type] || TYPES.event, r = Math.max(2, T.r * n.s * (n.id === selected ? 1.35 : 1));
+      const fog = Math.max(0.25, Math.min(1, 720 / n.sz)), on = lit(n);
+      n.sr = r;
+      ctx.globalAlpha = (on ? 1 : 0.16) * fog;
+      if (n.id === selected || n.id === hover || (query && matches(n))) { ctx.shadowColor = T.color; ctx.shadowBlur = 18; }
+      ctx.beginPath(); ctx.arc(n.sx, n.sy, r, 0, 6.2832);
+      if (n.status === "open" || n.status === "ai") { ctx.fillStyle = "#1b1612"; ctx.fill(); ctx.strokeStyle = T.color; ctx.lineWidth = Math.max(1.4, r * 0.3); ctx.stroke(); }
+      else { ctx.fillStyle = T.color; ctx.fill(); }
+      ctx.shadowBlur = 0;
+      if (n.status === "verify") { ctx.setLineDash([2, 2.5]); ctx.strokeStyle = "#17130f"; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(n.sx, n.sy, r * 0.62, 0, 6.2832); ctx.stroke(); ctx.setLineDash([]); }
+      const m = M.mastery[n.id] || 0;
+      if (m) { ctx.strokeStyle = "#e9b44c"; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.arc(n.sx, n.sy, r + 3.5, -1.5708, -1.5708 + (m === 2 ? 6.2832 : 3.1416)); ctx.stroke(); }
+      const big = n.type === "root" || n.type === "facet";
+      if (on && (big || n.id === hover || focusing || n.s > 1.45))
+        labels.push({ n, r, big, pri: (n.id === selected ? 4 : 0) + (n.id === hover ? 3 : 0) + (big ? 2 : 0) + n.s * 0.3 });
+    }
+    // labels: most important first, skipping any that would sit on top of one already drawn
+    const placed = [];
+    labels.sort((a, b) => b.pri - a.pri);
+    for (const { n, r, big } of labels) {
+      const fs = Math.max(10.5, Math.min(big ? 17 : 13.5, (big ? 13 : 10.5) * n.s));
+      ctx.font = `${big ? 600 : 400} ${fs}px ${big ? "Georgia, serif" : "system-ui, sans-serif"}`;
+      const label = n.label.length > 44 ? n.label.slice(0, 42) + "…" : n.label, w = ctx.measureText(label).width;
+      const box = { x: n.sx - w / 2 - 4, y: n.sy + r + 2, w: w + 8, h: fs + 5 };
+      if (placed.some(q => box.x < q.x + q.w && box.x + box.w > q.x && box.y < q.y + q.h && box.y + box.h > q.y)) continue;
+      placed.push(box);
+      ctx.globalAlpha = Math.max(0.45, Math.min(1, 720 / n.sz));
+      ctx.fillStyle = big ? "#f6f1e7" : "#ddd3c4"; ctx.textAlign = "center";
+      ctx.fillText(label, n.sx, n.sy + r + fs + 2);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* pointer: drag to rotate, pinch or wheel to zoom, tap to select */
+  const pointers = new Map(); let moved = 0, pinch0 = 0, dist0 = 0;
+  function pick(x, y) {
+    let best = null, bd = 1e9;
+    for (const n of nodes) {
+      if (!n.s || !visible(n)) continue;
+      const d = Math.hypot(n.sx - x, n.sy - y), reach = Math.max(n.sr + 6, lastTouch ? 20 : 11);
+      if (d < reach && d < bd) { bd = d; best = n; }
+    }
+    return best;
+  }
+  const local = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  cv.addEventListener("pointerdown", e => {
+    cv.setPointerCapture(e.pointerId); pointers.set(e.pointerId, { x: e.clientX, y: e.clientY }); moved = 0; lastTouch = e.pointerType === "touch";
+    if (pointers.size === 2) { const [a, b] = [...pointers.values()]; pinch0 = Math.hypot(a.x - b.x, a.y - b.y); dist0 = cam.gdist; }
+    cv.classList.add("drag");
+  });
+  cv.addEventListener("pointermove", e => {
+    const p = pointers.get(e.pointerId);
+    if (!p) { const [x, y] = local(e); const h = pick(x, y); hover = h ? h.id : null; cv.style.cursor = h ? "pointer" : ""; return; }
+    const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+    if (pointers.size === 1) { cam.yaw -= dx * 0.006; cam.pitch = Math.max(-1.4, Math.min(1.4, cam.pitch + dy * 0.006)); }
+    else if (pointers.size === 2 && pinch0) { const [a, b] = [...pointers.values()]; cam.gdist = clampDist(dist0 * pinch0 / Math.hypot(a.x - b.x, a.y - b.y)); }
+  });
+  const up = e => {
+    if (!pointers.has(e.pointerId)) return;
+    const wasSingle = pointers.size === 1; pointers.delete(e.pointerId); cv.classList.remove("drag");
+    if (wasSingle && moved < 7 && e.type === "pointerup") { const [x, y] = local(e); const n = pick(x, y); select(n ? n.id : null); }
+  };
+  cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+  const clampDist = d => Math.max(140, Math.min(1500, d));
+  cv.addEventListener("wheel", e => { e.preventDefault(); cam.gdist = clampDist(cam.gdist * Math.exp(e.deltaY * 0.0012)); }, { passive: false });
+
+  /* ---------- Selection + detail panel ---------- */
+  function select(id, opts = {}) {
+    selected = id && byId[id] ? id : null;
+    if (selected) { if (cam.gdist > 430) cam.gdist = 430; $("#hint").hidden = true; }
+    else if (!opts.keep) { cam.gx = cam.gy = cam.gz = 0; }
+    renderPanel(); if (view === "outline") renderOutline();
+  }
+  const statusChip = s => `<span class="chip st-${s}" title="${esc((STATUS[s] || STATUS.verify)[1])}">${(STATUS[s] || STATUS.verify)[0]}</span>`;
+  const typeChip = n => `<span class="chip"><i style="background:${(TYPES[n.type] || TYPES.event).color}"></i>${n.type === "work" || n.kind === "about" ? KINDS[n.kind] || "Work" : (TYPES[n.type] || TYPES.event).name.replace(/s$/, "")}</span>`;
+  const srcList = n => (n.sources || []).map(s => typeof s === "string" ? KM.SOURCES[s] : s).filter(Boolean);
+
+  function renderPanel() {
+    const P = $("#panel"), n = selected && byId[selected];
+    if (!n) { P.classList.remove("show"); return; }
+    const nb = neighbors(n.id), notes = notesFor(n), m = M.mastery[n.id] || 0, srcs = srcList(n);
+    const others = nodes.filter(x => x.id !== n.id).sort((a, b) => a.label.localeCompare(b.label));
+    P.innerHTML = `
+      <button class="close" data-act="close" aria-label="Close">✕</button>
+      <div class="row">${typeChip(n)} ${statusChip(n.status)} ${n.when || n.year ? `<span class="chip">${esc(n.when || n.year)}</span>` : ""}${n.user ? `<span class="chip">Added by me</span>` : ""}</div>
+      <h2>${esc(n.label)}</h2>
+      ${n.summary ? `<p class="sum">${esc(n.summary)}</p>` : ""}
+      <p class="small">${esc((STATUS[n.status] || STATUS.verify)[1])}</p>
+      ${srcs.length ? `<h3>Sources</h3>${srcs.map(s => `<p class="small">${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.cite || s.url)}</a>` : esc(s.cite)}</p>`).join("")}` : ""}
+      ${n.id === "lectures" ? `<p><a class="btn" href="harvie-conn.html#listen">Open the Listening Room →</a></p>` : ""}
+
+      <h3>How well do I know this?</h3>
+      <div class="row">${MASTERY.map((x, i) => `<button class="btn ${m === i ? "on" : ""}" data-act="mastery" data-v="${i}">${x}</button>`).join("")}</div>
+
+      <h3>Connections (${nb.length})</h3>
+      ${nb.map(x => `<div class="conn" data-go="${x.n.id}"><span>${x.dir === "in" ? "←" : "→"} ${esc(x.rel)}</span><b>${esc(x.n.label)}</b>${x.e && x.e.user ? `<button class="btn" style="padding:0 7px;margin-left:auto" data-act="deledge" data-id="${x.e.id}" title="Remove this connection">✕</button>` : ""}</div>`).join("")}
+      <details style="margin-top:8px"><summary class="small" style="cursor:pointer">＋ Connect this to something else</summary>
+        <div style="display:grid;gap:6px;margin-top:6px">
+          <input type="text" id="eRel" placeholder="How? e.g. influenced, responds to, wrote">
+          <select id="eTo">${others.map(o => `<option value="${o.id}">${esc(o.label)}</option>`).join("")}</select>
+          <button class="btn" data-act="addedge">Add connection</button>
+        </div></details>
+
+      <h3>My notes (${notes.length})</h3>
+      ${notes.map(x => `<div class="mynote">${esc(x.text)}<small>${x.ai ? "AI draft, unverified · " : ""}${new Date(x.createdAt).toLocaleDateString()}</small></div>`).join("")}
+      <textarea id="noteText" placeholder="What are you learning about this?"></textarea>
+      <div class="row" style="margin-top:6px">
+        <button class="btn primary" data-act="note">Save note</button>
+        <label class="small"><input type="checkbox" id="noteAi"> This is an AI answer I pasted in</label>
+      </div>
+
+      <h3>Ask an AI about this</h3>
+      <div class="aibox">
+        <select id="aiTask">${Object.entries(AI_TASKS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join("")}</select>
+        <div class="row" style="margin-top:8px">
+          <button class="btn primary" data-act="aicopy">Copy prompt</button>
+          <button class="btn" data-act="aiopen">Open in Claude ↗</button>
+          <button class="btn" data-act="aishow">See prompt</button>
+        </div>
+        <p class="small" style="margin:8px 0 0">The prompt includes this item, its connections and your notes. Treat every answer as a lead to check, and save it here only marked as an AI answer.</p>
+      </div>
+
+      <div class="row" style="margin-top:22px">
+        <button class="btn" data-act="addchild">＋ Add something under this</button>
+        ${n.user ? `<button class="btn" data-act="edit">Edit</button><button class="btn" data-act="del" style="color:var(--accent)">Delete</button>` : ""}
+      </div>`;
+    P.classList.add("show"); P.scrollTop = 0;
+  }
+  $("#panel").addEventListener("click", e => {
+    const go = e.target.closest("[data-go]"), b = e.target.closest("[data-act]"), n = byId[selected];
+    if (b) {
+      const act = b.dataset.act;
+      if (act === "close") select(null, { keep: true });
+      else if (act === "mastery") { M.mastery[n.id] = +b.dataset.v; saveM(); renderPanel(); }
+      else if (act === "note") saveNote(n);
+      else if (act === "addedge") {
+        const to = $("#eTo").value, rel = $("#eRel").value.trim() || "relates to";
+        M.edges.push({ id: uid(), from: n.id, to, rel, user: true }); saveM(); build(); renderPanel(); toast("Connected");
+      }
+      else if (act === "deledge") { M.edges = M.edges.filter(x => x.id !== b.dataset.id); saveM(); build(); renderPanel(); }
+      else if (act === "aicopy") copy(buildPrompt(n, $("#aiTask").value));
+      else if (act === "aishow") showText("Prompt for an AI", "Copy this into Claude or another assistant.", buildPrompt(n, $("#aiTask").value));
+      else if (act === "aiopen") {
+        const p = buildPrompt(n, $("#aiTask").value);
+        navigator.clipboard?.writeText(p).catch(() => {});
+        window.open("https://claude.ai/new?q=" + encodeURIComponent(p.slice(0, 6000)), "_blank", "noopener");
+        toast("Prompt copied too, in case it doesn't fill in");
+      }
+      else if (act === "addchild") openNodeDlg(null, n.id);
+      else if (act === "edit") openNodeDlg(n);
+      else if (act === "del") {
+        if (!confirm("Delete “" + n.label + "” from your map? Items under it move up to the centre.")) return;
+        M.nodes = M.nodes.filter(x => x.id !== n.id); M.edges = M.edges.filter(x => x.from !== n.id && x.to !== n.id);
+        saveM(); build(); select(null); renderAll();
+      }
+      return;
+    }
+    if (go) select(go.dataset.go);
+  });
+  function saveNote(n) {
+    const text = $("#noteText").value.trim(); if (!text) return toast("Write something first");
+    const S = loadJSON(NKEY, { recordings: [], notes: [], books: {}, timeline: [], activeDays: [], deleted: [], speed: 1 });
+    const now = Date.now(), ai = $("#noteAi").checked;
+    S.notes.push({ id: now.toString(36) + Math.random().toString(36).slice(2, 7), createdAt: now, updatedAt: now, text, ai,
+      type: n.type === "question" ? "question" : "note", themes: n.type === "theme" ? [n.themeId || n.id] : [], recordingId: null, time: null, nodeId: n.id, nodeLabel: n.label });
+    const day = new Date().toISOString().slice(0, 10); if (!S.activeDays.includes(day)) S.activeDays.push(day);
+    localStorage.setItem(NKEY, JSON.stringify(S));
+    if (!M.mastery[n.id]) { M.mastery[n.id] = 1; saveM(); }
+    renderPanel(); toast("Saved to your notebook");
+  }
+
+  /* ---------- AI prompts: every one is grounded in the map and asks for checkable sources ---------- */
+  const RULES = `Rules for your answer:
+- Separate clearly what is well documented from what is your own inference.
+- For each factual claim, name a source I can check (book and chapter, article, archive). If you are not sure a source exists, say so. Never invent a quotation or a citation.
+- If you don't know, say "I don't know". A gap is more useful to me than a guess.
+- Where my map or notes look wrong, tell me directly.`;
+  const AI_TASKS = {
+    explain: { name: "Explain this in context", ask: n => `Explain "${n.label}" to me as a patient doctoral supervisor would: what it is, why it matters for understanding ${KM.subject}, and how it connects to the items listed under CONNECTIONS. Aim for about 300 words, then give me two questions to think about.` },
+    connect: { name: "Suggest missing connections", ask: n => `Suggest up to six things that should be connected to "${n.label}" in my map but are not yet there (people, events, works, ideas, sources). For each, give: name; type; the relationship in a short verb phrase; one sentence on why it matters; and how I can verify it.` },
+    sources: { name: "Find sources to read", ask: n => `Tell me which primary sources (by ${KM.subject} himself) and secondary sources (about him) I should read to understand "${n.label}" properly. Put them in the order I should read them and say what each will give me. Mark any you are not certain exist.` },
+    quiz: { name: "Quiz me", ask: n => `Quiz me on "${n.label}" using only what is in my notes and the map context below. Ask one question at a time, wait for my answer, then tell me what I got right, what I missed, and ask the next. Start easy and get harder. Five questions.` },
+    challenge: { name: "Challenge my notes", ask: n => `Read MY NOTES below as a critical but kind examiner. Where is my understanding of "${n.label}" thin, one-sided or possibly mistaken? What would a scholar who disagrees with ${KM.subject} say here? Finish with the one thing I should study next.` }
+  };
+  function context(n) {
+    const nb = neighbors(n.id), notes = notesFor(n), srcs = srcList(n);
+    return `ITEM: ${n.label}
+Type: ${(TYPES[n.type] || TYPES.event).name}${n.kind ? " (" + (KINDS[n.kind] || n.kind) + ")" : ""}${n.when || n.year ? "\nDate: " + (n.when || n.year) : ""}
+What my map says: ${n.summary || "(nothing yet)"}
+How sure I am: ${(STATUS[n.status] || STATUS.verify)[0]}${srcs.length ? "\nMy sources: " + srcs.map(s => s.cite || s.url).join("; ") : ""}
+
+CONNECTIONS in my map:
+${nb.length ? nb.map(x => `- ${x.dir === "in" ? x.n.label + " —" + x.rel + "→ this" : "this —" + x.rel + "→ " + x.n.label}`).join("\n") : "(none yet)"}
+
+MY NOTES on this:
+${notes.length ? notes.map(x => "- " + (x.ai ? "[AI draft, unverified] " : "") + x.text.replace(/\n+/g, " ")).join("\n") : "(none yet)"}`;
+  }
+  const buildPrompt = (n, task) => `I am studying ${KM.subject} (1933–1999), professor of missions at Westminster Theological Seminary, in depth, and I keep a knowledge map of what I learn.
+
+${AI_TASKS[task].ask(n)}
+
+${RULES}
+
+${context(n)}`;
+  const outlineText = () => {
+    const out = []; const walk = (n, d) => { out.push("  ".repeat(d) + "- " + n.label + (n.when || n.year ? " (" + (n.when || n.year) + ")" : "") + " [" + (STATUS[n.status] || STATUS.verify)[0] + "]"); sortKids(n.id).forEach(k => walk(k, d + 1)); };
+    walk(byId.conn, 0); return out.join("\n");
+  };
+  $("#aiMapBtn").onclick = () => showText("AI review of the whole map", "Copy this into Claude. It asks for gaps, mistakes and next steps across everything you've mapped.",
+`I am studying ${KM.subject} (1933–1999) in depth and keep a knowledge map. Below is the whole map as an outline. Each line ends with how sure I am of it.
+
+Please review it as a doctoral supervisor would:
+1. What important parts of his life, work or thought are missing entirely?
+2. Which entries look wrong or doubtful? Say why.
+3. Which "To verify" entries can you help me confirm, and where exactly should I look?
+4. Which three open questions are the most promising to pursue first, and what would I read for each?
+
+${RULES}
+
+MY MAP:
+${outlineText()}`);
+
+  function showText(title, sub, text) {
+    $("#textDlgTitle").textContent = title; $("#textDlgSub").textContent = sub; $("#textDlgBody").value = text;
+    const b = $("#textDlgBtns"); b.innerHTML = `<button class="btn" id="tdClose">Close</button><button class="btn primary" id="tdCopy">Copy</button>`;
+    $("#tdClose").onclick = () => $("#textDlg").close(); $("#tdCopy").onclick = () => copy(text);
+    $("#textDlg").showModal();
+  }
+
+  /* ---------- Add / edit nodes ---------- */
+  let editing = null;
+  function openNodeDlg(n, parentId) {
+    editing = n || null;
+    $("#nodeDlgTitle").textContent = n ? "Edit" : "Add to the map";
+    $("#nType").innerHTML = Object.entries(TYPES).filter(([k]) => k !== "root" && k !== "facet").map(([k, v]) => `<option value="${k}">${v.name}</option>`).join("");
+    const opts = []; const walk = (x, d) => { if (!n || x.id !== n.id) { opts.push(`<option value="${x.id}">${"— ".repeat(d)}${esc(x.label)}</option>`); sortKids(x.id).forEach(k => walk(k, d + 1)); } };
+    walk(byId.conn, 0); $("#nParent").innerHTML = opts.join("");
+    $("#nLabel").value = n?.label || ""; $("#nType").value = n?.type || "event"; $("#nYear").value = n?.year || "";
+    $("#nParent").value = n?.parent || parentId || selected || "conn"; $("#nSummary").value = n?.summary || "";
+    $("#nStatus").value = n?.status || "verify"; $("#nSource").value = (n?.sources || []).map(s => s.cite || "").join("; ");
+    $("#nodeDlg").showModal(); $("#nLabel").focus();
+  }
+  $("#addBtn").onclick = () => openNodeDlg();
+  $("#nodeForm").onsubmit = e => {
+    if (e.submitter && e.submitter.value === "cancel") return;
+    const label = $("#nLabel").value.trim(); if (!label) return;
+    const rec = editing ? M.nodes.find(x => x.id === editing.id) : { id: uid(), user: true };
+    const yr = parseInt($("#nYear").value, 10), src = $("#nSource").value.trim();
+    Object.assign(rec, { label, type: $("#nType").value, parent: $("#nParent").value, summary: $("#nSummary").value.trim(), status: $("#nStatus").value,
+      year: isNaN(yr) ? undefined : yr, sources: src ? [/^https?:\/\//.test(src) ? { cite: src, url: src } : { cite: src }] : [] });
+    if (rec.type === "work" && !rec.kind) rec.kind = "book";
+    if (!editing) M.nodes.push(rec);
+    saveM(); build(); renderAll(); select(rec.id); toast(editing ? "Updated" : "Added to your map");
+  };
+
+  /* ---------- Outline + Works views ---------- */
+  const sortKids = id => (kids[id] || []).slice().sort((a, b) => (a.type === "question") - (b.type === "question") || (a.year ?? 9999) - (b.year ?? 9999));
+  const rowMatch = n => !query || matches(n);
+  function renderOutline() {
+    const has = n => rowMatch(n) || sortKids(n.id).some(has);
+    const onPath = new Set(); for (let x = byId[selected]; x; x = byId[x.parent]) onPath.add(x.id);
+    const line = n => `<i class="dot" style="background:${(TYPES[n.type] || TYPES.event).color}"></i><span class="lab ${n.id === selected ? "sel" : ""}">${esc(n.label)}</span>${n.when || n.year ? `<span class="yr">${esc(n.when || n.year)}</span>` : ""}${n.status !== "sourced" ? statusChip(n.status) : ""}${(M.mastery[n.id] || 0) === 2 ? `<span class="yr">✓</span>` : ""}`;
+    const walk = n => {
+      if (!has(n)) return "";
+      const k = sortKids(n.id);
+      return k.length ? `<details ${n.depth < 2 || query || onPath.has(n.id) ? "open" : ""}><summary data-go="${n.id}">${line(n)}</summary>${k.map(walk).join("")}</details>`
+                      : `<div class="leaf" data-go="${n.id}">${line(n)}</div>`;
+    };
+    $("#tree").innerHTML = walk(byId.conn) || `<p class="small">Nothing matches.</p>`;
+  }
+  $("#tree").addEventListener("click", e => {
+    const g = e.target.closest("[data-go]"); if (!g) return;
+    if (g.tagName === "SUMMARY" && e.target.closest(".lab")) e.preventDefault();   // label opens the detail; the arrow folds
+    if (e.target.closest(".lab") || g.classList.contains("leaf")) select(g.dataset.go);
+  });
+  $("#copyOutline").onclick = () => copy(outlineText());
+  function renderWorks() {
+    const kind = $("#kindSel").value, books = notebook().books || {};
+    const list = nodes.filter(n => (n.type === "work" || n.kind === "about") && (!kind || n.kind === kind) && rowMatch(n))
+      .sort((a, b) => (a.year ?? 9999) - (b.year ?? 9999) || a.label.localeCompare(b.label));
+    $("#worksCount").textContent = list.length + " entries";
+    $("#worksBody").innerHTML = list.map(n => `<tr data-go="${n.id}"><td>${n.year || "—"}</td><td class="t">${esc(n.label)}<div class="small">${esc(n.summary || "")}</div></td>
+      <td>${KINDS[n.kind] || "Work"}</td><td>${statusChip(n.status)}</td><td class="small">${{ want: "Want to read", reading: "Reading", read: "Read ✓" }[books[n.id]] || MASTERY[M.mastery[n.id] || 0]}</td></tr>`).join("");
+  }
+  $("#worksBody").addEventListener("click", e => { const r = e.target.closest("[data-go]"); if (r) select(r.dataset.go); });
+  $("#kindSel").onchange = renderWorks;
+
+  /* ---------- Chrome: tabs, search, legend, timeline ---------- */
+  function setView(v) {
+    view = v; [...$("#tabs").children].forEach(b => b.classList.toggle("on", b.dataset.v === v));
+    $("#outlineView").hidden = v !== "outline"; $("#worksView").hidden = v !== "works";
+    ["#legend", "#hud"].forEach(s => $(s).hidden = v !== "map"); cv.style.visibility = v === "map" ? "" : "hidden";
+    renderAll();
+  }
+  $("#tabs").onclick = e => { if (e.target.dataset.v) setView(e.target.dataset.v); };
+  $("#search").oninput = e => { query = e.target.value.trim().toLowerCase(); renderAll(); };
+  $("#search").onkeydown = e => { if (e.key === "Enter" && query) { const n = nodes.find(matches); if (n) select(n.id); } };
+  function renderLegend() {
+    $("#legend").innerHTML = Object.entries(TYPES).filter(([k]) => k !== "root").map(([k, v]) =>
+      `<button data-t="${k}" class="${hiddenTypes.has(k) ? "off" : ""}"><i style="background:${v.color}"></i>${v.name}</button>`).join("");
+  }
+  $("#legend").onclick = e => { const b = e.target.closest("[data-t]"); if (!b) return; const t = b.dataset.t; hiddenTypes.has(t) ? hiddenTypes.delete(t) : hiddenTypes.add(t); renderLegend(); };
+  const yr = $("#year"); yr.min = KM.years[0]; yr.max = KM.years[1] + 1; yr.value = yr.max;
+  let playing = null;
+  function setYear(v) { yr.value = v; yearMax = +v > KM.years[1] ? null : +v; $("#yearLab").textContent = yearMax == null ? "Whole life" : "Up to " + yearMax; }
+  yr.oninput = () => { stopPlay(); setYear(yr.value); };
+  const stopPlay = () => { clearInterval(playing); playing = null; $("#playBtn").textContent = "▶"; };
+  $("#playBtn").onclick = () => {
+    if (playing) return stopPlay();
+    setYear(KM.years[0]); $("#playBtn").textContent = "❚❚";
+    playing = setInterval(() => { if (+yr.value >= +yr.max) return stopPlay(); setYear(+yr.value + 1); }, 320);
+  };
+  $("#spinBtn").onclick = () => { spin = !spin; $("#spinBtn").textContent = (spin ? "❚❚" : "▶") + " Motion"; };
+  $("#spinBtn").textContent = (spin ? "❚❚" : "▶") + " Motion";
+  $("#keyBtn").onclick = () => $("#legend").classList.toggle("show");
+  const homeDist = () => W && W <= 760 ? 980 : 620;
+  $("#homeBtn").onclick = () => { select(null); cam.gdist = homeDist(); };
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !document.querySelector("dialog[open]")) select(null, { keep: true }); });
+
+  /* ---------- Backup ---------- */
+  $("#moreBtn").onclick = () => $("#backupDlg").showModal();
+  $("#exportBtn").onclick = () => {
+    const blob = new Blob([JSON.stringify({ app: "harvie-conn-map", version: 1, exportedAt: new Date().toISOString(), ...M }, null, 2)], { type: "application/json" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "harvie-conn-map-additions.json"; a.click();
+  };
+  $("#importFile").onchange = async e => {
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const d = JSON.parse(await f.text()); let n = 0;
+      const have = new Set(M.nodes.map(x => x.id)), haveE = new Set(M.edges.map(x => x.id));
+      (d.nodes || []).forEach(x => { if (x.id && x.label && !have.has(x.id)) { M.nodes.push({ ...x, user: true }); n++; } });
+      (d.edges || []).forEach(x => { if (x.id && !haveE.has(x.id)) { M.edges.push({ ...x, user: true }); n++; } });
+      Object.entries(d.mastery || {}).forEach(([k, v]) => { M.mastery[k] = Math.max(M.mastery[k] || 0, v); });
+      saveM(); build(); renderAll(); toast(`Imported ${n} item${n === 1 ? "" : "s"}`);
+    } catch { toast("That file couldn't be read"); }
+    e.target.value = ""; $("#backupDlg").close();
+  };
+
+  function renderAll() { if (view === "outline") renderOutline(); if (view === "works") renderWorks(); if (selected) renderPanel(); }
+  addEventListener("storage", e => { if (e.key === NKEY && selected) renderPanel(); });
+
+  build(); resize(); renderLegend(); setYear(yr.max);
+  for (let i = 0; i < 260; i++) simulate();     // settle the layout before the first paint
+  alpha = 0.25; cam.dist = cam.gdist = homeDist();
+  requestAnimationFrame(frame);
+  window.__km = { select, nodes: () => nodes, cam };   // handy for debugging in the console
+})();
+</script>
+</body>
+</html>
