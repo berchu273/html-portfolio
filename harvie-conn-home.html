@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowing Harvie Conn</title>
+<style>
+  :root {
+    --paper: #f6f1e7; --paper2: #efe7d8; --card: #fffdf8; --ink: #2b2620; --ink2: #5c5348; --muted: #8a7f70; --line: #e2d8c6;
+    --accent: #9a3b26; --teal: #24646b; --gold: #b07d1a; --dark: #17130f;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.65 var(--sans); }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.2; margin: 0 0 .5em; }
+  a { color: var(--teal); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(246,241,231,.93); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; gap: 4px; align-items: center; padding-top: 10px; padding-bottom: 10px; overflow-x: auto; }
+  nav .brand { font-family: var(--serif); font-weight: 700; margin-right: auto; white-space: nowrap; padding-right: 12px; }
+  nav a { text-decoration: none; color: var(--ink2); padding: 6px 12px; border-radius: 999px; font-size: 14px; white-space: nowrap; }
+  nav a:hover { background: var(--paper2); }
+  nav a.on { background: var(--ink); color: var(--paper); }
+
+  .hero { background: radial-gradient(ellipse at 70% 40%, #33281d, var(--dark)); color: var(--paper); padding: 64px 0 56px; position: relative; overflow: hidden; }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .55; }
+  .hero .wrap { position: relative; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 700; color: var(--accent); }
+  .hero .eyebrow { color: #e9b44c; }
+  .hero h1 { font-size: clamp(38px, 7vw, 64px); margin: 8px 0 14px; }
+  .hero p { font-family: var(--serif); font-size: clamp(18px, 2.4vw, 22px); max-width: 680px; color: #e6dccb; margin: 0; }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+  .btn { display: inline-block; text-decoration: none; padding: 11px 20px; border-radius: 999px; font-weight: 600; border: 1px solid rgba(246,241,231,.3); color: var(--paper); cursor: pointer; background: transparent; font: inherit; font-weight: 600; }
+  .btn.gold { background: #e9b44c; border-color: #e9b44c; color: var(--ink); }
+  .btn.dark { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+  section { padding: 48px 0; border-bottom: 1px solid var(--line); }
+  section h2 { font-size: 30px; }
+  .sub { color: var(--ink2); max-width: 700px; margin: -4px 0 20px; }
+  .prose p { font-family: var(--serif); font-size: 19px; max-width: 720px; margin: 0 0 1em; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; box-shadow: 0 1px 2px rgba(60,40,20,.05), 0 6px 18px rgba(60,40,20,.05); }
+  .card h3 { font-size: 19px; margin-bottom: 6px; }
+  .card p { margin: 0; color: var(--ink2); font-size: 15px; }
+  .num { font-family: var(--serif); color: var(--accent); font-size: 14px; font-weight: 700; letter-spacing: .05em; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .stat b { display: block; font-family: var(--serif); font-size: 30px; line-height: 1.1; }
+  .stat span { font-size: 13px; color: var(--muted); }
+  .bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; margin: 18px 0 8px; background: var(--line); }
+  .bar i { display: block; }
+  .key { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13.5px; color: var(--ink2); }
+  .key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+  .branches { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .branches span { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px; font-size: 14px; }
+  .branches b { color: var(--accent); margin-left: 6px; }
+
+  .stages { display: grid; gap: 0; counter-reset: st; }
+  .stage { display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); }
+  .stage:first-child { border-top: 0; }
+  .stage::before { counter-increment: st; content: counter(st); width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-family: var(--serif); font-weight: 700; }
+  .stage h3 { margin: 4px 0 2px; font-size: 19px; }
+  .stage p { margin: 0; color: var(--ink2); }
+
+  .guard { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; border-top: 1px solid var(--line); padding: 14px 0; }
+  .guard div:first-child { font-family: var(--serif); font-size: 17px; }
+  .guard div:last-child { color: var(--ink2); }
+  .guard div:last-child::before { content: "Guard: "; font-weight: 700; color: var(--teal); }
+  @media (max-width: 640px) { .guard { grid-template-columns: 1fr; gap: 6px; } }
+
+  pre { background: var(--dark); color: #e6dccb; padding: 18px; border-radius: 12px; white-space: pre-wrap; font: 14px/1.6 ui-monospace, Menlo, monospace; margin: 20px 0 10px; }
+  footer { padding: 28px 0 48px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <span class="brand">Knowing Harvie Conn</span>
+  <a class="on" href="harvie-conn-home.html">Home</a>
+  <a href="harvie-conn-map.html">Map</a>
+  <a href="harvie-conn.html">Notebook</a>
+</div></nav>
+
+<header class="hero">
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="eyebrow" data-t="eyebrow"></div>
+    <h1 data-t="title"></h1>
+    <p data-t="lede"></p>
+    <div class="cta">
+      <a class="btn gold" href="harvie-conn-map.html">Explore the map</a>
+      <a class="btn" href="harvie-conn.html#listen">Listen to him teach</a>
+      <a class="btn" href="harvie-conn.html#notebook">Open my notebook</a>
+    </div>
+  </div>
+</header>
+
+<section><div class="wrap prose">
+  <h2 data-t="whyTitle"></h2>
+  <div id="why"></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Where the study stands</h2>
+  <p class="sub">Counted live from the map and from your own notes and progress in this browser.</p>
+  <div class="stats" id="stats"></div>
+  <div class="bar" id="bar"></div>
+  <div class="key" id="key"></div>
+  <div class="branches" id="branches"></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 data-t="principlesTitle"></h2>
+  <p class="sub" data-t="principlesIntro"></p>
+  <div class="grid" id="principles"></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 data-t="stagesTitle"></h2>
+  <div class="stages" id="stages"></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 data-t="guardrailsTitle"></h2>
+  <div id="guardrails"></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 data-t="promptingTitle"></h2>
+  <p class="sub" data-t="promptingIntro"></p>
+  <div class="grid" id="habits"></div>
+  <pre id="example"></pre>
+  <button class="btn dark" id="copyBtn">Copy this prompt</button>
+</div></section>
+
+<footer><div class="wrap">A personal study of Harvie M. Conn (1933–1999). Biographical details come from public sources and are labelled where unconfirmed.</div></footer>
+
+<script src="harvie-conn-site.js"></script>
+<script src="harvie-conn-graph.js"></script>
+<script>
+(() => {
+  "use strict";
+  const T = window.SITE || {}, KM = window.KM || { nodes: [], edges: [] };
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const load = k => { try { return JSON.parse(localStorage.getItem(k) || "{}"); } catch { return {}; } };
+
+  // words
+  document.querySelectorAll("[data-t]").forEach(el => el.textContent = T[el.dataset.t] || "");
+  document.title = T.title || document.title;
+  $("#why").innerHTML = (T.why || []).map(p => `<p>${esc(p)}</p>`).join("");
+  $("#principles").innerHTML = (T.principles || []).map((p, i) => `<div class="card"><div class="num">${String(i + 1).padStart(2, "0")}</div><h3>${esc(p.title)}</h3><p>${esc(p.text)}</p></div>`).join("");
+  $("#stages").innerHTML = (T.stages || []).map(s => `<div class="stage"><div><h3>${esc(s.name)}</h3><p>${esc(s.text)}</p></div></div>`).join("");
+  $("#guardrails").innerHTML = (T.guardrails || []).map(g => `<div class="guard"><div>${esc(g.risk)}</div><div>${esc(g.guard)}</div></div>`).join("");
+  $("#habits").innerHTML = (T.habits || []).map(h => `<div class="card"><h3>${esc(h.title)}</h3><p>${esc(h.text)}</p></div>`).join("");
+  $("#example").textContent = T.examplePrompt || "";
+  $("#copyBtn").onclick = async () => {
+    try { await navigator.clipboard.writeText(T.examplePrompt || ""); $("#copyBtn").textContent = "Copied ✓"; }
+    catch { $("#copyBtn").textContent = "Select the text above to copy"; }
+    setTimeout(() => $("#copyBtn").textContent = "Copy this prompt", 2000);
+  };
+
+  // live numbers: built-in map + what this browser has added
+  const M = load("hc-map-v1"), S = load("hc-learning-v1");
+  const gone = new Set(M.deleted || []);
+  const nodes = [...KM.nodes, ...(M.nodes || [])].filter(n => !gone.has(n.id));
+  const count = f => nodes.filter(f).length;
+  const st = { sourced: count(n => n.status === "sourced"), verify: count(n => n.status === "verify"), open: count(n => n.status === "open"), ai: count(n => n.status === "ai") };
+  const understood = Object.entries(M.mastery || {}).filter(([k, v]) => v === 2 && nodes.some(n => n.id === k)).length;
+  const stats = [
+    [nodes.length, "items on the map"],
+    [KM.edges.length + (M.edges || []).length + count(n => n.parent), "connections"],
+    [count(n => n.type === "work" && n.kind !== "catalogue"), "of his works listed"],
+    [(S.notes || []).length, "notes written"],
+    [(S.recordings || []).filter(r => r.done).length + " / " + (S.recordings || []).length, "recordings finished"],
+    [understood, "items understood"]
+  ];
+  $("#stats").innerHTML = stats.map(([n, l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join("");
+  const parts = [["Sourced", st.sourced, "#24646b"], ["To verify", st.verify, "#d9a531"], ["Open questions and gaps", st.open, "#8a63a8"], ["AI-suggested", st.ai, "#9a3b26"]].filter(p => p[1]);
+  $("#bar").innerHTML = parts.map(([, n, c]) => `<i style="width:${n / nodes.length * 100}%;background:${c}"></i>`).join("");
+  $("#key").innerHTML = parts.map(([l, n, c]) => `<span><i style="background:${c}"></i>${l}: ${n}</span>`).join("");
+  const under = id => { const k = nodes.filter(n => n.parent === id); return k.length + k.reduce((a, n) => a + under(n.id), 0); };
+  $("#branches").innerHTML = nodes.filter(n => n.type === "facet").map(n => `<span>${esc(n.label)}<b>${under(n.id)}</b></span>`).join("");
+
+  // a quiet drifting constellation behind the title
+  const cv = $("#stars"), ctx = cv.getContext("2d");
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const P = Array.from({ length: 46 }, (_, i) => ({ a: i * 2.4, h: 1 - 2 * ((i * 0.618) % 1), r: 0.55 + (i % 5) * 0.09 }));
+    const fit = () => { const r = cv.getBoundingClientRect(); cv.width = r.width; cv.height = r.height; };
+    fit(); addEventListener("resize", fit);
+    (function draw(t) {
+      requestAnimationFrame(draw);
+      const W = cv.width, H = cv.height, R = Math.min(W, H) * 0.75, yaw = t * 0.00012;
+      ctx.clearRect(0, 0, W, H);
+      const pts = P.map(p => { const s = Math.sqrt(1 - p.h * p.h), x = s * Math.cos(p.a + yaw) * p.r, z = s * Math.sin(p.a + yaw) * p.r, k = 1 / (1.6 + z); return { x: W * 0.72 + x * R * k, y: H / 2 + p.h * p.r * R * k, k }; });
+      ctx.strokeStyle = "rgba(233,180,76,.16)"; ctx.lineWidth = 1;
+      pts.forEach((a, i) => { const b = pts[(i * 7 + 3) % pts.length]; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); });
+      pts.forEach((p, i) => { ctx.fillStyle = ["#e9b44c", "#e07a5f", "#6fb3b8", "#b8d47a"][i % 4]; ctx.globalAlpha = Math.min(1, p.k * 1.1); ctx.beginPath(); ctx.arc(p.x, p.y, 4.5 * p.k, 0, 6.3); ctx.fill(); });
+      ctx.globalAlpha = 1;
+    })(0);
+  }
+})();
+</script>
+</body>
+</html>
